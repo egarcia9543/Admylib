@@ -6,15 +6,15 @@ exports.registerLibrarian = async (req, res) => {
         const documentIsRegistered = await dbLibrarian.findOneLibrarian({document: document}, {document: 1});
         const emailIsRegistered = await dbLibrarian.findOneLibrarian({email: email}, {email: 1});
         console.log(documentIsRegistered);
-        if (documentIsRegistered) {
-            return res.json({error: 'Este documento ya está registrado'});
+        if (documentIsRegistered && emailIsRegistered) {
+            return res.json({error: 'El documento y correo ya están registrados'});
         } else if (emailIsRegistered) {
             return res.json({error: 'Este correo ya está registrado'});
-        } else if (documentIsRegistered && emailIsRegistered) {
-            return res.json({error: 'El documento y correo ya están registrados'});
+        } else if (documentIsRegistered) {
+            return res.json({error: 'Este documento ya está registrado'});
         } else {
             const newRecord = await dbLibrarian.createLibrarianRecord(req.body);
-            return newRecord;
+            return res.json({success: newRecord});
         }
     } catch (error) {
         console.error(error);
