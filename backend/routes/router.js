@@ -1,7 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-const librarianController = require('../controller/librarian.controller');
+const userController = require('../controller/user.controller');
+
+router.post('/register', userController.registerUser);
+router.post('/login', userController.loginUser);
+router.get('/logout', userController.logout);
+router.post('/recover', userController.recoverPassword);
+
+
+
+
+
+
 
 /**
  * @swagger
@@ -9,7 +20,7 @@ const librarianController = require('../controller/librarian.controller');
  *  schemas:
  *      librarian:
  *          type: object
- *          properties: 
+ *          properties:
  *              fullname:
  *                  type: string
  *                  description: librarian full name
@@ -50,7 +61,7 @@ const librarianController = require('../controller/librarian.controller');
  *  post:
  *      summary: create a new librarian
  *      tags: [librarian]
- *      requestBody: 
+ *      requestBody:
  *          required: true
  *          content:
  *              application/json:
@@ -60,8 +71,7 @@ const librarianController = require('../controller/librarian.controller');
  *      responses:
  *          200:
  *              description: new librarian created
- *          
  */
-router.post('/newlibrarian', librarianController.registerLibrarian);
+
 
 module.exports = router;
