@@ -1,9 +1,11 @@
 const dbUser = require('../data/user.data');
 const emailService = require('../middleware/emailservice');
+const logActivity = require('../middleware/logs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.registerUser = async (req, res) => {
+    const date = new Date();
     const {document, email, password} = req.body;
     const passwordHash = await bcrypt.hash(password, 10);
     req.body.password = passwordHash;
@@ -11,19 +13,20 @@ exports.registerUser = async (req, res) => {
         const documentIsRegistered = await dbUser.findOneUser({document: document}, {document: 1});
         const emailIsRegistered = await dbUser.findOneUser({email: email}, {email: 1});
         if (documentIsRegistered && emailIsRegistered) {
-            return res.json({error: 'El documento y correo ya están registrados'});
+            return res.status(400).json({error: 'El documento y correo ya están registrados'});
         } else if (emailIsRegistered) {
             return res.json({error: 'Este correo ya está registrado'});
         } else if (documentIsRegistered) {
             return res.json({error: 'Este documento ya está registrado'});
         } else {
             const newRecord = await dbUser.createUserRecord(req.body);
+            logActivity.activityLog('./logs/userlogs.log', `User ${email} created at ${date}`);
             const token = jwt.sign({id: newRecord._id}, process.env.SECRET_KEY, {expiresIn: '1h'});
             return res.cookie('token', token).json({success: newRecord});
         }
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.status(500).json({error: 'Internal server error'});
     }
 };
 
