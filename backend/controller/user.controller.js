@@ -84,3 +84,30 @@ exports.recoverPassword = async (req, res) => {
         return res.json({error: 'Internal server error'});
     }
 };
+
+exports.listAllUsers = async (req, res) => {
+    try {
+        const users = await dbUser.findAllUsers({password: 0});
+        return res.json({success: users});
+    } catch (error) {
+        console.error(error);
+        return res.json({error: 'Internal server error'});
+    }
+};
+
+exports.updateUser = async (req, res) => {
+};
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const user = await dbUser.deleteUserRecord({_id: id});
+        if (!user) {
+            return res.json({error: 'No se pudo eliminar el usuario'});
+        } else {
+            return res.json({success: 'Usuario eliminado correctamente'});
+        }
+    } catch (error) {
+        return res.json({error: 'Internal server error'});
+    }
+};

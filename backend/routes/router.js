@@ -7,7 +7,9 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 router.get('/logout', userController.logout);
 router.post('/recover', userController.recoverPassword);
+router.get('/users', userController.listAllUsers);
 
+router.delete('/delete/:id', userController.deleteUser);
 
 
 

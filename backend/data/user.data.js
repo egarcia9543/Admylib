@@ -35,3 +35,12 @@ exports.updateUserRecord = async (filter, update) => {
         return error;
     }
 };
+
+exports.deleteUserRecord = async (filter) => {
+    try {
+        if (!filter) return {error: 'No se ha especificado un filtro'};
+        return await User.findOneAndDelete(filter);
+    } catch (error) {
+        return error;
+    }
+};
