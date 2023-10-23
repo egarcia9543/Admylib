@@ -1,0 +1,27 @@
+::ffff:127.0.0.1 - - [22/Oct/2023:16:04:58 +0000] "GET /login HTTP/1.1" 404 144
+::ffff:127.0.0.1 - - [22/Oct/2023:16:07:54 +0000] "POST / HTTP/1.1" 404 140
+GET /register 404 147 - 1.848 ms
+GET /register 404 147 - 0.944 ms
+GET /register 404 147 - 0.467 ms
+GET /register 404 147 - 0.447 ms
+GET /register 404 147 - 0.391 ms
+GET /register 404 147 - 0.462 ms
+GET /register 404 147 - 0.549 ms
+GET /register 404 147 - 0.588 ms
+GET /register 404 147 - 0.882 ms
+GET /register 404 147 - 0.463 ms
+GET /register 404 147 - 0.423 ms
+GET /register 404 147 - 0.466 ms
+GET /register 404 147 - 0.451 ms
+GET /register 404 147 - 0.389 ms
+GET /register 404 147 - 0.454 ms
+GET /register 404 147 - 0.497 ms
+GET /register 404 147 - 0.447 ms
+GET /register 404 147 - 1.994 ms
+GET /register 404 147 - 0.354 ms
+GET /register 404 147 - 0.361 ms
+GET /register 404 147 - 0.393 ms
+PUT /register 404 147 - 0.201 ms
+PUT /register 404 147 - 0.187 ms
+PUT /register 404 147 - 0.159 ms
+PUT /register 404 147 - 0.191 ms
