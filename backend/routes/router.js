@@ -1,20 +1,19 @@
 const express = require('express');
+// eslint-disable-next-line new-cap
 const router = express.Router();
 
 const userController = require('../controller/user.controller');
+const publisherController = require('../controller/publisher.controller');
 
 router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 router.get('/logout', userController.logout);
 router.post('/recover', userController.recoverPassword);
 router.get('/users', userController.listAllUsers);
-
+router.put('/update', userController.updateUser);
 router.delete('/delete/:id', userController.deleteUser);
 
-
-
-
-
+router.post('/newpublisher', publisherController.addPublisher);
 
 /**
  * @swagger

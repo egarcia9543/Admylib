@@ -25,3 +25,7 @@ PUT /register 404 147 - 0.201 ms
 PUT /register 404 147 - 0.187 ms
 PUT /register 404 147 - 0.159 ms
 PUT /register 404 147 - 0.191 ms
+GET / 404 139 - 1.720 ms
+GET / 404 139 - 0.417 ms
+GET / 404 139 - 0.202 ms
+GET / 404 139 - 0.168 ms
