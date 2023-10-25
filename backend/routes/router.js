@@ -4,6 +4,9 @@ const router = express.Router();
 
 const userController = require('../controller/user.controller');
 const publisherController = require('../controller/publisher.controller');
+const authorController = require('../controller/author.controller');
+const bookController = require('../controller/book.controller');
+const loanController = require('../controller/loan.controller');
 
 router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
@@ -14,6 +17,10 @@ router.put('/update', userController.updateUser);
 router.delete('/delete/:id', userController.deleteUser);
 
 router.post('/newpublisher', publisherController.addPublisher);
+router.post('/newauthor', authorController.addAuthor);
+router.post('/newbook', bookController.addBook);
+
+router.post('/newloan', loanController.addLoan);
 
 /**
  * @swagger
