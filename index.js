@@ -6,6 +6,7 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const router = require('./backend/routes/router');
 const fs = require('fs');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +34,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, './logs/reques
 app.use(express.static(path.join(__dirname, '/frontend/static')));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cookieParser());
 app.use('/', router);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)));
 app.use(morgan('tiny', {stream: accessLogStream}));

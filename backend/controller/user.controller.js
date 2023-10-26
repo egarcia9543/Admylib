@@ -141,3 +141,23 @@ exports.deleteUser = async (req, res) => {
         return res.json({error: 'Internal server error'});
     }
 };
+
+exports.tokenVerification = async (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({error: 'No se ha iniciado sesión'});
+    } else {
+        try {
+            jwt.verify(token, process.env.SECRET_KEY), (err, user) => {
+                if (err) {
+                    return res.status(401).json({error: 'Token inválido'});
+                } else {
+                    req.userId = user.id;
+                    next();
+                }
+            };
+        } catch (error) {
+            return res.status(401).json({error: 'Token inválido'});
+        }
+    }
+};

@@ -37,7 +37,7 @@ exports.createLoanRecord = async (loanInfo) => {
                     return {error: 'El usuario no existe'};
                 }
             } else {
-                return {error: 'El libro no está disponible'};
+                return {error: 'El libro no está disponible para préstamo'};
             }
         } else {
             return {error: 'El libro no existe'};

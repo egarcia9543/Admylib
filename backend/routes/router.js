@@ -2,11 +2,15 @@ const express = require('express');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
+const pagesController = require('../controller/pages.controller');
 const userController = require('../controller/user.controller');
 const publisherController = require('../controller/publisher.controller');
 const authorController = require('../controller/author.controller');
 const bookController = require('../controller/book.controller');
 const loanController = require('../controller/loan.controller');
+
+router.get('/', pagesController.renderLandingPage);
+router.get('/signup', pagesController.renderSignUpPage);
 
 router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
@@ -16,9 +20,11 @@ router.get('/users', userController.listAllUsers);
 router.put('/update', userController.updateUser);
 router.delete('/delete/:id', userController.deleteUser);
 
+// Catalog
 router.post('/newpublisher', publisherController.addPublisher);
 router.post('/newauthor', authorController.addAuthor);
 router.post('/newbook', bookController.addBook);
+router.get('/books', bookController.getBooks);
 
 router.post('/newloan', loanController.addLoan);
 
