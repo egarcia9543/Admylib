@@ -11,24 +11,83 @@
             <div class="col-lg-6 col-md-6">
                 <div class="card mt-5">
                     <div class="card-body ">
-                        <h2 class="text-uppercase text-center">Registro</h2>
-                        <form action="">
+                        <h2 class="text-center mb-3">Registro de usuarios</h2>
+                        <form action="register" method="post" class="needs-validation" novalidate>
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="floatingInput"
-                                    placeholder="name@example.com">
-                                <label for="floatingInput">Email address</label>
+                                <input type="text" class="form-control" id="fullname" name="fullname"
+                                    placeholder="Nombre completo" required>
+                                <label for="fullname">Nombre completo</label>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa tu nombre completo
+                                </div>
                             </div>
-                            <div class="form-floating">
-                                <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="Password">
-                                <label for="floatingPassword">Password</label>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="document" name="document"
+                                    placeholder="Documento" required>
+                                <label for="document">Documento</label>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa tu documento
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                <label for="email">Email</label>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa tu email
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="phone" name="phone"
+                                    placeholder="Teléfono" required>
+                                <label for="phone">Teléfono</label>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa tu teléfono
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Contraseña" required minlength="8">
+                                <label for="password">Contraseña</label>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa una contraseña de 8 caracteres
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-dark btn-block">Registrarse</button>
                             </div>
                         </form>
+                        <p class="text-center text-muted mt-3 mb-0">¿Ya estás registrado? <a href="#!"
+                                class="fw-bold text-body"><u>Logeate aquí</u></a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 
 </html>
