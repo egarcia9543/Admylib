@@ -6,6 +6,9 @@
 </head>
 
 <body>
+    <header>
+        <%- include('../partials/navbar.ejs') %>
+    </header>
     <div class="container-fluid ">
         <div class="row justify-content-center  ">
             <div class="col-lg-6 col-md-6">
@@ -17,9 +20,6 @@
                                 <input type="text" class="form-control" id="fullname" name="fullname"
                                     placeholder="Nombre completo" required>
                                 <label for="fullname">Nombre completo</label>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
                                 <div class="invalid-feedback">
                                     Por favor ingresa tu nombre completo
                                 </div>
@@ -59,7 +59,7 @@
                                 <button type="submit" class="btn btn-dark btn-block">Registrarse</button>
                             </div>
                         </form>
-                        <p class="text-center text-muted mt-3 mb-0">¿Ya estás registrado? <a href="#!"
+                        <p class="text-center text-muted mt-3 mb-0">¿Ya estás registrado? <a href="signin"
                                 class="fw-bold text-body"><u>Logeate aquí</u></a></p>
                     </div>
                 </div>

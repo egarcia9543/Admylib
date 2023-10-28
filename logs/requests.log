@@ -31,3 +31,7 @@ GET / 404 139 - 0.202 ms
 GET / 404 139 - 0.168 ms
 GET /favicon.ico 404 150 - 0.807 ms
 GET /contact 404 146 - 1.578 ms
+GET /contact 404 146 - 0.674 ms
+GET /contact 404 146 - 0.191 ms
+GET /login 404 144 - 0.718 ms
+GET /favicon.ico 404 150 - 1.722 ms

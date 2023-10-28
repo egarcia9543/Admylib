@@ -8,6 +8,7 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <% if (!locals.user) { %>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -31,5 +32,54 @@
                 </li>
             </ul>
         </div>
+        <% } else if (locals.user.role == 'member') { %>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/books">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark me-2 mb-2 mb-lg-0" href="/profile">
+                            <i class="bi bi-person"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="/signup">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        <% } else if (locals.user.role == 'librarian') { %>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/books">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="/profile">
+                            <i class="bi bi-person"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="/admin">
+                            <i class="bi bi-gear"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        <% } %>
     </div>
 </nav>

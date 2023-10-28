@@ -9,8 +9,9 @@ const authorController = require('../controller/author.controller');
 const bookController = require('../controller/book.controller');
 const loanController = require('../controller/loan.controller');
 
-router.get('/', pagesController.renderLandingPage);
+router.get('/', userController.renderLandingPage);
 router.get('/signup', pagesController.renderSignUpPage);
+router.get('/signin', pagesController.renderSignInPage);
 
 router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);

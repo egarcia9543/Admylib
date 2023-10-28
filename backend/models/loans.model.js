@@ -25,10 +25,6 @@ const loanSchema = new mongoose.Schema({
         ref: 'librarians',
         required: [true, 'Librarian is required'],
     },
-    penalty: {
-        type: Schema.Types.ObjectId,
-        ref: 'penalties',
-    },
 });
 
 const loan = mongoose.model('loans', loanSchema);

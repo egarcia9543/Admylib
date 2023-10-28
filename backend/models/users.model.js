@@ -40,22 +40,9 @@ const userSchema = new Schema({
     },
     loans: {
         type: [{
-            loanId: {
-                type: Schema.Types.ObjectId,
-                ref: 'loans',
-            },
-            book: {
-                bookId: {
-                    type: Schema.Types.ObjectId,
-                    ref: 'books',
-                },
-                title: {
-                    type: String,
-                    maxlength: 255,
-                },
-            },
+            type: Schema.Types.ObjectId,
+            ref: 'loans',
         }],
-        default: [],
     },
     penalties: {
         type: [{

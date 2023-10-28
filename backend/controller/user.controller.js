@@ -34,7 +34,7 @@ exports.loginUser = async (req, res) => {
     const {email, password} = req.body;
     try {
         if (!email || !password) return res.json({error: 'Ingresa todos los datos'});
-        const user = await dbUser.findOneUser({email: email}, {email: 1, password: 1});
+        const user = await dbUser.findOneUser({email: email}, {email: 1, password: 1, role: 1});
         if (!user) {
             return res.json({error: 'Este usuario no existe'});
         } else {
@@ -43,7 +43,7 @@ exports.loginUser = async (req, res) => {
                 return res.json({error: 'Contraseña incorrecta'});
             } else {
                 const token = jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn: '1h'});
-                return res.cookie('token', token).json({success: user});
+                return res.cookie('token', token).redirect('/');
             }
         }
     } catch (error) {
@@ -144,20 +144,36 @@ exports.deleteUser = async (req, res) => {
 
 exports.tokenVerification = async (req, res, next) => {
     const token = req.cookies.token;
+    console.log(token);
     if (!token) {
-        return res.status(401).json({error: 'No se ha iniciado sesión'});
+        return res.redirect('/signin');
     } else {
         try {
             jwt.verify(token, process.env.SECRET_KEY), (err, user) => {
                 if (err) {
                     return res.status(401).json({error: 'Token inválido'});
                 } else {
-                    req.userId = user.id;
+                    req.id = user.id;
+                    console.log(req.id);
                     next();
                 }
             };
         } catch (error) {
             return res.status(401).json({error: 'Token inválido'});
         }
+    }
+};
+
+exports.renderLandingPage = async (req, res) => {
+    try {
+        const {id} = req.id;
+        const user = await dbUser.findOneUser({_id: id}, {role: 1});
+        if (!user) {
+            return res.render('index', {user: null});
+        } else {
+            return res.render('index', {user: user});
+        }
+    } catch (error) {
+        return res.render('index', {user: null});
     }
 };
