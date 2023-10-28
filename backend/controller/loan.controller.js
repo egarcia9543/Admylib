@@ -22,7 +22,7 @@ exports.getLoans = async (req, res) => {
 
 exports.getLoanDetails = async (req, res) => {
     try {
-        const loan = await dbLoan.findOneLoan({_id: req.params.id});
+        const loan = await dbLoan.pruebaConsultaAnidada({_id: req.params.id});
         return res.json({success: loan});
     } catch (error) {
         console.error(error);

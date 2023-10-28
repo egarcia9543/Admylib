@@ -163,17 +163,3 @@ exports.tokenVerification = async (req, res, next) => {
         }
     }
 };
-
-exports.renderLandingPage = async (req, res) => {
-    try {
-        const {id} = req.id;
-        const user = await dbUser.findOneUser({_id: id}, {role: 1});
-        if (!user) {
-            return res.render('index', {user: null});
-        } else {
-            return res.render('index', {user: user});
-        }
-    } catch (error) {
-        return res.render('index', {user: null});
-    }
-};

@@ -9,7 +9,7 @@ const authorController = require('../controller/author.controller');
 const bookController = require('../controller/book.controller');
 const loanController = require('../controller/loan.controller');
 
-router.get('/', userController.renderLandingPage);
+router.get('/', pagesController.renderLandingPage);
 router.get('/signup', pagesController.renderSignUpPage);
 router.get('/signin', pagesController.renderSignInPage);
 
@@ -28,6 +28,7 @@ router.post('/newbook', bookController.addBook);
 router.get('/books', bookController.getBooks);
 
 router.post('/newloan', loanController.addLoan);
+router.get('/loan/:id', loanController.getLoanDetails);
 
 /**
  * @swagger

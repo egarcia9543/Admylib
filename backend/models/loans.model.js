@@ -17,7 +17,7 @@ const loanSchema = new mongoose.Schema({
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'members',
+        ref: 'users',
         required: [true, 'User is required'],
     },
     librarian: {

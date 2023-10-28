@@ -14,3 +14,58 @@ body {
     border-top-left-radius: 1rem;
     object-fit: cover;
 }
+
+main .section__one {
+    background-image: url(/imgs/fondo1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 50vh;
+}
+
+.section .search__container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-content: center;
+}
+
+.section .search__container .searchbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section .search__container .searchbar label {
+    margin-bottom: 12px;
+    color: #FAFAFF;
+}
+
+.section .search__container .searchbar .searchbar__container {
+    border-radius: 100px;
+    border: solid 1px #DADDD8;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #FAFAFF;
+}
+
+
+.section .search__container .searchbar .searchbar__container input {
+    border: none;
+    outline: none;
+    border-radius: 100px;
+}
+
+.section .search__container .searchbar .searchbar__container:hover {
+    box-shadow: 0 0.4rem 0.6rem 0 #1C1C1C;
+    border-color: #1C1C1C;
+}
+
+.schedule-container {
+    background-image: url(/imgs/fondoCalendar.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 50vh;
+}

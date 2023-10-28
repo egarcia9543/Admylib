@@ -1,5 +1,10 @@
-exports.renderLandingPage = (req, res) => {
-    return res.render('index');
+const dbBook = require('../data/book.data');
+
+exports.renderLandingPage = async (req, res) => {
+    const recommendations = await dbBook.findRecommendations({title: 1});
+    return res.render('index', {
+        recommendations: recommendations,
+    });
 };
 
 exports.renderSignUpPage = (req, res) => {

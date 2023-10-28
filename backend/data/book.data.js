@@ -1,9 +1,18 @@
 const Book = require('../models/books.model');
 
-exports.findOneBook = async (filter, projection) => {
+exports.findBook = async (filter, projection) => {
     try {
         if (!projection) return await Book.findOne(filter);
         else return await Book.findOne(filter, projection);
+    } catch (error) {
+        return error;
+    }
+};
+
+exports.findRecommendations = async (projection) => {
+    try {
+        if (!projection) return await Book.find().limit(3);
+        else return await Book.find({}, projection).limit(3);
     } catch (error) {
         return error;
     }

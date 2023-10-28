@@ -4,8 +4,8 @@ const User = require('../models/users.model');
 
 exports.findOneLoan = async (filter, projection) => {
     try {
-        if (!projection) return await Loan.findOne(filter);
-        else return await Loan.findOne(filter, projection);
+        if (!projection) return await Loan.findOne(filter).populate('book').populate('user');
+        else return await Loan.findOne(filter, projection).populate('book').populate('user');
     } catch (error) {
         return error;
     }
@@ -57,3 +57,11 @@ exports.updateLoanRecord = async (filter, update) => {
     }
 };
 
+exports.pruebaConsultaAnidada = (id) => {
+    try {
+        const loan = Loan.findOne({_id: id}).populate({path: 'book', select: 'title isbn'}).populate({path: 'user', select: 'fullname email'});
+        return loan;
+    } catch (error) {
+        return error;
+    }
+};

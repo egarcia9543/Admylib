@@ -5,7 +5,7 @@ const logRoute = './logs/catalog.log';
 exports.addBook = async (req, res) => {
     const {isbn} = req.body;
     try {
-        const bookIsRegistered = await dbBook.findOneBook({isbn: isbn}, {isbn: 1});
+        const bookIsRegistered = await dbBook.findBook({isbn: isbn}, {isbn: 1});
         if (bookIsRegistered) {
             return res.status(400).json({error: 'Este libro ya se encuentra registrado'});
         }
@@ -30,7 +30,7 @@ exports.getBooks = async (req, res) => {
 
 exports.getBookDetails = async (req, res) => {
     try {
-        const book = await dbBook.findOneBook({_id: req.params.id});
+        const book = await dbBook.findBook({_id: req.params.id});
         return res.json({success: book});
     } catch (error) {
         console.error(error);
