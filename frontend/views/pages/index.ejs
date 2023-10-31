@@ -7,7 +7,7 @@
 
 <body>
     <header>
-        <%- include('../partials/navbar.ejs'); %>
+        <%- include('../partials/nav.ejs'); %>
     </header>
     <main>
         <section class="section section__one" id="section__one">
@@ -34,7 +34,7 @@
                         <div class="col">
                             <a href="book/<%= recommendation._id %>" class="text-decoration-none text-dark">
                                 <div class="card h-100">
-                                    <img src="https://source.unsplash.com/800x600/?libro" class="card-img-top" />
+                                    <img src="https://source.unsplash.com/800x600/?libro<%= recommendation.title %>" class="card-img-top" />
                                     <div class="card-body">
                                         <h5 class="card-title text-center">
                                             <%= recommendation.title %>
@@ -47,11 +47,13 @@
                 </div>
         </section>
         <section class="schedule-container mt-3">
-            <div class="container d-flex flex-column justify-content-center align-items-center">
+            <div class="container d-flex flex-column justify-content-center align-items-center h-100 w-100">
                 <h3 class="text-center text-light pt-3">Calendario de actividades</h3>
-                <iframe class="embed-responsive-item mt-2"
-                    src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23616161&ctz=America%2FBogota&showTitle=0&showDate=0&showPrint=0&showCalendars=0&showTz=0&showTabs=0&hl=es&src=ZWdhcmNpYTk1NDNAbWlzZW5hLmVkdS5jbw&src=ZXMuY28jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039BE5&color=%230B8043"
-                    width="500px" height="300px"></iframe>
+                <div class="embed-responsive embed-responsive-1by1 w-100 h-100 d-flex justify-content-center align-items-center">
+                    <iframe class="embed-responsive-item w-75 h-75"
+                        src="https://calendar.google.com/calendar/embed?&wkst=1&bgcolor=%23616161&ctz=America%2/Bogota&showTitle=0&showDate=0&showPrint=0&showCalendars=0&showTz=0&showTabs=0&hl=es&src=ZWdhcmNpYTk1NDNAbWlzZW5hLmVkdS5jbw&src=ZXMuY28jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039BE5&color=%230B8043">
+                    </iframe>
+                </div>
             </div>
         </section>
     </main>

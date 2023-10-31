@@ -58,3 +58,6 @@ GET /assets/imgs/fondoCalendar.jpg 404 168 - 0.450 ms
 GET /assets/imgs/fondoCalendar.jpg 404 168 - 0.186 ms
 GET /assets/imgs/fondoCalendar.jpg 404 168 - 0.946 ms
 GET /assets/imgs/fondoCalendar.jpg 404 168 - 0.483 ms
+GET /favicon.ico 404 150 - 1.096 ms
+GET /book/653d3d8e74712e539be2557c 404 168 - 0.274 ms
+GET /profile 404 146 - 0.866 ms

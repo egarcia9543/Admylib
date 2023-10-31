@@ -43,7 +43,7 @@ exports.loginUser = async (req, res) => {
                 return res.json({error: 'Contraseña incorrecta'});
             } else {
                 const token = jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn: '1h'});
-                return res.cookie('token', token).redirect('/');
+                return res.cookie('token', token).cookie('user', user._id).redirect('/');
             }
         }
     } catch (error) {
@@ -54,7 +54,7 @@ exports.loginUser = async (req, res) => {
 
 exports.logout = async (req, res) => {
     try {
-        return res.clearCookie('token').json({success: 'Logged out successfully'});
+        return res.clearCookie('token').redirect('/');
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
