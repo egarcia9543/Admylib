@@ -8,6 +8,7 @@ const publisherController = require('../controller/publisher.controller');
 const authorController = require('../controller/author.controller');
 const bookController = require('../controller/book.controller');
 const loanController = require('../controller/loan.controller');
+const upload = require('../middleware/upload');
 
 router.get('/', pagesController.renderLandingPage);
 router.get('/signup', pagesController.renderSignUpPage);
@@ -24,11 +25,14 @@ router.delete('/delete/:id', userController.deleteUser);
 // Catalog
 router.post('/newpublisher', publisherController.addPublisher);
 router.post('/newauthor', authorController.addAuthor);
-router.post('/newbook', bookController.addBook);
+router.post('/newbook', upload.single('cover'), bookController.addBook);
 router.get('/books', bookController.getBooks);
 
 router.post('/newloan', loanController.addLoan);
 router.get('/loan/:id', loanController.getLoanDetails);
+
+
+router.get('/test', pagesController.test);
 
 /**
  * @swagger

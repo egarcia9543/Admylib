@@ -50,6 +50,10 @@ const bookSchema = new mongoose.Schema({
         enum: ['available', 'reserved', 'loaned'],
         default: 'available',
     },
+    cover: {
+        type: String,
+        required: [true, 'The cover is required'],
+    },
 });
 
 const book = mongoose.model('books', bookSchema);

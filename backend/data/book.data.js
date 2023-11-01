@@ -11,8 +11,8 @@ exports.findBook = async (filter, projection) => {
 
 exports.findRecommendations = async (projection) => {
     try {
-        if (!projection) return await Book.find().limit(3);
-        else return await Book.find({}, projection).limit(3);
+        if (!projection) return await Book.aggregate([{$sample: {size: 3}}]);
+        else return await Book.aggregate([{$project: projection}, {$sample: {size: 3}}]);
     } catch (error) {
         return error;
     }
