@@ -7,12 +7,12 @@
 
 <body>
     <header>
-        <%- include('../partials/nav.ejs'); %>
+        <%- include('../partials/navbar.ejs'); %>
     </header>
     <main>
         <section class="section section__one" id="section__one">
             <div class="search__container">
-                <form action="" class="searchbar">
+                <form action="quicksearch" method="post" class="searchbar">
                     <label for="search__input">
                         <span class="fs-3 ">Búsqueda rápida en el Catálogo</span>
                     </label>
@@ -21,7 +21,7 @@
                             <i class="bi bi-search"></i>
                         </button>
                         <input type="text" id="search__input" class="form-control"
-                            placeholder="Ingrese un título o palabra clave" id="search__input">
+                            placeholder="Ingrese un título o palabra clave" name="search" id="search__input">
                     </div>
                 </form>
             </div>

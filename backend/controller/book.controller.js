@@ -63,3 +63,12 @@ exports.deleteBook = async (req, res) => {
     }
 };
 
+exports.quickSearch = async (req, res) => {
+    try {
+        const books = await dbBook.findAllBooks({title: {$regex: req.body.search, $options: 'i'}}, {title: 1, cover: 1});
+        return res.json({success: books});
+    } catch (error) {
+        console.error(error);
+        return res.json({error: 'Internal server error'});
+    }
+};

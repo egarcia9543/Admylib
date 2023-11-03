@@ -13,13 +13,41 @@ exports.renderLandingPage = async (req, res) => {
 };
 
 exports.renderSignUpPage = (req, res) => {
+    const userAuthenticated = req.cookies.token;
+    if (userAuthenticated) {
+        return res.redirect('/profile');
+    }
     return res.render('signup');
 };
 
 exports.renderSignInPage = (req, res) => {
-    return res.render('signin');
+    if (req.cookies.token) {
+        return res.redirect('/profile');
+    } else {
+        return res.render('signin');
+    }
 };
 
 exports.test = (req, res) => {
     return res.render('test');
+};
+
+exports.renderAdminPage = async (req, res) => {
+    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
+    if (user.role == 'member' || !user) {
+        return res.send('No tienes permisos para acceder a esta página');
+    }
+    return res.render('adminInterface');
+};
+
+exports.renderProfilePage = async (req, res) => {
+    const user = await dbUser.findOneUser({_id: req.cookies.user});
+    const userAuthenticated = req.cookies.token;
+    if (!user) {
+        return res.redirect('/signin');
+    }
+    return res.render('profile', {
+        user: user,
+        userAuthenticated: userAuthenticated,
+    });
 };

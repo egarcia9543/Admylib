@@ -18,14 +18,17 @@ exports.findRecommendations = async (projection) => {
     }
 };
 
-exports.findAllBooks = async (projection) => {
+exports.findAllBooks = async (filter, projection) => {
     try {
-        if (!projection) return await Book.find();
-        else return await Book.find({}, projection);
+        if (!projection && !filter) return await Book.find();
+        else if (!filter) return await Book.find({}, projection);
+        else if (!projection) return await Book.find(filter);
+        else return await Book.find(filter, projection);
     } catch (error) {
         return error;
     }
 };
+
 
 exports.createBookRecord = async (bookInfo) => {
     try {

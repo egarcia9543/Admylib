@@ -16,6 +16,7 @@ router.get('/signin', pagesController.renderSignInPage);
 
 router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
+router.get('/profile', pagesController.renderProfilePage);
 router.get('/logout', userController.logout);
 router.post('/recover', userController.recoverPassword);
 router.get('/users', userController.listAllUsers);
@@ -27,11 +28,12 @@ router.post('/newpublisher', publisherController.addPublisher);
 router.post('/newauthor', authorController.addAuthor);
 router.post('/newbook', upload.single('cover'), bookController.addBook);
 router.get('/books', bookController.getBooks);
+router.post('/quicksearch', bookController.quickSearch);
 
 router.post('/newloan', loanController.addLoan);
 router.get('/loan/:id', loanController.getLoanDetails);
 
-
+router.get('/admin', pagesController.renderAdminPage);
 router.get('/test', pagesController.test);
 
 /**

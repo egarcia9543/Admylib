@@ -54,7 +54,7 @@ exports.loginUser = async (req, res) => {
 
 exports.logout = async (req, res) => {
     try {
-        return res.clearCookie('token').redirect('/');
+        return res.clearCookie('token').clearCookie('user').redirect('/');
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
