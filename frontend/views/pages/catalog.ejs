@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %>
+</head>
+<body>
+    <header>
+        <%- include('../partials/navbar.ejs') %>
+    </header>
+    <main>
+        <section>
+            <% books.forEach(book => { %>
+                <div>
+                    <img src="<%= book.cover %>" alt="Portada del libro" width="340" height="560">
+                    <h3><%= book.title %></h3>
+                    <div>
+                        <p><%= book.publisher.name %></p>
+                    </div>
+                </div>
+            <% }) %>
+        </section>
+    </main>
+</body>
+</html>

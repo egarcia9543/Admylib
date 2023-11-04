@@ -23,7 +23,8 @@ exports.addBook = async (req, res) => {
 exports.getBooks = async (req, res) => {
     try {
         const books = await dbBook.findAllBooks();
-        return res.json({success: books});
+        console.log(books);
+        return res.render('catalog', {books: books});
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});

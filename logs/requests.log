@@ -148,3 +148,4 @@ GET /uploads/libroCatalogo4.jpg 404 165 - 0.187 ms
 GET /uploads/libroCatalogo4.jpg 404 165 - 0.532 ms
 GET /uploads/libroCatalogo4.jpg 404 165 - 0.294 ms
 GET /uploads/libroCatalogo4.jpg 404 165 - 0.444 ms
+GET /favicon.ico 404 150 - 0.910 ms
