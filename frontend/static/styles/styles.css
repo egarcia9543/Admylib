@@ -73,3 +73,9 @@ img.recommended {
     height: 35rem;
     object-fit: cover;
 }
+
+img.catalog-cover {
+    width: 100%;
+    height: 35rem;
+    object-fit: cover;
+}

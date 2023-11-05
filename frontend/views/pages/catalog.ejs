@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include('../partials/head.ejs') %>
 </head>
+
 <body>
     <header>
         <%- include('../partials/navbar.ejs') %>
     </header>
     <main>
-        <section>
-            <% books.forEach(book => { %>
-                <div>
-                    <img src="<%= book.cover %>" alt="Portada del libro" width="340" height="560">
-                    <h3><%= book.title %></h3>
-                    <div>
-                        <p><%= book.publisher.name %></p>
-                    </div>
-                </div>
-            <% }) %>
+        <section class="mt-5">
+            <div class="d-flex justify-content-evenly align-items-center flex-wrap">
+                <% books.forEach(book=> { %>
+                    <a href="book/<%= book._id %>" class="text-decoration-none text-dark">
+                        <div class="card">
+                            <img src="<%= book.cover %>" class="card-img-top catalog-cover"/>
+                            <div class="card-body">
+                                <h5 class="card-title text-center">
+                                    <%= book.title %>
+                                </h5>
+                            </div>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
         </section>
     </main>
 </body>
+
 </html>
