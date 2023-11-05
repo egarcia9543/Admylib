@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include ('../partials/head'); %>
+</head>
+<body>
+    <header>
+        <%- include ('../partials/navbar'); %>
+    </header>
+    <main>
+        <section class="mt-5">
+            <div class="d-flex justify-content-evenly align-items-center flex-wrap">
+                <% books.forEach(book=> { %>
+                    <a href="book/<%= book._id %>" class="text-decoration-none text-dark">
+                        <div class="card">
+                            <img src="<%= book.cover %>" class="card-img-top catalog-cover"/>
+                            <div class="card-body">
+                                <h5 class="card-title text-center">
+                                    <%= book.title %>
+                                </h5>
+                            </div>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+            <% if (books.length == 0) { %>
+                <div class="container d-flex justify-content-center align-items-center flex-column">
+                    <p class="fw-bold fs-3">No pudimos encontrar lo que estabas buscado</p>
+                    <img src="/imgs/notfound.svg" alt="Not found image" class="img-fluid" width="550" height="550">
+                    <a class="btn btn-outline-dark" href="/books"><i class="bi bi-book me-2"></i>Ver catálogo</a>
+                </div>
+            <% } %>
+        </section>
+    </main>
+</body>
+</html>

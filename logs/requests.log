@@ -170,3 +170,9 @@ GET /assets/imgs/signupbg.jpg 404 163 - 0.159 ms
 GET /assets/imgs/signupbg.jpg 404 163 - 0.154 ms
 GET /assets/imgs/signupbg.jpg 404 163 - 0.150 ms
 GET /books/6542cb00e93eff6078073e6e 404 169 - 0.278 ms
+GET /favicon.ico 404 150 - 2.789 ms
+GET /favicon.ico - - - - ms
+GET /catalog 404 146 - 1.303 ms
+GET /book/6542d734c2ead962129f1107 404 168 - 0.199 ms
+GET /favicon.ico - - - - ms
+GET /favicon.ico - - - - ms

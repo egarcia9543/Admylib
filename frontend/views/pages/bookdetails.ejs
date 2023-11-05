@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include ('../partials/head') %>
+</head>
+<body>
+    <header>
+        <%- include ('../partials/navbar') %>
+    </header>
+    <main class="mt-5 pt-4">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <img src="<%= book.cover %>" class="img-fluid" alt="" />
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="p-4">
+                        <div class="mb-3">
+                            <a href="">
+                                <span class="badge bg-dark me-1">Category 2</span>
+                            </a>
+                            <a href="">
+                                <span class="badge bg-info me-1">New</span>
+                            </a>
+                            <a href="">
+                                <span class="badge bg-danger me-1">Bestseller</span>
+                            </a>
+                        </div>
+                        <strong><p style="font-size: 20px;">Description</p></strong>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et dolor suscipit libero eos atque quia ipsa sint voluptatibus! Beatae sit assumenda asperiores iure at maxime atque repellendus maiores quia sapiente.</p>
+                        <form class="d-flex justify-content-left">
+                            <div class="form-outline me-1" style="width: 100px;">
+                                <input type="number" value="1" class="form-control" />
+                            </div>
+                            <button class="btn btn-primary ms-1" type="submit">
+                                Add to cart
+                                <i class="fas fa-shopping-cart ms-1"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </main>
+</body>
+</html>

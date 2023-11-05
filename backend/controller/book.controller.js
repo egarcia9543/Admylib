@@ -23,7 +23,6 @@ exports.addBook = async (req, res) => {
 exports.getBooks = async (req, res) => {
     try {
         const books = await dbBook.findAllBooks();
-        console.log(books);
         return res.render('catalog', {books: books});
     } catch (error) {
         console.error(error);
@@ -34,7 +33,9 @@ exports.getBooks = async (req, res) => {
 exports.getBookDetails = async (req, res) => {
     try {
         const book = await dbBook.findBook({_id: req.params.id});
-        return res.json({success: book});
+        return res.render('bookdetails', {
+            book: book,
+        });
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
@@ -67,7 +68,9 @@ exports.deleteBook = async (req, res) => {
 exports.quickSearch = async (req, res) => {
     try {
         const books = await dbBook.findAllBooks({title: {$regex: req.body.search, $options: 'i'}}, {title: 1, cover: 1});
-        return res.json({success: books});
+        return res.render('quicksearch', {
+            books: books,
+        });
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
