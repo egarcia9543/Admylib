@@ -34,7 +34,9 @@ router.get('/book/:id', bookController.getBookDetails);
 router.post('/newloan', loanController.addLoan);
 router.get('/loan/:id', loanController.getLoanDetails);
 
+// Admin
 router.get('/admin', pagesController.renderAdminPage);
+router.get('/cataloging', pagesController.renderCatalogingPage);
 router.get('/test', pagesController.test);
 
 /**

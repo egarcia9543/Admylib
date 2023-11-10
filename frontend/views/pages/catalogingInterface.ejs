@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ('../partials/adminHead') %>
+    <%- include ('../partials/adminDatatable') %>
+</head>
+
+<body>
+    <header>
+        <%- include ('../partials/adminNavbar') %>
+    </header>
+    <main>
+        <div class="card mb-4">
+            <div class="card-body d-flex justify-content-end">
+                <a class="btn btn-outline-dark" href="registroproductos">Registrar libro <i
+                        class="bi bi-book"></i></a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="table-responsive">
+                <table id="example" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ISBN</th>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Editorial</th>
+                            <th>Año de publicación</th>
+                            <th>Ejemplares</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% books.forEach(book => { %>
+                        <tr>
+                            <td><%= book.isbn %></td>
+                            <td><%= book.title %></td>
+                            <td><%= book.author %></td>
+                            <td><%= book.publisher.name %></td>
+                            <td><%= book.publicationYear %></td>
+                            <td><%= book.copies %></td>
+                            <td><%= book.state %></td>
+                            <td>
+                                <a class="btn btn-outline-primary" href="editarproducto/<%= book._id %>"><i
+                                        class="bi bi-pencil-square"></i></a>
+                                <a class="btn btn-outline-danger" href="eliminarproducto/<%= book._id %>"><i
+                                        class="bi bi-trash"></i></a>
+                            </td>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script src="/scripts/datatable.js"></script>
+</body>
+</html>

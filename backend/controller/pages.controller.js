@@ -51,3 +51,14 @@ exports.renderProfilePage = async (req, res) => {
         userAuthenticated: userAuthenticated,
     });
 };
+
+exports.renderCatalogingPage = async (req, res) => {
+    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
+    const books = await dbBook.findAllBooks();
+    if (user.role == 'member' || !user) {
+        return res.send('No tienes permisos para acceder a esta página');
+    }
+    return res.render('catalogingInterface', {
+        books: books,
+    });
+};

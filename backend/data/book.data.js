@@ -20,7 +20,7 @@ exports.findRecommendations = async (projection) => {
 
 exports.findAllBooks = async (filter, projection) => {
     try {
-        if (!projection && !filter) return await Book.find().populate('author').populate('publisher');
+        if (!projection && !filter) return await Book.find().populate({path: 'author', select: 'fullname'}).populate({path: 'publisher', select: 'name'});
         else if (!filter) return await Book.find({}, projection);
         else if (!projection) return await Book.find(filter);
         else return await Book.find(filter, projection);
