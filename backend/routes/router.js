@@ -37,6 +37,7 @@ router.get('/loan/:id', loanController.getLoanDetails);
 // Admin
 router.get('/admin', pagesController.renderAdminPage);
 router.get('/cataloging', pagesController.renderCatalogingPage);
+router.get('/loans', pagesController.renderLoansPage);
 router.get('/test', pagesController.test);
 
 /**

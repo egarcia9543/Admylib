@@ -22,7 +22,7 @@ const loanSchema = new mongoose.Schema({
     },
     librarian: {
         type: Schema.Types.ObjectId,
-        ref: 'librarians',
+        ref: 'users',
         required: [true, 'Librarian is required'],
     },
 });

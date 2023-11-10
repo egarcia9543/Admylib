@@ -1,5 +1,6 @@
 const dbBook = require('../data/book.data');
 const dbUser = require('../data/user.data');
+const dbLoan = require('../data/loan.data');
 
 exports.renderLandingPage = async (req, res) => {
     const recommendations = await dbBook.findRecommendations({title: 1, cover: 1});
@@ -60,5 +61,16 @@ exports.renderCatalogingPage = async (req, res) => {
     }
     return res.render('catalogingInterface', {
         books: books,
+    });
+};
+
+exports.renderLoansPage = async (req, res) => {
+    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
+    const loans = await dbLoan.findAllLoans();
+    if (user.role == 'member' || !user) {
+        return res.send('No tienes permisos para acceder a esta página');
+    }
+    return res.render('loansInterface', {
+        loans: loans,
     });
 };
