@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    const table = $('#example').DataTable( {
+    const table = $('#datatable').DataTable( {
         lengthChange: false,
         buttons: ['copy', 'excel', 'pdf', 'colvis'],
     } );

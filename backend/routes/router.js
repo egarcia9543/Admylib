@@ -34,12 +34,15 @@ router.post('/newloan', loanController.addLoan);
 router.get('/loan/:id', loanController.getLoanDetails);
 
 // Admin
-router.get('/admin', pagesController.renderAdminPage);
-router.get('/cataloging', pagesController.renderCatalogingPage);
-router.get('/loans', pagesController.renderLoansPage);
-router.get('/users', pagesController.renderUsersPage);
-router.get('/test', pagesController.test);
+router.get('/admin', pagesController.verifyAdminUser, pagesController.renderAdminPage);
+router.get('/cataloging', pagesController.verifyAdminUser, pagesController.renderCatalogingPage);
+router.get('/loans', pagesController.verifyAdminUser, pagesController.renderLoansPage);
+router.get('/users', pagesController.verifyAdminUser, pagesController.renderUsersPage);
+router.get('/penalties', pagesController.verifyAdminUser, pagesController.renderPenaltiesPage);
+router.get('/reservations', pagesController.verifyAdminUser, pagesController.renderReservationsPage);
 
+
+router.get('/test', pagesController.test);
 /**
  * @swagger
  * components:

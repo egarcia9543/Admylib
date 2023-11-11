@@ -1,6 +1,17 @@
 const dbBook = require('../data/book.data');
 const dbUser = require('../data/user.data');
 const dbLoan = require('../data/loan.data');
+const dbPenalty = require('../data/penalty.data');
+const dbReservation = require('../data/reservation.data');
+
+exports.verifyAdminUser = async (req, res, next) => {
+    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
+    if (!user || user.role == 'member') {
+        return res.send('No tienes permisos para acceder a esta página');
+    } else {
+        next();
+    }
+};
 
 exports.renderLandingPage = async (req, res) => {
     const recommendations = await dbBook.findRecommendations({title: 1, cover: 1});
@@ -34,10 +45,6 @@ exports.test = (req, res) => {
 };
 
 exports.renderAdminPage = async (req, res) => {
-    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
-    if (user.role == 'member' || !user) {
-        return res.send('No tienes permisos para acceder a esta página');
-    }
     return res.render('adminInterface');
 };
 
@@ -54,34 +61,37 @@ exports.renderProfilePage = async (req, res) => {
 };
 
 exports.renderCatalogingPage = async (req, res) => {
-    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
     const books = await dbBook.findAllBooks();
-    if (user.role == 'member' || !user) {
-        return res.send('No tienes permisos para acceder a esta página');
-    }
     return res.render('catalogingInterface', {
         books: books,
     });
 };
 
 exports.renderLoansPage = async (req, res) => {
-    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
     const loans = await dbLoan.findAllLoans();
-    if (user.role == 'member' || !user) {
-        return res.send('No tienes permisos para acceder a esta página');
-    }
     return res.render('loansInterface', {
         loans: loans,
     });
 };
 
 exports.renderUsersPage = async (req, res) => {
-    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
     const users = await dbUser.findAllUsers({password: 0});
-    if (user.role == 'member' || !user) {
-        return res.send('No tienes permisos para acceder a esta página');
-    }
     return res.render('usersInterface', {
         users: users,
+    });
+};
+
+
+exports.renderPenaltiesPage = async (req, res) => {
+    const penalties = await dbPenalty.findAllPenalties();
+    return res.render('penaltiesInterface', {
+        penalties: penalties,
+    });
+};
+
+exports.renderReservationsPage = async (req, res) => {
+    const reservations = await dbReservation.findAllReservations();
+    return res.render('reservationsInterface', {
+        reservations: reservations,
     });
 };

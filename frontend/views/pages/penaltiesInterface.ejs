@@ -13,8 +13,7 @@
     <main>
         <div class="card mb-4">
             <div class="card-body d-flex justify-content-end">
-                <a class="btn btn-outline-dark" href="registroproductos">Registrar usuario <i
-                        class="bi bi-person-add"></i></a>
+                <a class="btn btn-outline-dark" href="registroproductos">Registrar sanción <i class="bi bi-book"></i></a>
             </div>
         </div>
         <div class="container">
@@ -23,18 +22,16 @@
                     <thead>
                         <tr>
                             <th>Nombre completo</th>
-                            <th>Documento</th>
-                            <th>Correo electrónico</th>
-                            <th>Teléfono</th>
+                            <th>Motivo</th>
+                            <th>Penalización</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% users.forEach(user => { %>
+                        <% penalties.forEach(penalty => { %>
                         <tr>
-                            <td><%= user.fullname %></td>
-                            <td><%= user.document %></td>
-                            <td><%= user.email %></td>
-                            <td><%= user.phone %></td>
+                            <td><%=  penalty.user.fullname %></td>
+                            <td><%= penalty.reason %></td>
+                            <td><%= penalty.penaltyTime %></td>
                         </tr>
                         <% }) %>
                     </tbody>

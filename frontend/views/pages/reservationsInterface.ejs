@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ('../partials/adminHead') %>
+    <%- include ('../partials/adminDatatable') %>
+</head>
+
+<body>
+    <header>
+        <%- include ('../partials/adminNavbar') %>
+    </header>
+    <main>
+        <div class="container mt-4">
+            <div class="table-responsive">
+                <table id="datatable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha de reserva</th>
+                            <th>Fecha de expiración</th>
+                            <th>Libro</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% reservations.forEach(reservation => { %>
+                        <tr>
+                            <td><%= reservation.reservationDate %></td>
+                            <td><%= reservation.expirationDate %></td>
+                            <td><%= reservation.book %></td>
+                            <td><%= reservation.user %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script src="/scripts/datatable.js"></script>
+</body>
+</html>

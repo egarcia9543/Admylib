@@ -26,7 +26,7 @@ exports.createPenaltyRecord = async (penaltyInfo) => {
 
 exports.findAllPenalties = async () => {
     try {
-        return await Penalty.find();
+        return await Penalty.find().populate({path: 'user', select: 'fullname'});
     } catch (error) {
         return error;
     }
