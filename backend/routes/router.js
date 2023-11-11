@@ -19,7 +19,6 @@ router.post('/login', userController.loginUser);
 router.get('/profile', pagesController.renderProfilePage);
 router.get('/logout', userController.logout);
 router.post('/recover', userController.recoverPassword);
-router.get('/users', userController.listAllUsers);
 router.put('/update', userController.updateUser);
 router.delete('/delete/:id', userController.deleteUser);
 
@@ -38,6 +37,7 @@ router.get('/loan/:id', loanController.getLoanDetails);
 router.get('/admin', pagesController.renderAdminPage);
 router.get('/cataloging', pagesController.renderCatalogingPage);
 router.get('/loans', pagesController.renderLoansPage);
+router.get('/users', pagesController.renderUsersPage);
 router.get('/test', pagesController.test);
 
 /**

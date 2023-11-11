@@ -88,16 +88,6 @@ exports.recoverPassword = async (req, res) => {
     }
 };
 
-exports.listAllUsers = async (req, res) => {
-    try {
-        const users = await dbUser.findAllUsers({password: 0});
-        return res.json({success: users});
-    } catch (error) {
-        console.error(error);
-        return res.json({error: 'Internal server error'});
-    }
-};
-
 exports.updateUser = async (req, res) => {
     try {
         const {id, email, password} = req.body;

@@ -74,3 +74,14 @@ exports.renderLoansPage = async (req, res) => {
         loans: loans,
     });
 };
+
+exports.renderUsersPage = async (req, res) => {
+    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
+    const users = await dbUser.findAllUsers({password: 0});
+    if (user.role == 'member' || !user) {
+        return res.send('No tienes permisos para acceder a esta página');
+    }
+    return res.render('usersInterface', {
+        users: users,
+    });
+};
