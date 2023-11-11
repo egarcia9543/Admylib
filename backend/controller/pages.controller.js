@@ -95,3 +95,7 @@ exports.renderReservationsPage = async (req, res) => {
         reservations: reservations,
     });
 };
+
+exports.renderBookForm = async (req, res) => {
+    return res.render('bookForm');
+};

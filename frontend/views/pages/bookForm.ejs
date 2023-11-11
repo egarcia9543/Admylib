@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ('../partials/adminHead') %>
+        <%- include ('../partials/adminDatatable') %>
+</head>
+
+<body>
+    <header>
+        <%- include ('../partials/adminNavbar') %>
+    </header>
+    <main class="container mt-5">
+        <form action="newbook" method="post" class="needs-validation" novalidate>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="isbn" name="isbn" placeholder="ISBN"
+                    required>
+                <label for="isbn">ISBN</label>
+                <div class="invalid-feedback">
+                    Por favor ingresa el ISBN
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="title" name="title" placeholder="Título"
+                    required>
+                <label for="title">Título</label>
+                <div class="invalid-feedback">
+                    Ingresa el título
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="author" name="author" placeholder="Autor" required>
+                <label for="author">Autor</label>
+                <div class="invalid-feedback">
+                    Por favor ingresa el autor
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Editorial" required>
+                <label for="publisher">Editorial</label>
+                <div class="invalid-feedback">
+                    Por favor ingresa la editorial
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="publicationYear" name="publicationYear" placeholder="Año de publicación"
+                    required minlength="8">
+                <label for="publicationYear">Año de publicación</label>
+                <div class="invalid-feedback">
+                    Por favor ingresa la fecha de publicación
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="pages" name="pages" placeholder="Páginas"
+                    required minlength="8">
+                <label for="pages">Páginas</label>
+                <div class="invalid-feedback">
+                    Por favor ingresa la cantidad de páginas
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="subjects" name="subjects" placeholder="Materias"
+                    required minlength="8">
+                <label for="subjects">Materia</label>
+                <div class="invalid-feedback">
+                    Por favor ingresa la cantidad de páginas
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="language" name="language" placeholder="Idioma"
+                    required minlength="8">
+                <label for="language">Idioma</label>
+                <div class="invalid-feedback">
+                    Por favor ingresa la cantidad de páginas
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="file" name="cover">
+                    
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-dark btn-block">Registrar</button>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
