@@ -42,17 +42,19 @@ const bookSchema = new mongoose.Schema({
     },
     copies: {
         type: Number,
-        required: [true, 'The number of copies is required'],
         default: 1,
     },
-    state: {
-        type: String,
-        enum: ['available', 'reserved', 'loaned'],
-        default: 'available',
+    copiesAvailable: {
+        type: Number,
+        default: 1,
     },
     cover: {
         type: String,
         required: [true, 'The cover is required'],
+    },
+    summary: {
+        type: String,
+        required: [true, 'The summary is required'],
     },
 });
 

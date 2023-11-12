@@ -233,3 +233,4 @@ GET /favicon.ico - - - - ms
 GET /favicon.ico 404 150 - 1.073 ms
 GET /favicon.ico - - - - ms
 GET /favicon.ico 404 150 - 4.083 ms
+GET /favicon.ico 404 150 - 1.177 ms
