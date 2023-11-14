@@ -3,7 +3,7 @@
 
 <head>
     <%- include ('../partials/adminHead') %>
-    <%- include ('../partials/adminDatatable') %>
+        <%- include ('../partials/adminDatatable') %>
 </head>
 
 <body>
@@ -13,8 +13,7 @@
     <main>
         <div class="card mb-4">
             <div class="card-body d-flex justify-content-end">
-                <a class="btn btn-outline-dark" href="registerbook">Registrar libro <i
-                        class="bi bi-book"></i></a>
+                <a class="btn btn-outline-dark" href="registerbook">Registrar libro <i class="bi bi-book"></i></a>
             </div>
         </div>
         <div class="container">
@@ -33,28 +32,43 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% books.forEach(book => { %>
-                        <tr>
-                            <td><%= book.isbn %></td>
-                            <td><%= book.title %></td>
-                            <td><%= book.author %></td>
-                            <td><%= book.publisher.name %></td>
-                            <td><%= book.publicationYear %></td>
-                            <td><%= book.copies %></td>
-                            <td><%= book.state %></td>
-                            <td>
-                                <a class="btn btn-outline-primary" href="editarproducto/<%= book._id %>"><i
-                                        class="bi bi-pencil-square"></i></a>
-                                <a class="btn btn-outline-danger" href="eliminarproducto/<%= book._id %>"><i
-                                        class="bi bi-trash"></i></a>
-                            </td>
-                        </tr>
-                        <% }) %>
+                        <% books.forEach(book=> { %>
+                            <tr>
+                                <td>
+                                    <%= book.isbn %>
+                                </td>
+                                <td>
+                                    <%= book.title %>
+                                </td>
+                                <td>
+                                    <%= book.author %>
+                                </td>
+                                <td>
+                                    <%= book.publisher.name %>
+                                </td>
+                                <td>
+                                    <%= book.publicationYear %>
+                                </td>
+                                <td>
+                                    <%= book.copies %>
+                                </td>
+                                <td>
+                                    <%= book.state %>
+                                </td>
+                                <td class="d-flex flex-column align-items-center">
+                                    <a class="btn btn-outline-primary mb-1" href="editarproducto/<%= book._id %>"><i class="bi bi-pencil-square"></i></a>
+                                    <button class="btn btn-outline-danger" onclick="deleteRecord(`deletebook/<%= book._id %>`)"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                            <% }) %>
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
     <script src="/scripts/datatable.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/scripts/deleteRecord.js"></script>
 </body>
+
 </html>

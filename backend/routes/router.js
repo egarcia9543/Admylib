@@ -29,6 +29,7 @@ router.post('/newbook', upload.single('cover'), bookController.addBook);
 router.get('/books', bookController.getBooks);
 router.post('/quicksearch', bookController.quickSearch);
 router.get('/book/:id', bookController.getBookDetails);
+router.delete('/deletebook/:id', bookController.deleteBook);
 
 router.post('/newloan', loanController.addLoan);
 router.get('/loan/:id', loanController.getLoanDetails);

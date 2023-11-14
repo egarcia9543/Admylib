@@ -30,9 +30,9 @@
             </div>
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="author" name="author" placeholder="Autor" required>
-                <label for="author">Autor</label>
+                <label for="author">Autor(es) (Separados por coma)</label>
                 <div class="invalid-feedback">
-                    Por favor ingresa el autor
+                    Por favor ingresa al menos un autor
                 </div>
             </div>
             <div class="form-floating mb-3">
@@ -75,14 +75,18 @@
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="file" name="cover">
-                    
+                <input type="file" name="cover" class="form-control" required>
+                <label for="cover">Portada</label>
+                <div class="invalid-feedback">
+                    Por favor adjunte la imagen de la portada
+                </div>
             </div>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-dark btn-block">Registrar</button>
             </div>
         </form>
     </main>
+    <script src="/scripts/validateForm.js"></script>
 </body>
 
 </html>

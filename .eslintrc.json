@@ -13,6 +13,7 @@
         "quotes": ["error", "single"],
         "max-len": 0,
         "linebreak-style": 0,
-        "indent": 0
+        "indent": 0,
+        "require-jsdoc": 0
     }
 }

@@ -234,3 +234,11 @@ GET /favicon.ico 404 150 - 1.073 ms
 GET /favicon.ico - - - - ms
 GET /favicon.ico 404 150 - 4.083 ms
 GET /favicon.ico 404 150 - 1.177 ms
+GET /favicon.ico 404 150 - 1.528 ms
+GET /favicon.ico 404 150 - 0.403 ms
+GET /favicon.ico 404 150 - 1.646 ms
+GET /deletebook/654fe6002d37d5c2976328d7 404 174 - 1.113 ms
+GET /deletebook/6542d734c2ead962129f1107 404 174 - 0.479 ms
+GET /deletebook/6542d734c2ead962129f1107 404 174 - 0.195 ms
+GET /scripts/validateForm 404 159 - 1.578 ms
+GET /scripts/validateForm 404 159 - 0.345 ms
