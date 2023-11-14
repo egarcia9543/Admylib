@@ -24,6 +24,7 @@
                             <th>Nombre completo</th>
                             <th>Motivo</th>
                             <th>Penalización</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,6 +33,10 @@
                             <td><%=  penalty.user.fullname %></td>
                             <td><%= penalty.reason %></td>
                             <td><%= penalty.penaltyTime %></td>
+                            <td>
+                                <button class="btn btn-outline-warning"><i class="bi bi-arrow-clockwise"></i></button>
+                                <button class="btn btn-outline-success"><i class="bi bi-download"></i></button>
+                            </td>
                         </tr>
                         <% }) %>
                     </tbody>

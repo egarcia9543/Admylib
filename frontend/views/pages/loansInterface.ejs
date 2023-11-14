@@ -27,7 +27,8 @@
                             <th>Libro</th>
                             <th>Usuario</th>
                             <th>Bibliotecólogo</th>
-                            <th>Acciones</th>
+                            <th>Renovar</th>
+                            <th>Registrar devolución</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,9 +39,8 @@
                             <td><%= loan.book.title %></td>
                             <td><%= loan.user.fullname %></td>
                             <td><%= loan.librarian.fullname %></td>
-                            <td>
-                                <button class="btn btn-outline-warning"><i class="bi bi-arrow-clockwise"></i></button>
-                                <button class="btn btn-outline-success"><i class="bi bi-download"></i></button>
+                            <td><button class="btn btn-outline-warning"><i class="bi bi-arrow-clockwise"></i></button></td>
+                            <td><button class="btn btn-outline-success"><i class="bi bi-download"></i></button></td>
                         </tr>
                         <% }) %>
                     </tbody>
