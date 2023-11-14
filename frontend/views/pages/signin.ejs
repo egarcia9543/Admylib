@@ -14,17 +14,21 @@
             <div class="col col-xl-10">
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block login-bg d-flex align-content-center  position-relative ">
+                        <div
+                            class="col-md-6 col-lg-5 d-none d-md-block login-bg d-flex align-content-center  position-relative ">
                             <img src="/imgs/loginbg.jpg" alt="" class="w-100 h-100 ">
-                            <h3 class="position-absolute top-50 start-50 translate-middle text-center text-light ">¡Bienvenido de vuelta!</h3>
-                        </div>                        
+                            <h3 class="position-absolute top-50 start-50 translate-middle text-center text-light ">
+                                ¡Bienvenido de vuelta!</h3>
+                        </div>
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
                                 <form action="login" method="post" class="needs-validation" novalidate>
-                                    <h3 class="fw-normal mb-3 pb-3 text-center" style="letter-spacing: 1px;">Inicia sesión
+                                    <h3 class="fw-normal mb-3 pb-3 text-center" style="letter-spacing: 1px;">Inicia
+                                        sesión
                                     </h3>
                                     <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="Email" required>
                                         <label for="email">Email</label>
                                         <div class="invalid-feedback">
                                             Por favor ingresa tu email
@@ -40,14 +44,37 @@
                                     </div>
                                     <div class="pt-1 mb-4 d-flex  justify-content-between flex-wrap">
                                         <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
-                                        <a class="text-decoration-none text-muted fw-bold mt-2" href="recover">¿Olvidó su contraseña?</a>
+                                        <a class="text-decoration-none text-muted fw-bold mt-2" data-bs-toggle="modal"
+                                            data-bs-target="#recover" href="recover">¿Olvidó su contraseña?</a>
                                     </div>
                                 </form>
                                 <p class="text-center text-muted mt-3 mb-0">¿No tienes cuenta? <a href="signup"
-                                    class="fw-bold text-body"><u>Regístrate aquí</u></a></p>
+                                        class="fw-bold text-body"><u>Regístrate aquí</u></a></p>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal recover -->
+    <div class="modal top fade" id="recover" tabindex="-1" aria-hidden="true" data-mdb-backdrop="true"
+        data-mdb-keyboard="true">
+        <div class="modal-dialog" style="width: 300px;">
+            <div class="modal-content text-center">
+                <div class="modal-header h5 text-white bg-dark justify-content-center">
+                    Recuperar contraseña
+                </div>
+                <div class="modal-body px-5">
+                    <p class="py-2">
+                        Ingresa tu correo electrónico para enviarte una nueva contraseña
+                    </p>
+                    <form action="recover" method="post">
+                        <div class="form-outline">
+                            <input type="email" name="email" class="form-control my-3" />
+                        </div>
+                        <button type="submit" class="btn btn-dark  w-100">Recuperar</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -57,8 +84,13 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/scripts/errorAlerts.js"></script>
 <% if (locals.error) { %>
-<script>
-    errorAlert('<%= error %>');
-</script>
-<% } %> 
+    <script>
+        errorAlert('<%= error %>');
+    </script>
+<% } else if (locals.success) { %>
+    <script>
+        successAlert('<%= success %>');
+    </script>
+<% } %>
+
 </html>

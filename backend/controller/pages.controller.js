@@ -25,7 +25,7 @@ exports.renderLandingPage = async (req, res) => {
 };
 
 exports.renderSignUpPage = (req, res) => {
-    const userAuthenticated = req.cookies.token;
+    const userAuthenticated = req.cookies.user;
     if (userAuthenticated) {
         return res.redirect('/profile');
     }
@@ -33,7 +33,7 @@ exports.renderSignUpPage = (req, res) => {
 };
 
 exports.renderSignInPage = (req, res) => {
-    if (req.cookies.token) {
+    if (req.cookies.user) {
         return res.redirect('/profile');
     } else {
         return res.render('signin');

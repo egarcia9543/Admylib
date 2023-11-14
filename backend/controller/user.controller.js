@@ -65,19 +65,19 @@ exports.recoverPassword = async (req, res) => {
     try {
         const emailIsRegistered = await dbUser.findOneUser({email: email}, {email: 1, password: 1});
         if (!emailIsRegistered) {
-            return res.json({error: 'Este correo no está registrado'});
+            return res.render('signin', {error: 'Este correo no está registrado'});
         } else {
             const newPassword = Math.random().toString(36).slice(-8);
             const passwordHash = await bcrypt.hash(newPassword, 10);
             const update = await dbUser.updateUserRecord({email: email}, {password: passwordHash});
             if (!update) {
-                return res.json({error: 'No se pudo actualizar la contraseña'});
+                return res.render('signin', {error: 'No se pudo actualizar la contraseña'});
             } else {
                 const emailSent = await emailService.sendEmail(email, 'Recuperación de contraseña', `Tu nueva contraseña es: ${newPassword}`);
                 if (!emailSent) {
-                    return res.json({error: 'No se pudo enviar el correo'});
+                    return res.render('signin', {error: 'No se pudo enviar el correo'});
                 } else {
-                    return res.json({success: 'Se ha enviado un correo con tu nueva contraseña'});
+                    return res.render('signin', {success: 'Se ha enviado un correo con tu nueva contraseña'});
                 }
             }
         }
