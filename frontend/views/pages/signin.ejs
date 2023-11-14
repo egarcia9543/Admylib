@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="pt-1 mb-4 d-flex  justify-content-between flex-wrap">
                                         <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
-                                        <a class="text-decoration-none text-muted fw-bold mt-2" href="#!">¿Olvidó su contraseña?</a>
+                                        <a class="text-decoration-none text-muted fw-bold mt-2" href="recover">¿Olvidó su contraseña?</a>
                                     </div>
                                 </form>
                                 <p class="text-center text-muted mt-3 mb-0">¿No tienes cuenta? <a href="signup"
@@ -54,4 +54,11 @@
     </div>
 </body>
 <script src="/scripts/validateForm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/scripts/errorAlerts.js"></script>
+<% if (locals.error) { %>
+<script>
+    errorAlert('<%= error %>');
+</script>
+<% } %> 
 </html>

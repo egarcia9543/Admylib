@@ -15,7 +15,7 @@ exports.verifyAdminUser = async (req, res, next) => {
 
 exports.renderLandingPage = async (req, res) => {
     const recommendations = await dbBook.findRecommendations({title: 1, cover: 1});
-    const userAuthenticated = req.cookies.token;
+    const userAuthenticated = req.cookies.user;
     const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
     return res.render('index', {
         recommendations: recommendations,
@@ -50,7 +50,7 @@ exports.renderAdminPage = async (req, res) => {
 
 exports.renderProfilePage = async (req, res) => {
     const user = await dbUser.findOneUser({_id: req.cookies.user});
-    const userAuthenticated = req.cookies.token;
+    const userAuthenticated = req.cookies.user;
     if (!user) {
         return res.redirect('/signin');
     }

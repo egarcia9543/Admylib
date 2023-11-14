@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-dark btn-block">Registrarse</button>
+                                <button type="submit" class="btn btn-dark btn-block" >Registrarse</button>
                             </div>
                         </form>
                         <p class="text-center text-muted mt-3 mb-0">¿Ya estás registrado? <a href="signin"
@@ -66,6 +66,13 @@
             </div>
         </div>
     </div>
+    <script src="/scripts/validateForm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/scripts/errorAlerts.js"></script>
+    <% if (locals.error) { %>
+    <script>
+        errorAlert('<%= error %>');
+    </script>
+    <% } %>
 </body>
-<script src="/scripts/validateForm.js"></script>
 </html>

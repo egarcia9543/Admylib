@@ -13,11 +13,11 @@ exports.registerUser = async (req, res) => {
         const documentIsRegistered = await dbUser.findOneUser({document: document}, {document: 1});
         const emailIsRegistered = await dbUser.findOneUser({email: email}, {email: 1});
         if (documentIsRegistered && emailIsRegistered) {
-            return res.status(400).json({error: 'El documento y correo ya están registrados'});
+            return res.render('signup', {error: 'Este documento y correo ya están registrados'});
         } else if (emailIsRegistered) {
-            return res.json({error: 'Este correo ya está registrado'});
+            return res.render('signup', {error: 'Este correo ya está registrado'});
         } else if (documentIsRegistered) {
-            return res.json({error: 'Este documento ya está registrado'});
+            return res.render('signup', {error: 'Este documento ya está registrado'});
         } else {
             const newRecord = await dbUser.createUserRecord(req.body);
             logActivity.generateLog(logRoute, `User ${email} created at ${new Date()}\n`);
@@ -33,17 +33,16 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const {email, password} = req.body;
     try {
-        if (!email || !password) return res.json({error: 'Ingresa todos los datos'});
+        if (!email || !password) return res.render('signin', {error: 'Ingresa todos los datos'});
         const user = await dbUser.findOneUser({email: email}, {email: 1, password: 1, role: 1});
         if (!user) {
-            return res.json({error: 'Este usuario no existe'});
+            return res.render('signin', {error: 'Este usuario no existe'});
         } else {
             const passwordIsCorrect = await bcrypt.compare(password, user.password);
             if (!passwordIsCorrect) {
-                return res.json({error: 'Contraseña incorrecta'});
+                return res.render('signin', {error: 'Contraseña incorrecta'});
             } else {
-                const token = jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn: '1h'});
-                return res.cookie('token', token).cookie('user', user._id).redirect('/');
+                return res.cookie('user', user._id).redirect('/');
             }
         }
     } catch (error) {
@@ -54,7 +53,7 @@ exports.loginUser = async (req, res) => {
 
 exports.logout = async (req, res) => {
     try {
-        return res.clearCookie('token').clearCookie('user').redirect('/');
+        return res.clearCookie('user').redirect('/');
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
