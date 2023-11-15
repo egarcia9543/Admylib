@@ -1,5 +1,4 @@
 const mongoose = require('../config/database');
-const {Schema} = mongoose;
 
 const bookSchema = new mongoose.Schema({
     isbn: {
@@ -13,15 +12,12 @@ const bookSchema = new mongoose.Schema({
         required: [true, 'The title is required'],
     },
     author: {
-        type: [{
-            type: Schema.Types.ObjectId,
-            ref: 'authors',
-        }],
+        type: Array,
         required: [true, 'The author is required'],
+        trim: true,
     },
     publisher: {
-        type: Schema.Types.ObjectId,
-        ref: 'publishers',
+        type: String,
         required: [true, 'The publisher is required'],
     },
     publicationYear: {

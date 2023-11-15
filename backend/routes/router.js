@@ -4,8 +4,6 @@ const router = express.Router();
 
 const pagesController = require('../controller/pages.controller');
 const userController = require('../controller/user.controller');
-const publisherController = require('../controller/publisher.controller');
-const authorController = require('../controller/author.controller');
 const bookController = require('../controller/book.controller');
 const loanController = require('../controller/loan.controller');
 const upload = require('../middleware/upload');
@@ -25,8 +23,6 @@ router.delete('/deleteuser/:id', userController.deleteUser);
 router.get('/deleteaccount/:id', userController.deleteAccount);
 
 // Catalog
-router.post('/newpublisher', publisherController.addPublisher);
-router.post('/newauthor', authorController.addAuthor);
 router.post('/newbook', upload.single('cover'), bookController.addBook);
 router.get('/books', bookController.getBooks);
 router.post('/quicksearch', bookController.quickSearch);
