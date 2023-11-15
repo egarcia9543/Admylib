@@ -37,7 +37,7 @@
                             <td><%= user.email %></td>
                             <td><%= user.phone %></td>
                             <td>
-                                <button class="btn btn-outline-warning"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillData(`<%= user._id %>`, `<%= user.fullname %>`, `<%= user.email %>`, `<%= user.phone %>`)"><i class="bi bi-pencil-square"></i></button>
                                 <button class="btn btn-outline-danger" onclick="deleteRecord(`deleteuser/<%= user._id %>`)"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
@@ -47,8 +47,58 @@
             </div>
         </div>
     </main>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar información</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="updateuser" method="post">
+                        <input id="id" name="id" type="hidden">
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control" id="fullname" name="fullname"
+                                placeholder="Nombre" required>
+                            <label for="email">Nombre</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="Email" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="phone" name="phone"
+                                placeholder="Teléfono" required>
+                            <label for="email">Teléfono</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Contraseña">
+                            <label for="email">Contraseña</label>
+                        </div>
+                        <div class="mb-1">
+                            <button type="submit" class="btn btn-dark btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/scripts/datatable.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/scripts/deleteRecord.js"></script>
+    <script src="/scripts/editProfile.js"></script>
+    <script src="/scripts/errorAlerts.js"></script>
+    <% if (locals.error) { %>
+        <script>
+            errorAlert('<%= error %>');
+        </script>
+    <% } else if (locals.success) { %>
+        <script>
+            successAlert('<%= success %>');
+        </script>
+    <% } %>
 </body>
 </html>

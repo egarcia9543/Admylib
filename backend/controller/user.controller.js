@@ -95,7 +95,11 @@ exports.updateProfile = async (req, res) => {
             if (email !== isUserRegistered.email) {
                 const isEmailRegisterd = await dbUser.findOneUser({email: email}, {email: 1});
                 if (isEmailRegisterd) {
-                    return res.render('profile', {error: 'Este correo ya está registrado', user: isUserRegistered});
+                    return res.render('profile', {
+                        error: 'Este correo ya está registrado',
+                        user: isUserRegistered,
+                        userAuthenticated: req.cookies.user,
+                    });
                 }
             }
             if (password) {
@@ -108,7 +112,47 @@ exports.updateProfile = async (req, res) => {
             } else {
                 logActivity.generateLog(logRoute, `User ${id} updated ${JSON.stringify(req.body)} at ${new Date()}\n`);
                 return res.render('profile', {
+                    success: 'Usuario actualizado correctamente',
                     user: update,
+                    userAuthenticated: req.cookies.user,
+                });
+            }
+        }
+    } catch (error) {
+        return res.json({error: 'Internal server error'});
+    }
+};
+
+exports.updateUser = async (req, res) => {
+    try {
+        const {id, email, password} = req.body;
+        const isUserRegistered = await dbUser.findOneUser({_id: id});
+        if (!isUserRegistered) {
+            return res.json({error: 'Este usuario no existe'});
+        } else {
+            if (email !== isUserRegistered.email) {
+                const isEmailRegisterd = await dbUser.findOneUser({email: email}, {email: 1});
+                if (isEmailRegisterd) {
+                    return res.json({error: 'Este correo ya está registrado'});
+                }
+            }
+            if (password) {
+                const passwordHash = await bcrypt.hash(password, 10);
+                req.body.password = passwordHash;
+            }
+            const update = await dbUser.updateUserRecord({_id: id}, req.body);
+            if (!update) {
+                return res.render('usersInterface', {
+                    error: 'No se pudo actualizar el usuario',
+                    users: await dbUser.findAllUsers({password: 0}),
+                    user: req.cookies.user,
+                });
+            } else {
+                logActivity.generateLog(logRoute, `User ${id} updated ${JSON.stringify(req.body)} at ${new Date()}\n`);
+                return res.render('usersInterface', {
+                    success: 'Usuario actualizado correctamente',
+                    users: await dbUser.findAllUsers({password: 0}),
+                    user: req.cookies.user,
                 });
             }
         }

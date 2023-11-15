@@ -20,6 +20,7 @@ router.get('/profile', pagesController.renderProfilePage);
 router.get('/logout', userController.logout);
 router.post('/recover', userController.recoverPassword);
 router.post('/updateprofile', userController.updateProfile);
+router.post('/updateuser', userController.updateUser);
 router.delete('/deleteuser/:id', userController.deleteUser);
 router.get('/deleteaccount/:id', userController.deleteAccount);
 

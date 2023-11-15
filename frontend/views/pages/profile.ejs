@@ -169,6 +169,10 @@
         <script>
             errorAlert('<%= error %>');
         </script>
+    <% } else if (locals.success) { %>
+        <script>
+            successAlert('<%= success %>');
+        </script>
     <% } %>
 </body>
 
