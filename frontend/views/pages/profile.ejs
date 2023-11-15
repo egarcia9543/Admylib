@@ -11,18 +11,20 @@
     </header>
     <main>
         <div class="container py-5">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                            <h5 class="my-3"><%= user.fullname %></h5>
-                            <% if (user.role == 'librarian') { %>
+                            <h5 class="my-3">
+                                <%= user.fullname %>
+                            </h5>
+                            <% if (user.role=='librarian' ) { %>
                                 <p class="text-muted mb-1">Bibliotecólogo</p>
-                            <% } else {%>
-                                <p class="text-muted mb-1">Usuario</p>
-                            <% } %>
+                                <% } else {%>
+                                    <p class="text-muted mb-1">Usuario</p>
+                                    <% } %>
                         </div>
                     </div>
                     <div class="card mb-4 mb-lg-0">
@@ -38,7 +40,9 @@
                                     <p class="mb-0">Nombre completo</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0"><%= user.fullname %></p>
+                                    <p class="text-muted mb-0">
+                                        <%= user.fullname %>
+                                    </p>
                                 </div>
                             </div>
                             <hr>
@@ -47,7 +51,9 @@
                                     <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0"><%= user.email %></p>
+                                    <p class="text-muted mb-0">
+                                        <%= user.email %>
+                                    </p>
                                 </div>
                             </div>
                             <hr>
@@ -56,7 +62,9 @@
                                     <p class="mb-0">Teléfono</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0"><%= user.phone %></p>
+                                    <p class="text-muted mb-0">
+                                        <%= user.phone %>
+                                    </p>
                                 </div>
                             </div>
                             <hr>
@@ -65,7 +73,9 @@
                                     <p class="mb-0">Documento</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0"><%= user.document %></p>
+                                    <p class="text-muted mb-0">
+                                        <%= user.document %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -87,9 +97,79 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12 mt-3 d-flex flex-row justify-content-evenly align-items-center card p-4">
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteAccount(`deleteaccount/<%= user._id %>`)">Eliminar cuenta</button>
+                    <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillData(`<%= user._id %>`, `<%= user.fullname %>`, `<%= user.email %>`, `<%= user.phone %>`)">Editar perfil</button>
+                </div>
             </div>
         </div>
     </main>
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmar acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro de que desea eliminar su cuenta? Esta acción no se puede deshacer.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-danger" id="confirmDelete">Confirmar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar información</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="updateprofile" method="post">
+                        <input id="id" name="id" type="hidden">
+                        <div class="form-floating mb-3 mt-3 pe-4 ps-4">
+                            <input type="text" class="form-control" id="fullname" name="fullname"
+                                placeholder="Nombre" required>
+                            <label class="ps-5" for="email">Nombre</label>
+                        </div>
+                        <div class="form-floating mb-3 pe-4 ps-4">
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="Email" required>
+                            <label class="ps-5" for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3 pe-4 ps-4">
+                            <input type="number" class="form-control" id="phone" name="phone"
+                                placeholder="Teléfono" required>
+                            <label class="ps-5" for="email">Teléfono</label>
+                        </div>
+                        <div class="form-floating mb-3 pe-4 ps-4">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Contraseña">
+                            <label class="ps-5" for="email">Contraseña</label>
+                        </div>
+                        <div class="ps-4 mb-1">
+                            <button type="submit" class="btn btn-dark btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/scripts/deleteRecord.js"></script>
+    <script src="/scripts/editProfile.js"></script>
+    <script src="/scripts/errorAlerts.js"></script>
+    <% if (locals.error) { %>
+        <script>
+            errorAlert('<%= error %>');
+        </script>
+    <% } %>
 </body>
 
 </html>

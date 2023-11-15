@@ -4,8 +4,8 @@ const path = require('path');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const router = require('./backend/routes/router');
-const fs = require('fs');
-const morgan = require('morgan');
+// const fs = require('fs');
+// const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 
 const app = express();

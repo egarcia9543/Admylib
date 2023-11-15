@@ -2,7 +2,6 @@ const dbUser = require('../data/user.data');
 const emailService = require('../middleware/emailservice');
 const logActivity = require('../middleware/logs');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const logRoute = './logs/userlogs.log';
 
 exports.registerUser = async (req, res) => {
@@ -21,8 +20,7 @@ exports.registerUser = async (req, res) => {
         } else {
             const newRecord = await dbUser.createUserRecord(req.body);
             logActivity.generateLog(logRoute, `User ${email} created at ${new Date()}\n`);
-            const token = jwt.sign({id: newRecord._id}, process.env.SECRET_KEY, {expiresIn: '1h'});
-            return res.cookie('token', token).json({success: newRecord});
+            return res.cookie('user', newRecord._id).redirect('/profile');
         }
     } catch (error) {
         console.error(error);
@@ -87,17 +85,17 @@ exports.recoverPassword = async (req, res) => {
     }
 };
 
-exports.updateUser = async (req, res) => {
+exports.updateProfile = async (req, res) => {
     try {
         const {id, email, password} = req.body;
-        const isUserRegistered = await dbUser.findOneUser({_id: id}, {email: 1});
+        const isUserRegistered = await dbUser.findOneUser({_id: id});
         if (!isUserRegistered) {
             return res.json({error: 'Este usuario no existe'});
         } else {
-            if (email) {
+            if (email !== isUserRegistered.email) {
                 const isEmailRegisterd = await dbUser.findOneUser({email: email}, {email: 1});
                 if (isEmailRegisterd) {
-                    return res.json({error: 'Este correo ya está registrado'});
+                    return res.render('profile', {error: 'Este correo ya está registrado', user: isUserRegistered});
                 }
             }
             if (password) {
@@ -109,7 +107,9 @@ exports.updateUser = async (req, res) => {
                 return res.json({error: 'No se pudo actualizar el usuario'});
             } else {
                 logActivity.generateLog(logRoute, `User ${id} updated ${JSON.stringify(req.body)} at ${new Date()}\n`);
-                return res.json({success: 'Usuario actualizado correctamente'});
+                return res.render('profile', {
+                    user: update,
+                });
             }
         }
     } catch (error) {
@@ -131,24 +131,16 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
-exports.tokenVerification = async (req, res, next) => {
-    const token = req.cookies.token;
-    console.log(token);
-    if (!token) {
-        return res.redirect('/signin');
-    } else {
-        try {
-            jwt.verify(token, process.env.SECRET_KEY), (err, user) => {
-                if (err) {
-                    return res.status(401).json({error: 'Token inválido'});
-                } else {
-                    req.id = user.id;
-                    console.log(req.id);
-                    next();
-                }
-            };
-        } catch (error) {
-            return res.status(401).json({error: 'Token inválido'});
+exports.deleteAccount = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const user = await dbUser.deleteUserRecord({_id: id});
+        if (!user) {
+            return res.send('No se pudo eliminar el usuario');
+        } else {
+            return res.clearCookie('user').redirect('/');
         }
+    } catch (error) {
+        return res.json({error: 'Internal server error'});
     }
 };

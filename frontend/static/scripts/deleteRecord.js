@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable no-unused-vars */
 function deleteRecord(url) {
     Swal.fire({
         title: '¿Estás seguro?',
@@ -23,3 +23,6 @@ function deleteRecordRequest(url) {
     window.location.reload();
 }
 
+function deleteAccount(url) {
+    document.getElementById('confirmDelete').setAttribute('href', url);
+}

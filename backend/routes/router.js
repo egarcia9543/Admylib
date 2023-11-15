@@ -19,8 +19,9 @@ router.post('/login', userController.loginUser);
 router.get('/profile', pagesController.renderProfilePage);
 router.get('/logout', userController.logout);
 router.post('/recover', userController.recoverPassword);
-router.put('/update', userController.updateUser);
+router.post('/updateprofile', userController.updateProfile);
 router.delete('/deleteuser/:id', userController.deleteUser);
+router.get('/deleteaccount/:id', userController.deleteAccount);
 
 // Catalog
 router.post('/newpublisher', publisherController.addPublisher);
