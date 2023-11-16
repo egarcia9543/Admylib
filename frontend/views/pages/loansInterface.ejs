@@ -26,6 +26,7 @@
                             <th>Libro</th>
                             <th>Usuario</th>
                             <th>Bibliotecólogo</th>
+                            <th>Estado</th>
                             <th>Renovar</th>
                             <th>Registrar devolución</th>
                         </tr>
@@ -49,14 +50,31 @@
                                     <%= loan.librarian.fullname %>
                                 </td>
                                 <td>
-                                    <% if (loan.returnDate > new Date()) { %>
+                                    <% if (loan.returned == true) { %>
+                                        <span class="badge bg-success">Devuelto</span>
+                                    <% } else if (loan.returnDate < new Date()) { %>
+                                        <span class="badge bg-danger">Retrasado</span>
+                                    <% } else if (loan.returnDate > new Date()) { %>
+                                        <span class="badge bg-primary">Activo</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <% if (loan.returned == true) { %>
+                                        <button class="btn btn-outline-warning" disabled><i class="bi bi-arrow-clockwise"></i></button>
+                                    <% } else if (loan.returnDate > new Date()) { %>
                                         <button class="btn btn-outline-warning" onclick="extendLoan(`<%= loan._id %>`, `<%= loan.returnDate.toISOString() %>`, `<%= loan.book.isbn %>`)" data-bs-toggle="modal" data-bs-target="#extendLoan"><i class="bi bi-arrow-clockwise"></i></button>
                                     <% } else { %>
                                         <button class="btn btn-outline-danger" disabled><i class="bi bi-arrow-clockwise"></i></button>
                                     <% } %>
                                 </td>
                                 <td>
-                                    <button class="btn btn-outline-success"><i class="bi bi-download"></i></button>
+                                    <% if (loan.returned == true) { %>
+                                        <button class="btn btn-outline-success" disabled><i class="bi bi-download"></i></button>
+                                    <% } else if (loan.returnDate > new Date()) { %>
+                                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#returnLoan" onclick="returnLoan(`<%= loan._id %>`, `<%= loan.book.isbn %>`, `<%= loan.user.document %>`)"><i class="bi bi-download"></i></button>
+                                    <% } else { %>
+                                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#returnAndPunish" onclick="returnAndPunish()"><i class="bi bi-download"></i></button>
+                                    <% } %>
                                 </td>
                             </tr>
                             <% }) %>
@@ -134,7 +152,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="extendloan" method="post" class="needs-validation" novalidate>
-                        <input type="hidden" id="id" name="id">
+                        <input type="hidden" id="loanIdtoExtend" name="id">
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="book" class="form-label">Libro prestado</label>
@@ -155,6 +173,72 @@
             </div>
         </div>
     </div>
+
+    <!-- Return Modal -->
+    <div class="modal top fade" id="returnLoan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-bs-backdrop="true" data-bs-keyboard="true">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar devolución</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="returnloan" method="post" class="needs-validation" novalidate>
+                        <input type="hidden" id="loanToReturn" name="id">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="book" class="form-label">Libro prestado</label>
+                                <input type="text" class="form-control" id="returnBook" name="book" readonly>
+                            </div>
+                            <div class="col">
+                                <label for="returnDate" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" id="returnUser" name="user" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-outline-dark">Devolver <i class="bi bi-download"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Return and Punish modal -->
+    <div class="modal top fade" id="returnAndPunish" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="true" data-bs-keyboard="true">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar devolución con retraso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="extendloan" method="post" class="needs-validation" novalidate>
+                    <input type="hidden" id="" name="id">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="book" class="form-label">Libro prestado</label>
+                            <input type="text" class="form-control" id="" name="book" readonly>
+                        </div>
+                        <div class="col">
+                            <label for="returnDate" class="form-label">Nueva fecha de devolución</label>
+                            <input type="date" class="form-control" id="" name="returnDate">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-outline-dark">Extender préstamo <i class="bi bi-arrow-clockwise"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script src="/scripts/datatable.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

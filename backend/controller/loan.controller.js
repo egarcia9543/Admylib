@@ -49,8 +49,16 @@ exports.updateLoan = async (req, res) => {
 
 exports.returnLoan = async (req, res) => {
     try {
-        const loan = await dbLoan.updateLoanRecord({_id: req.body.id}, req.body);
-        return res.json({success: loan});
+        const loan = await dbLoan.returnLoan(req.body);
+        if (loan.error) {
+            return res.render('loansInterface', {
+            librarian: await dbUser.findOneUser({_id: req.cookies.user}, {document: 1}),
+            error: loan.error,
+            loans: await dbLoan.findAllLoans(),
+        });
+    } else {
+        return res.redirect('/loans');
+    }
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});

@@ -14,9 +14,15 @@ function fillData(librarianDoc) {
 
 function extendLoan(loanId, oldReturnDate, book) {
     const returnDate = document.getElementById('newReturnDate');
-    id.value = loanId;
+    loanIdtoExtend.value = loanId;
     bookLoaned.value = book;
 
     returnDate.value = oldReturnDate.slice(0, 10);
     returnDate.setAttribute('min', oldReturnDate.slice(0, 10));
+}
+
+function returnLoan(loanId, bookIsbn, userDocument) {
+    loanToReturn.value = loanId;
+    returnBook.value = bookIsbn;
+    returnUser.value = userDocument;
 }

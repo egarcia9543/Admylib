@@ -1,7 +1,6 @@
 const Loan = require('../models/loans.model');
 const Book = require('../models/books.model');
 const User = require('../models/users.model');
-const loan = require('../models/loans.model');
 
 exports.findOneLoan = async (filter, projection) => {
     try {
@@ -77,21 +76,16 @@ exports.extendLoan = async (loanInfo) => {
     }
 };
 
-exports.updateLoanRecord = async (filter, update) => {
+exports.returnLoan = async (loanInfo) => {
     try {
-        if (!filter) return {error: 'No se ha especificado un filtro'};
-        if (!update) return {error: 'No se dieron datos para actualizar'};
-        return await Loan.findOneAndUpdate(filter, update, {new: true});
+        const loan = await Loan.findOne({_id: loanInfo.id});
+        const book = await Book.findOne({isbn: loanInfo.book}, {copiesAvailable: 1, copiesLoaned: 1});
+        const returned = await Loan.findOneAndUpdate({_id: loan._id}, {$set: {returned: true}}, {new: true});
+        await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesAvailable: 1, copiesLoaned: -1}});
+        await User.findOneAndUpdate({_id: loan.user}, {$pull: {loans: loan._id}});
+        return returned;
     } catch (error) {
         return error;
     }
 };
 
-exports.pruebaConsultaAnidada = (id) => {
-    try {
-        const loan = Loan.findOne({_id: id}).populate({path: 'book', select: 'title isbn'}).populate({path: 'user', select: 'fullname email'});
-        return loan;
-    } catch (error) {
-        return error;
-    }
-};

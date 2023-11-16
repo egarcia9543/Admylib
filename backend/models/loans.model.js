@@ -25,6 +25,10 @@ const loanSchema = new mongoose.Schema({
         ref: 'users',
         required: [true, 'Librarian is required'],
     },
+    returned: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const loan = mongoose.model('loans', loanSchema);
