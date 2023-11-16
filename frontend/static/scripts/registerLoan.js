@@ -12,10 +12,11 @@ function fillData(librarianDoc) {
     librarian.setAttribute('readonly', true);
 }
 
-function extendLoan(id, oldReturnDate) {
-    const returnDate = document.getElementById('returnDate');
-    id.value = id;
+function extendLoan(loanId, oldReturnDate, book) {
+    const returnDate = document.getElementById('newReturnDate');
+    id.value = loanId;
+    bookLoaned.value = book;
 
-    returnDate.value = oldReturnDate;
-    returnDate.setAttribute('min', oldReturnDate);
+    returnDate.value = oldReturnDate.slice(0, 10);
+    returnDate.setAttribute('min', oldReturnDate.slice(0, 10));
 }

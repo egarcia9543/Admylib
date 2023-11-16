@@ -32,6 +32,7 @@ router.post('/updatebook', bookController.updateBook);
 
 router.post('/newloan', loanController.addLoan);
 router.get('/loan/:id', loanController.getLoanDetails);
+router.post('/extendloan', loanController.updateLoan);
 
 // Admin
 router.get('/admin', pagesController.verifyAdminUser, pagesController.renderAdminPage);

@@ -19,16 +19,6 @@ exports.addLoan = async (req, res) => {
     }
 };
 
-exports.getLoans = async (req, res) => {
-    try {
-        const loans = await dbLoan.findAllLoans();
-        return res.json({success: loans});
-    } catch (error) {
-        console.error(error);
-        return res.json({error: 'Internal server error'});
-    }
-};
-
 exports.getLoanDetails = async (req, res) => {
     try {
         const loan = await dbLoan.pruebaConsultaAnidada({_id: req.params.id});
@@ -41,8 +31,16 @@ exports.getLoanDetails = async (req, res) => {
 
 exports.updateLoan = async (req, res) => {
     try {
-        const loan = await dbLoan.updateLoanRecord({_id: req.body.id}, req.body);
-        return res.json({success: loan});
+        const loan = await dbLoan.extendLoan(req.body);
+        if (loan.error) {
+            return res.render('loansInterface', {
+            librarian: await dbUser.findOneUser({_id: req.cookies.user}, {document: 1}),
+            error: loan.error,
+            loans: await dbLoan.findAllLoans(),
+        });
+    } else {
+        return res.redirect('/loans');
+    }
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});

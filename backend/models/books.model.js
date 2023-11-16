@@ -39,6 +39,14 @@ const bookSchema = new mongoose.Schema({
         type: Number,
         default: 1,
     },
+    copiesReserved: {
+        type: Number,
+        default: 0,
+    },
+    copiesLoaned: {
+        type: Number,
+        default: 0,
+    },
     cover: {
         type: String,
         required: [true, 'The cover is required'],
