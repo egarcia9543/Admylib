@@ -43,14 +43,6 @@
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="publicationYear" name="publicationYear" placeholder="Año de publicación"
-                    required minlength="8">
-                <label for="publicationYear">Año de publicación</label>
-                <div class="invalid-feedback">
-                    Por favor ingresa la fecha de publicación
-                </div>
-            </div>
-            <div class="form-floating mb-3">
                 <input type="number" class="form-control" id="pages" name="pages" placeholder="Páginas"
                     required minlength="8">
                 <label for="pages">Páginas</label>
@@ -59,20 +51,27 @@
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="subjects" name="subjects" placeholder="Materias"
-                    required minlength="8">
-                <label for="subjects">Materia</label>
+                <input type="text" class="form-control" id="genres" name="genres" placeholder="Género"
+                    required>
+                <label for="genres">Género(s) (Separados por coma)</label>
                 <div class="invalid-feedback">
-                    Por favor ingresa la cantidad de páginas
+                    Por favor ingresa el género
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="language" name="language" placeholder="Idioma"
-                    required minlength="8">
+                <select name="language" id="language" class="form-select">
+                    <option value="Español">Español</option>
+                    <option value="Inglés">Inglés</option>
+                    <option value="Francés">Francés</option>
+                </select>
                 <label for="language">Idioma</label>
                 <div class="invalid-feedback">
-                    Por favor ingresa la cantidad de páginas
+                    Por favor seleccione el idioma
                 </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="copies" name="copies" placeholder="Número de ejemplares">
+                <label for="copies">Número de ejemplares</label>
             </div>
             <div class="form-floating mb-3">
                 <input type="file" name="cover" class="form-control" required>
@@ -80,6 +79,10 @@
                 <div class="invalid-feedback">
                     Por favor adjunte la imagen de la portada
                 </div>
+            </div>
+            <div class="form-floating mb-4">
+                <textarea class="form-control" id="summary" name="summary" rows="4" placeholder="Resumen"></textarea>
+                <label class="form-label" for="summary">Resumen</label>
             </div>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-dark btn-block">Registrar</button>

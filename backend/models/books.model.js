@@ -14,23 +14,18 @@ const bookSchema = new mongoose.Schema({
     author: {
         type: Array,
         required: [true, 'The author is required'],
-        trim: true,
     },
     publisher: {
         type: String,
         required: [true, 'The publisher is required'],
     },
-    publicationYear: {
-        type: Date,
-        required: [true, 'The publication year is required'],
-    },
     pages: {
         type: Number,
         required: [true, 'The number of pages is required'],
     },
-    subjects: {
+    genres: {
         type: Array,
-        required: [true, 'The subjects are required'],
+        required: [true, 'The genre is required'],
     },
     language: {
         type: String,

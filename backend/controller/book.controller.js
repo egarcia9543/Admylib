@@ -3,7 +3,15 @@ const logActivity = require('../middleware/logs');
 const logRoute = './logs/catalog.log';
 
 exports.addBook = async (req, res) => {
-    const {isbn} = req.body;
+    const {isbn, author, copies, genres} = req.body;
+    const authorArray = author.split(',').map((author) => author.trim());
+    req.body.author = authorArray;
+    const genreArray = genres.split(',').map((genre) => genre.trim());
+    req.body.genres = genreArray;
+    if (copies) {
+        req.body.copies = copies;
+        req.body.copiesAvailable = copies;
+    }
     try {
         const bookIsRegistered = await dbBook.findBook({isbn: isbn}, {isbn: 1});
         if (bookIsRegistered) {
@@ -13,7 +21,9 @@ exports.addBook = async (req, res) => {
         req.body.cover = coverPath;
         const book = await dbBook.createBookRecord(req.body);
         logActivity.generateLog(logRoute, `Book ${book.title} created at ${new Date()}\n`);
-        return res.json({success: book});
+        return res.render('catalogingInterface', {
+            books: await dbBook.findAllBooks(),
+        });
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});

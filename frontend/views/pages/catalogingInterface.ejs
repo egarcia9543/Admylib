@@ -25,9 +25,9 @@
                             <th>Título</th>
                             <th>Autor</th>
                             <th>Editorial</th>
-                            <th>Año de publicación</th>
+                            <th>Géneros</th>
                             <th>Ejemplares</th>
-                            <th>Estado</th>
+                            <th>Ejemplares disponibles</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -44,16 +44,16 @@
                                     <%= book.author %>
                                 </td>
                                 <td>
-                                    <%= book.publisher.name %>
+                                    <%= book.publisher %>
                                 </td>
                                 <td>
-                                    <%= book.publicationYear %>
+                                    <%= book.genres %>
                                 </td>
                                 <td>
                                     <%= book.copies %>
                                 </td>
                                 <td>
-                                    <%= book.state %>
+                                    <%= book.copiesAvailable %>
                                 </td>
                                 <td class="d-flex flex-column align-items-center">
                                     <a class="btn btn-outline-primary mb-1" href="editarproducto/<%= book._id %>"><i class="bi bi-pencil-square"></i></a>
