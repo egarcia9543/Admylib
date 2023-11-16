@@ -56,7 +56,7 @@
                                     <%= book.copiesAvailable %>
                                 </td>
                                 <td class="d-flex flex-column align-items-center">
-                                    <a class="btn btn-outline-primary mb-1" href="editarproducto/<%= book._id %>"><i class="bi bi-pencil-square"></i></a>
+                                    <button class="btn btn-outline-warning mb-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillBookData(`<%= book._id %>`, `<%= book.isbn %>`, `<%= book.title %>`, `<%= book.author %>`, `<%= book.publisher %>`, `<%= book.genres %>`, `<%= book.copies %>`)"><i class="bi bi-pencil-square"></i></button>
                                     <button class="btn btn-outline-danger" onclick="deleteRecord(`deletebook/<%= book._id %>`)"><i class="bi bi-trash"></i></button>
                                 </td>
                             </tr>
@@ -66,9 +66,70 @@
             </div>
         </div>
     </main>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar información</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="updatebook" method="post">
+                        <input id="id" name="id" type="hidden">
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control" id="isbn" name="isbn"
+                                placeholder="ISBN" required>
+                            <label for="isbn">ISBN</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="title" name="title"
+                                placeholder="Título" required>
+                            <label for="title">Título</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="author" name="author"
+                                placeholder="Autor" required>
+                            <label for="author">Autor(es) (Separados por coma)</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="publisher" name="publisher"
+                                placeholder="Editorial">
+                            <label for="publisher">Editorial</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="genre" name="genre"
+                                placeholder="Géneros">
+                            <label for="genre">Género(s) (Separados por coma)</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <div class="input-group">
+                                <input type="number" class="form-control" readonly id="copies" name="copies" placeholder="Copias" placeholder="Copias">
+                                <button class="btn btn-outline-secondary" type="button" id="addCopiesBtn" onclick="addCopies()"><i class="bi bi-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <button type="submit" class="btn btn-dark btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/scripts/datatable.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/scripts/deleteRecord.js"></script>
+    <script src="/scripts/editRecord.js"></script>
+    <script src="/scripts/errorAlerts.js"></script>
+    <% if (locals.error) { %>
+        <script>
+            errorAlert('<%= error %>');
+        </script>
+    <% } else if (locals.success) { %>
+        <script>
+            successAlert('<%= success %>');
+        </script>
+    <% } %>
 </body>
 
 </html>

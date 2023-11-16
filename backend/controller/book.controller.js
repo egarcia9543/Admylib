@@ -1,6 +1,7 @@
 const dbBook = require('../data/book.data');
 const logActivity = require('../middleware/logs');
 const logRoute = './logs/catalog.log';
+const fs = require('fs');
 
 exports.addBook = async (req, res) => {
     const {isbn, author, copies, genres} = req.body;
@@ -21,9 +22,7 @@ exports.addBook = async (req, res) => {
         req.body.cover = coverPath;
         const book = await dbBook.createBookRecord(req.body);
         logActivity.generateLog(logRoute, `Book ${book.title} created at ${new Date()}\n`);
-        return res.render('catalogingInterface', {
-            books: await dbBook.findAllBooks(),
-        });
+        return res.redirect('/cataloging');
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
@@ -53,11 +52,23 @@ exports.getBookDetails = async (req, res) => {
 };
 
 exports.updateBook = async (req, res) => {
-    const {id} = req.body;
+    const {id, copies} = req.body;
+    const book = await dbBook.findBook({_id: id});
+
+    if (!book) {
+        return res.render('catalogingInterface', {
+            error: 'Libro no encontrado',
+            books: await dbBook.findAllBooks(),
+        });
+    }
+    if (copies) {
+        req.body.copies = parseInt(copies);
+        req.body.copiesAvailable = parseInt(book.copiesAvailable) + parseInt(copies - book.copies);
+    }
     try {
         const book = await dbBook.updateBookRecord({_id: id}, req.body);
         logActivity.generateLog(logRoute, `Book ${book.title} updated at ${new Date()}\n`);
-        return res.json({success: book});
+        return res.redirect('/cataloging');
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
@@ -67,6 +78,13 @@ exports.updateBook = async (req, res) => {
 exports.deleteBook = async (req, res) => {
     try {
         const book = await dbBook.deleteBookRecord({_id: req.params.id});
+        const path = `./frontend/static${book.cover}`;
+        fs.unlink(path, (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+        });
         logActivity.generateLog(logRoute, `Book ${book.title} deleted at ${new Date()}\n`);
         return res.json({success: book});
     } catch (error) {
