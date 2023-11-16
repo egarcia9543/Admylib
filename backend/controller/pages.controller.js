@@ -68,9 +68,11 @@ exports.renderCatalogingPage = async (req, res) => {
 };
 
 exports.renderLoansPage = async (req, res) => {
+    const librarian = await dbUser.findOneUser({_id: req.cookies.user}, {document: 1});
     const loans = await dbLoan.findAllLoans();
     return res.render('loansInterface', {
         loans: loans,
+        librarian: librarian,
     });
 };
 
@@ -80,7 +82,6 @@ exports.renderUsersPage = async (req, res) => {
         users: users,
     });
 };
-
 
 exports.renderPenaltiesPage = async (req, res) => {
     const penalties = await dbPenalty.findAllPenalties();

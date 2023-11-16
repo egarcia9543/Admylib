@@ -1,6 +1,7 @@
 const Loan = require('../models/loans.model');
 const Book = require('../models/books.model');
 const User = require('../models/users.model');
+const loan = require('../models/loans.model');
 
 exports.findOneLoan = async (filter, projection) => {
     try {
@@ -22,15 +23,21 @@ exports.findAllLoans = async (projection) => {
 
 exports.createLoanRecord = async (loanInfo) => {
     try {
-        const book = await Book.findOne({isbn: loanInfo.book}, {state: 1});
+        const librarian = await User.findOne({document: loanInfo.librarian}, {document: 1});
+        if (librarian) {
+            loanInfo.librarian = librarian._id;
+        } else {
+            return {error: 'El bibliotecario no existe'};
+        }
+        const book = await Book.findOne({isbn: loanInfo.book}, {copiesAvailable: 1});
         if (book) {
-            if (book.state === 'available') {
+            if (book.copiesAvailable > 0) {
                 loanInfo.book = book._id;
                 const user = await User.findOne({document: loanInfo.user});
                 if (user) {
                     loanInfo.user = user._id;
                     const loanRegistered = await new Loan(loanInfo).save();
-                    await Book.findOneAndUpdate({_id: book._id}, {state: 'loaned'});
+                    await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesAvailable: -1}});
                     await User.findOneAndUpdate({_id: user._id}, {$push: {loans: loanRegistered._id}});
                     return loanRegistered;
                 } else {

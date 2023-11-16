@@ -1,9 +1,18 @@
 const dbLoan = require('../data/loan.data');
+const dbUser = require('../data/user.data');
 
 exports.addLoan = async (req, res) => {
     try {
         const loan = await dbLoan.createLoanRecord(req.body);
-        return res.json({success: loan});
+        if (loan.error) {
+            return res.render('loansInterface', {
+            librarian: await dbUser.findOneUser({_id: req.cookies.user}, {document: 1}),
+            error: loan.error,
+            loans: await dbLoan.findAllLoans(),
+        });
+    } else {
+        return res.redirect('/loans');
+    }
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
