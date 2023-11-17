@@ -12,7 +12,7 @@ function fillBookData(id, isbn, title, author, publisher, genre, copies) {
     document.getElementById('title').value = title;
     document.getElementById('author').value = author;
     document.getElementById('publisher').value = publisher;
-    document.getElementById('genre').value = genre;
+    document.getElementById('genres').value = genre;
     document.getElementById('copies').value = copies;
 }
 

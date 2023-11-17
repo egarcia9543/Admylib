@@ -7,8 +7,8 @@
     <header>
         <%- include ('../partials/navbar') %>
     </header>
-    <main class="mt-5 pt-4">
-        <div class="container mt-5">
+    <main class="mt-5">
+        <div class="container mt-3">
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <img src="<%= book.cover %>" class="img-fluid" alt="" />
@@ -16,23 +16,75 @@
                 <div class="col-md-6 mb-4">
                     <div class="p-4">
                         <div class="mb-3">
-                            <a href="">
-                                <span class="badge bg-info me-1">Materia</span>
-                            </a>
+                            <% genres.forEach(genre => { %>
+                                <a href="">
+                                    <span class="badge bg-dark me-1"><%= genre %></span>
+                                </a>
+                            <% }) %>
                         </div>
-                        <strong><p style="font-size: 20px;"><%= book.title %></p></strong>
-                        <p>Resumen</p>
-                        <form class="d-flex justify-content-left">
-                            <button class="btn btn-primary" type="submit">
-                                Reservar
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </form>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <strong><p style="font-size: 20px;"><%= book.title %></p></strong>
+                            <p class="fw-bold"><%= book.author %></p>
+                        </div>
+                        <p><%= book.summary %></p>
+                        <div class="d-flex justify-content-left">
+                            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reservation">Reservar</button>
+                        </div>
                     </div>
                 </div>
             </div>
             <hr />
         </div>
     </main>
+    
+    <!-- Reservation modal -->
+    <div class="modal top fade" id="reservation" tabindex="-1"
+        aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reservar este libro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="reserve" method="post" class="needs-validation" novalidate>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="loanDate" class="form-label">Fecha de la reserva</label>
+                                <input type="date" class="form-control" id="loanDate" name="loanDate" required>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa la fecha de reserva
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="returnDate" class="form-label">Fecha de expiración</label>
+                                <input type="date" class="form-control" id="returnDate" name="returnDate" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="book" class="form-label">Libro prestado</label>
+                                <input type="text" class="form-control" id="" name="book" readonly>
+                            </div>
+                            <div class="col">
+                                <label for="returnDate" class="form-label">Documento de identidad</label>
+                                <input type="text" class="form-control" id="" name="" required>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa un documento de identidad registrado
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-outline-dark">Extender préstamo <i
+                                        class="bi bi-arrow-clockwise"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/scripts/validateForm.js"></script>
 </body>
 </html>

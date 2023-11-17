@@ -12,6 +12,9 @@ exports.addBook = async (req, res) => {
     if (copies) {
         req.body.copies = copies;
         req.body.copiesAvailable = copies;
+    } else {
+        req.body.copies = 1;
+        req.body.copiesAvailable = 1;
     }
     try {
         const bookIsRegistered = await dbBook.findBook({isbn: isbn}, {isbn: 1});
@@ -44,6 +47,7 @@ exports.getBookDetails = async (req, res) => {
         const book = await dbBook.findBook({_id: req.params.id});
         return res.render('bookdetails', {
             book: book,
+            genres: book.genres,
         });
     } catch (error) {
         console.error(error);
@@ -52,8 +56,16 @@ exports.getBookDetails = async (req, res) => {
 };
 
 exports.updateBook = async (req, res) => {
-    const {id, copies} = req.body;
+    const {id, copies, genres, author} = req.body;
     const book = await dbBook.findBook({_id: id});
+    if (genres) {
+        const genreArray = genres.split(',').map((genre) => genre.trim());
+        req.body.genres = genreArray;
+    }
+    if (author) {
+        const authorArray = author.split(',').map((author) => author.trim());
+        req.body.author = authorArray;
+    }
 
     if (!book) {
         return res.render('catalogingInterface', {
