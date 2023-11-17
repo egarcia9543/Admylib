@@ -70,7 +70,7 @@ main .section__one {
 
 img.recommended {
     width: 100%;
-    height: 35rem;
+    height: 100%;
     object-fit: cover;
 }
 

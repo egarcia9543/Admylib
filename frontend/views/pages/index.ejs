@@ -20,8 +20,8 @@
                         <button class="btn" type="button" disabled>
                             <i class="bi bi-search"></i>
                         </button>
-                        <input type="text" id="search__input" class="w-75"
-                            placeholder="Ingrese un título o palabra clave" name="search" id="search__input">
+                        <input type="text" id="search__input" class="w-75" placeholder="Ingrese un título" name="search"
+                            id="search__input">
                     </div>
                 </form>
             </div>
@@ -29,27 +29,35 @@
         <section>
             <div class="container mt-3">
                 <h3 class="text-center mb-3">Recomendados</h3>
-                <div class="row row-cols-1 row-cols-md-3 g-5">
-                    <% recommendations.forEach(recommendation=> { %>
-                        <div class="col">
-                            <a href="book/<%= recommendation._id %>" class="text-decoration-none text-dark">
-                                <div class="card">
-                                    <img src="<%= recommendation.cover %>" class="card-img-top recommended"/>
-                                    <div class="card-body">
-                                        <h5 class="card-title text-center">
-                                            <%= recommendation.title %>
-                                        </h5>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <% recommendations.forEach(recommendation=> { %>
+                            <div class="col-md-8 col-lg-4 col-xl-4 mb-4">
+                                <a href="/book/<%= recommendation._id %>" class="text-decoration-none ">
+                                    <div class="card text-black h-100">
+                                        <img src="<%= recommendation.cover %>" class="card-img-top recommended" />
+                                        <div class="card-body">
+                                            <div class="text-center">
+                                                <h5 class="card-title text-dark">
+                                                    <%= recommendation.title %>
+                                                </h5>
+                                                <p class="text-muted mb-4">
+                                                    <%= recommendation.author %>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    <% }) %>
+                                </a>
+                            </div>
+                        <% }) %>
+                    </div>
                 </div>
         </section>
         <section class="schedule-container mt-3">
             <div class="container d-flex flex-column justify-content-center align-items-center h-100 w-100">
                 <h3 class="text-center text-light pt-3">Calendario de actividades</h3>
-                <div class="embed-responsive embed-responsive-1by1 w-100 h-100 d-flex justify-content-center align-items-center">
+                <div
+                    class="embed-responsive embed-responsive-1by1 w-100 h-100 d-flex justify-content-center align-items-center">
                     <iframe class="embed-responsive-item w-75 h-75"
                         src="https://calendar.google.com/calendar/embed?&wkst=1&bgcolor=%23616161&ctz=America%2/Bogota&showTitle=0&showDate=0&showPrint=0&showCalendars=0&showTz=0&showTabs=0&hl=es&src=ZWdhcmNpYTk1NDNAbWlzZW5hLmVkdS5jbw&src=ZXMuY28jaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039BE5&color=%230B8043">
                     </iframe>

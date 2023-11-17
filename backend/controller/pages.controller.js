@@ -14,7 +14,7 @@ exports.verifyAdminUser = async (req, res, next) => {
 };
 
 exports.renderLandingPage = async (req, res) => {
-    const recommendations = await dbBook.findRecommendations({title: 1, cover: 1});
+    const recommendations = await dbBook.findRecommendations({title: 1, cover: 1, author: 1});
     const userAuthenticated = req.cookies.user;
     const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
     return res.render('index', {
