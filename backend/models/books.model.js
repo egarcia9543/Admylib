@@ -39,9 +39,9 @@ const bookSchema = new mongoose.Schema({
         type: Number,
         default: 1,
     },
-    copiesReserved: {
-        type: Number,
-        default: 0,
+    isReserved: {
+        type: Boolean,
+        default: false,
     },
     copiesLoaned: {
         type: Number,

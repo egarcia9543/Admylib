@@ -1,4 +1,5 @@
 const dbBook = require('../data/book.data');
+const dbUser = require('../data/user.data');
 const logActivity = require('../middleware/logs');
 const logRoute = './logs/catalog.log';
 const fs = require('fs');
@@ -33,9 +34,15 @@ exports.addBook = async (req, res) => {
 };
 
 exports.getBooks = async (req, res) => {
+    const userAuthenticated = req.cookies.user;
+    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
     try {
         const books = await dbBook.findAllBooks();
-        return res.render('catalog', {books: books});
+        return res.render('catalog', {
+            books: books,
+            userAuthenticated: userAuthenticated,
+            user: user,
+        });
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
@@ -43,11 +50,15 @@ exports.getBooks = async (req, res) => {
 };
 
 exports.getBookDetails = async (req, res) => {
+    const userAuthenticated = req.cookies.user;
+    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1, document: 1});
     try {
         const book = await dbBook.findBook({_id: req.params.id});
         return res.render('bookdetails', {
             book: book,
             genres: book.genres,
+            userAuthenticated: userAuthenticated,
+            user: user,
         });
     } catch (error) {
         console.error(error);
@@ -106,10 +117,14 @@ exports.deleteBook = async (req, res) => {
 };
 
 exports.quickSearch = async (req, res) => {
+    const userAuthenticated = req.cookies.user;
+    const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
     try {
         const books = await dbBook.findAllBooks({title: {$regex: req.body.search, $options: 'i'}}, {title: 1, cover: 1});
         return res.render('quicksearch', {
             books: books,
+            userAuthenticated: userAuthenticated,
+            user: user,
         });
     } catch (error) {
         console.error(error);

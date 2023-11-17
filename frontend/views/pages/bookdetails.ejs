@@ -26,7 +26,7 @@
                         </div>
                         <p><%= book.summary %></p>
                         <div class="d-flex justify-content-left">
-                            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reservation">Reservar</button>
+                            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reservation" onclick="fillReservation(`<%= book.isbn %>`)">Reservar</button>
                         </div>
                     </div>
                 </div>
@@ -45,37 +45,40 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="reserve" method="post" class="needs-validation" novalidate>
+                    <form action="/newreservation" method="post" class="needs-validation" novalidate>
                         <div class="row mb-3">
                             <div class="col">
-                                <label for="loanDate" class="form-label">Fecha de la reserva</label>
-                                <input type="date" class="form-control" id="loanDate" name="loanDate" required>
+                                <label for="reservationDate" class="form-label">Fecha de la reserva</label>
+                                <input type="date" class="form-control" id="reservationDate" name="reservationDate" required>
                                 <div class="invalid-feedback">
                                     Por favor ingresa la fecha de reserva
                                 </div>
                             </div>
                             <div class="col">
-                                <label for="returnDate" class="form-label">Fecha de expiración</label>
-                                <input type="date" class="form-control" id="returnDate" name="returnDate" readonly>
+                                <label for="expirationDate" class="form-label">Fecha de expiración</label>
+                                <input type="date" class="form-control" id="expirationDate" name="expirationDate" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <label for="book" class="form-label">Libro prestado</label>
-                                <input type="text" class="form-control" id="" name="book" readonly>
+                                <label for="book" class="form-label">Libro</label>
+                                <input type="text" class="form-control" id="book" name="book" readonly>
                             </div>
                             <div class="col">
-                                <label for="returnDate" class="form-label">Documento de identidad</label>
-                                <input type="text" class="form-control" id="" name="" required>
-                                <div class="invalid-feedback">
-                                    Por favor ingresa un documento de identidad registrado
-                                </div>
+                                <label for="document" class="form-label">Documento</label>
+                                <% if (locals.userAuthenticated) { %>
+                                    <input type="text" class="form-control" id="document" name="document" value="<%= user.document %>" readonly>
+                                <% } else { %>    
+                                    <input type="text" class="form-control" id="document" name="document" required>
+                                    <div class="invalid-feedback">
+                                        Por favor ingresa un documento de identidad registrado
+                                    </div>
+                                <% } %>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <button type="submit" class="btn btn-outline-dark">Extender préstamo <i
-                                        class="bi bi-arrow-clockwise"></i></button>
+                                <button type="submit" id="reserveBtn" class="btn btn-outline-dark">Reservar <i class="bi bi-calendar-check"></i></button>
                             </div>
                         </div>
                     </form>
@@ -84,5 +87,17 @@
         </div>
     </div>
     <script src="/scripts/validateForm.js"></script>
+    <script src="/scripts/reservation.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/scripts/errorAlerts.js"></script>
+    <% if (locals.error) { %>
+        <script>
+            errorAlert('<%= error %>');
+        </script>
+    <% } else if (locals.success) { %>
+        <script>
+            successAlert('<%= success %>');
+        </script>
+    <% } %>
 </body>
 </html>

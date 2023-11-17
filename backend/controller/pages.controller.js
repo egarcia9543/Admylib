@@ -40,10 +40,6 @@ exports.renderSignInPage = (req, res) => {
     }
 };
 
-exports.test = (req, res) => {
-    return res.render('test');
-};
-
 exports.renderAdminPage = async (req, res) => {
     return res.render('adminInterface');
 };

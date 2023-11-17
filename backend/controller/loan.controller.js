@@ -1,5 +1,6 @@
 const dbLoan = require('../data/loan.data');
 const dbUser = require('../data/user.data');
+const dbBook = require('../data/book.data');
 
 exports.addLoan = async (req, res) => {
     try {
@@ -65,3 +66,13 @@ exports.returnLoan = async (req, res) => {
     }
 };
 
+exports.getLoanByISBN = async (req, res) => {
+    try {
+        const book = await dbBook.findBook({isbn: req.params.isbn});
+        const loan = await dbLoan.findLoan({book: book._id});
+        return res.json({success: loan});
+    } catch (error) {
+        console.error(error);
+        return res.json({error: 'Internal server error'});
+    }
+};

@@ -2,10 +2,10 @@ const Loan = require('../models/loans.model');
 const Book = require('../models/books.model');
 const User = require('../models/users.model');
 
-exports.findOneLoan = async (filter, projection) => {
+exports.findLoan = async (filter, projection) => {
     try {
-        if (!projection) return await Loan.findOne(filter).populate('book').populate('user');
-        else return await Loan.findOne(filter, projection).populate('book').populate('user');
+        if (!projection) return await Loan.find(filter).populate('book').populate('user');
+        else return await Loan.find(filter, projection).populate('book').populate('user');
     } catch (error) {
         return error;
     }

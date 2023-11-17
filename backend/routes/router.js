@@ -6,6 +6,7 @@ const pagesController = require('../controller/pages.controller');
 const userController = require('../controller/user.controller');
 const bookController = require('../controller/book.controller');
 const loanController = require('../controller/loan.controller');
+const reservationController = require('../controller/reservation.controller');
 const upload = require('../middleware/upload');
 
 router.get('/', pagesController.renderLandingPage);
@@ -34,6 +35,10 @@ router.post('/newloan', loanController.addLoan);
 router.get('/loan/:id', loanController.getLoanDetails);
 router.post('/extendloan', loanController.updateLoan);
 router.post('/returnloan', loanController.returnLoan);
+router.get('/state/:isbn', loanController.getLoanByISBN);
+
+router.get('/reservation/:isbn', reservationController.isBookReserved);
+router.post('/newreservation', reservationController.addReservation);
 
 // Admin
 router.get('/admin', pagesController.verifyAdminUser, pagesController.renderAdminPage);
@@ -45,7 +50,6 @@ router.get('/penalties', pagesController.verifyAdminUser, pagesController.render
 router.get('/reservations', pagesController.verifyAdminUser, pagesController.renderReservationsPage);
 
 
-router.get('/test', pagesController.test);
 /**
  * @swagger
  * components:
