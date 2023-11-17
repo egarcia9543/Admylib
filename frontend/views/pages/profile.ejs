@@ -84,14 +84,46 @@
                         <div class="col-md-6">
                             <div class="card mb-4 mb-md-0">
                                 <div class="card-body">
-                                    <p class="mb-4">Préstamos</p>
+                                    <p class="mb-4 text-center fw-bold">Préstamos</p>
+                                    <% if (loans.length == 0) { %>
+                                        <p>No tienes préstamos en este momento</p>
+                                    <% } else { %>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Título</th>
+                                                    <th scope="col">Fecha de devolución</th>
+                                                    <th scope="col">Estado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% loans.forEach(loan => { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= loan.book.title %>
+                                                        </td>
+                                                        <td>
+                                                            <%= loan.returnDate.toISOString().slice(0, 10) %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (loan.returnDate < Date.now()) { %>
+                                                                <span class="badge bg-danger">Vencido</span>
+                                                            <% } else { %>
+                                                                <span class="badge bg-success">Activo</span>
+                                                            <% } %>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card mb-4 mb-md-0">
                                 <div class="card-body">
-                                    <p class="mb-4">Reservas</p>
+                                    <p class="mb-4 text-center fw-bold">Reservas</p>
                                 </div>
                             </div>
                         </div>

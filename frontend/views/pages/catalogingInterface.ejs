@@ -28,7 +28,7 @@
                             <th>Géneros</th>
                             <th>Ejemplares</th>
                             <th>Ejemplares disponibles</th>
-                            <th>Ejemplares reservados</th>
+                            <th>Reservado</th>
                             <th>Ejemplares prestados</th>
                             <th>Acciones</th>
                         </tr>
@@ -58,7 +58,11 @@
                                     <%= book.copiesAvailable %>
                                 </td>
                                 <td>
-                                    <%= book.copiesReserved %>
+                                    <% if (book.isReserved) { %>
+                                        <span class="badge bg-success">Sí</span>
+                                    <% } else { %>
+                                        <span class="badge bg-danger">No</span>
+                                    <% } %>
                                 </td>
                                 <td>
                                     <%= book.copiesLoaned %>

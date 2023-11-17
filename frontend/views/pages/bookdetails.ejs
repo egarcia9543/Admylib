@@ -24,10 +24,33 @@
                             <strong><p style="font-size: 20px;"><%= book.title %></p></strong>
                             <p class="fw-bold"><%= book.author %></p>
                         </div>
-                        <p><%= book.summary %></p>
-                        <div class="d-flex justify-content-left">
-                            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reservation" onclick="fillReservation(`<%= book.isbn %>`)">Reservar</button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="fw-bold">Editorial: <%= book.publisher %></p>
+                                <hr>
+                                <p class="fw-bold">Páginas: <%= book.pages %></p>
+                                <hr>
+                                <p class="fw-bold">ISBN: <%= book.isbn %></p>
+                                <hr>
+                            </div>
+                            <div>
+                                <% if (book.copiesAvailable > 0) { %>
+                                    <p class="fw-bold text-success">Copias disponibles: <%= book.copiesAvailable %></p>
+                                <% } else { %>
+                                    <p class="fw-bold text-danger">Copias disponibles: 0</p>
+                                <% } %>
+                            </div>
                         </div>
+                        <p><%= book.summary %></p>
+                        <% if (book.isReserved) { %>
+                            <div class="d-flex justify-content-left">
+                                <button class="btn btn-outline-dark" disabled>Reservado</button>
+                            </div>
+                        <% } else { %>
+                            <div class="d-flex justify-content-left">
+                                <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reservation" onclick="fillReservation(`<%= book.isbn %>`)">Reservar</button>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
             </div>

@@ -26,9 +26,19 @@ exports.addReservation = async (req, res) => {
         }
         const reservation = await dbReservation.createReservationRecord(req.body);
         if (reservation.error) {
-            return res.json({success: false, message: reservation.error});
+            return res.render('bookdetails', {
+                success: false,
+                message: reservation.error,
+                book: book,
+                genres: book.genres,
+            });
         }
-        return res.json({success: true, message: 'Reserva realizada'});
+        return res.render('bookdetails', {
+            success: 'El libro ha sido reservado con éxito',
+            message: 'Reserva realizada',
+            book: book,
+            genres: book.genres,
+        });
     } catch (error) {
         res.status(500).json({error: error.message});
     }

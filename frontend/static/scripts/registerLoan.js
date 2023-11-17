@@ -5,8 +5,10 @@ function fillData(librarianDoc) {
     loanDate.setAttribute('min', new Date().toISOString().slice(0, 10));
     loanDate.setAttribute('max', new Date().toISOString().slice(0, 10));
 
-    returnDate.value = new Date().toISOString().slice(0, 10);
-    returnDate.setAttribute('min', new Date().toISOString().slice(0, 10));
+    const returnDateValue = new Date();
+    returnDateValue.setDate(returnDateValue.getDate() + 5);
+    returnDate.value = returnDateValue.toISOString().slice(0, 10);
+    returnDate.setAttribute('min', returnDateValue.toISOString().slice(0, 10));
 
     librarian.value = librarianDoc;
     librarian.setAttribute('readonly', true);

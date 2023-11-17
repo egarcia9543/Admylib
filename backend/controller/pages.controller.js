@@ -46,6 +46,8 @@ exports.renderAdminPage = async (req, res) => {
 
 exports.renderProfilePage = async (req, res) => {
     const user = await dbUser.findOneUser({_id: req.cookies.user});
+    const reservations = await dbReservation.findReservation({user: req.cookies.user}, {book: 1, reservationDate: 1, expirationDate: 1, returnDate: 1});
+    const loans = await dbLoan.findLoan({user: req.cookies.user}, {book: 1, loanDate: 1, returnDate: 1});
     const userAuthenticated = req.cookies.user;
     if (!user) {
         return res.redirect('/signin');
@@ -53,6 +55,8 @@ exports.renderProfilePage = async (req, res) => {
     return res.render('profile', {
         user: user,
         userAuthenticated: userAuthenticated,
+        reservations: reservations,
+        loans: loans,
     });
 };
 
