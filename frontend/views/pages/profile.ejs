@@ -86,14 +86,13 @@
                                 <div class="card-body">
                                     <p class="mb-4 text-center fw-bold">Préstamos</p>
                                     <% if (loans.length == 0) { %>
-                                        <p>No tienes préstamos en este momento</p>
+                                        <p class="text-center text-muted">No tienes préstamos en este momento</p>
                                     <% } else { %>
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Título</th>
-                                                    <th scope="col">Fecha de devolución</th>
-                                                    <th scope="col">Estado</th>
+                                                    <th scope="col">Libro</th>
+                                                    <th scope="col">Detalles</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -103,14 +102,7 @@
                                                             <%= loan.book.title %>
                                                         </td>
                                                         <td>
-                                                            <%= loan.returnDate.toISOString().slice(0, 10) %>
-                                                        </td>
-                                                        <td>
-                                                            <% if (loan.returnDate < Date.now()) { %>
-                                                                <span class="badge bg-danger">Vencido</span>
-                                                            <% } else { %>
-                                                                <span class="badge bg-success">Activo</span>
-                                                            <% } %>
+                                                            <button class="btn btn-outline-dark"><i class="bi bi-eye"></i></button>
                                                         </td>
                                                     </tr>
                                                 <% }) %>
@@ -124,6 +116,32 @@
                             <div class="card mb-4 mb-md-0">
                                 <div class="card-body">
                                     <p class="mb-4 text-center fw-bold">Reservas</p>
+                                    <% if (reservations.length == 0) { %>
+                                        <p class="text-center text-muted">No tienes reservas en este momento</p>
+                                    <% } else { %>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Libro</th>
+                                                    <th scope="col">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% reservations.forEach(reservation => { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= reservation.book.title %>
+                                                        </td>
+                                                        <td class="d-flex flex-wrap justify-content-evenly">
+                                                            <button class="btn btn-outline-dark"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editReservationModal"><i class="bi bi-pencil"></i></button>
+                                                            <button class="btn btn-outline-danger" onclick="deleteRecord(`cancelreservation/<%= reservation._id %>`)"><i class="bi bi-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +155,7 @@
         </div>
     </main>
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -155,7 +173,7 @@
         </div>
     </div>
     <!-- Edit Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -193,6 +211,39 @@
             </div>
         </div>
     </div>
+    <!-- Edit Reservation Modal -->
+    <div class="modal fade" id="editReservationModal" tabindex="-1"aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="ss" method="post">
+                        <input id="id" name="id" type="hidden">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="reservationDate" class="form-label">Fecha de la reserva</label>
+                                <input type="date" class="form-control" id="reservationDate" name="reservationDate" required>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa la fecha de reserva
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="expirationDate" class="form-label">Fecha de expiración</label>
+                                <input type="date" class="form-control" id="expirationDate" name="expirationDate" readonly>
+                            </div>
+                        </div>
+                        <div class="ps-4 mb-1">
+                            <button type="submit" class="btn btn-dark btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/scripts/deleteRecord.js"></script>
     <script src="/scripts/editRecord.js"></script>

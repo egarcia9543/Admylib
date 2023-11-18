@@ -48,3 +48,12 @@ exports.createReservationRecord = async (reservationInfo) => {
         return error;
     }
 };
+
+exports.deleteReservationRecord = async (filter) => {
+    try {
+        if (!filter) return {error: 'No se ha especificado un filtro'};
+        return await Reservation.findOneAndDelete(filter);
+    } catch (error) {
+        return error;
+    }
+};

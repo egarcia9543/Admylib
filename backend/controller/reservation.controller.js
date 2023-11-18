@@ -22,6 +22,8 @@ exports.addReservation = async (req, res) => {
                 error: 'El usuario no existe',
                 book: book,
                 genres: book.genres,
+                userAuthenticated: req.cookies.user,
+                user: user,
             });
         }
         const reservation = await dbReservation.createReservationRecord(req.body);
@@ -31,6 +33,8 @@ exports.addReservation = async (req, res) => {
                 message: reservation.error,
                 book: book,
                 genres: book.genres,
+                userAuthenticated: req.cookies.user,
+                user: user,
             });
         }
         return res.render('bookdetails', {
@@ -38,7 +42,29 @@ exports.addReservation = async (req, res) => {
             message: 'Reserva realizada',
             book: book,
             genres: book.genres,
+            userAuthenticated: req.cookies.user,
+            user: user,
         });
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+};
+
+exports.cancelReservation = async (req, res) => {
+    try {
+        const reservation = await dbReservation.findReservation({_id: req.params.id});
+        const book = await dbBook.findBook({_id: reservation.book});
+        console.log(book);
+        if (reservation) {
+            book.isReserved = false;
+            if (book.copiesLoaned < book.copies) {
+                book.copiesAvailable++;
+            }
+            await dbBook.updateBookRecord({_id: book._id}, book);
+            await dbReservation.deleteReservationRecord({_id: req.params.id});
+        } else {
+            return {error: 'La reserva no existe'};
+        }
     } catch (error) {
         res.status(500).json({error: error.message});
     }

@@ -1,4 +1,6 @@
 const dbUser = require('../data/user.data');
+const dbLoan = require('../data/loan.data');
+const dbReservation = require('../data/reservation.data');
 const emailService = require('../middleware/emailservice');
 const logActivity = require('../middleware/logs');
 const bcrypt = require('bcrypt');
@@ -115,6 +117,8 @@ exports.updateProfile = async (req, res) => {
                     success: 'Usuario actualizado correctamente',
                     user: update,
                     userAuthenticated: req.cookies.user,
+                    loans: await dbLoan.findLoan({user: req.cookies.user}, {book: 1, loanDate: 1, returnDate: 1}),
+                    reservations: await dbReservation.findReservation({user: req.cookies.user}, {book: 1, reservationDate: 1, expirationDate: 1, returnDate: 1}),
                 });
             }
         }
