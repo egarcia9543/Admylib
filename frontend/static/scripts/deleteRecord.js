@@ -19,6 +19,9 @@ function deleteRecordRequest(url) {
         method: 'DELETE',
     })
     .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+    })
     .catch((error) => console.error('Error:', error));
     window.location.reload();
 }
@@ -26,3 +29,7 @@ function deleteRecordRequest(url) {
 function deleteAccount(url) {
     document.getElementById('confirmDelete').setAttribute('href', url);
 }
+
+function cancelReservation(url) {
+    document.getElementById('confirmCancel').setAttribute('href', url);
+};

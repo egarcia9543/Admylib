@@ -36,12 +36,21 @@ exports.addBook = async (req, res) => {
 exports.getBooks = async (req, res) => {
     const userAuthenticated = req.cookies.user;
     const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
+
+    const booksPerPage = 8;
+    const actualPage = parseInt(req.query.page) || 1;
+    const start = (actualPage - 1) * booksPerPage;
+    const end = start + booksPerPage;
     try {
         const books = await dbBook.findAllBooks();
+        const booksInPage = books.slice(start, end);
+        const totalPages = Math.ceil(books.length / booksPerPage);
         return res.render('catalog', {
-            books: books,
+            books: booksInPage,
             userAuthenticated: userAuthenticated,
             user: user,
+            totalPages,
+            actualPage,
         });
     } catch (error) {
         console.error(error);
@@ -57,6 +66,7 @@ exports.getBookDetails = async (req, res) => {
         return res.render('bookdetails', {
             book: book,
             genres: book.genres,
+            authors: book.author,
             userAuthenticated: userAuthenticated,
             user: user,
         });

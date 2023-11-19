@@ -42,6 +42,7 @@ exports.addReservation = async (req, res) => {
             message: 'Reserva realizada',
             book: book,
             genres: book.genres,
+            authors: book.author,
             userAuthenticated: req.cookies.user,
             user: user,
         });
@@ -53,8 +54,8 @@ exports.addReservation = async (req, res) => {
 exports.cancelReservation = async (req, res) => {
     try {
         const reservation = await dbReservation.findReservation({_id: req.params.id});
-        const book = await dbBook.findBook({_id: reservation.book});
-        console.log(book);
+        console.log(reservation);
+        const book = await dbBook.findBook({isbn: reservation.book.isbn});
         if (reservation) {
             book.isReserved = false;
             if (book.copiesLoaned < book.copies) {

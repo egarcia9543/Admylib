@@ -22,7 +22,11 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <strong><p style="font-size: 20px;"><%= book.title %></p></strong>
-                            <p class="fw-bold"><%= book.author %></p>
+                            <div>
+                                <% authors.forEach(author => { %>
+                                    <p class="fw-bold mb-1"><%= author %></p>
+                                <% }) %>
+                            </div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <div>

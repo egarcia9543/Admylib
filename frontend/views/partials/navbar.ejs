@@ -43,7 +43,7 @@
                             <i class="bi bi-person"></i>
                         </a>
                     </li>
-                    <% if (locals.user.role == 'librarian') { %>
+                    <% if (locals.user.role == 'librarian' || locals.user.role == 'admin') { %>
                         <li class="nav-item">
                             <a class="btn btn-dark me-2 mb-2 mb-lg-0" href="/admin">
                                 <i class="bi bi-gear"></i>
