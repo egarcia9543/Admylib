@@ -22,6 +22,7 @@ exports.addReservation = async (req, res) => {
                 error: 'El usuario no existe',
                 book: book,
                 genres: book.genres,
+                authors: book.author,
                 userAuthenticated: req.cookies.user,
                 user: user,
             });
@@ -29,18 +30,20 @@ exports.addReservation = async (req, res) => {
         const reservation = await dbReservation.createReservationRecord(req.body);
         if (reservation.error) {
             return res.render('bookdetails', {
-                success: false,
+                error: reservation.error,
                 message: reservation.error,
                 book: book,
                 genres: book.genres,
+                authors: book.author,
                 userAuthenticated: req.cookies.user,
                 user: user,
             });
         }
+        const bookReserved = await dbBook.findBook({isbn: book.isbn});
         return res.render('bookdetails', {
             success: 'El libro ha sido reservado con éxito',
             message: 'Reserva realizada',
-            book: book,
+            book: bookReserved,
             genres: book.genres,
             authors: book.author,
             userAuthenticated: req.cookies.user,
@@ -53,19 +56,15 @@ exports.addReservation = async (req, res) => {
 
 exports.cancelReservation = async (req, res) => {
     try {
-        const reservation = await dbReservation.findReservation({_id: req.params.id});
-        console.log(reservation);
-        const book = await dbBook.findBook({isbn: reservation.book.isbn});
-        if (reservation) {
-            book.isReserved = false;
-            if (book.copiesLoaned < book.copies) {
-                book.copiesAvailable++;
-            }
-            await dbBook.updateBookRecord({_id: book._id}, book);
-            await dbReservation.deleteReservationRecord({_id: req.params.id});
-        } else {
-            return {error: 'La reserva no existe'};
+        const reservation = await dbReservation.deleteReservationRecord({_id: req.params.id});
+        if (reservation.error) {
+            return res.render('profile', {
+                success: false,
+                message: reservation.error,
+                userAuthenticated: req.cookies.user,
+            });
         }
+        return res.redirect('/profile');
     } catch (error) {
         res.status(500).json({error: error.message});
     }

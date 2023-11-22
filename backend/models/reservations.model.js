@@ -18,6 +18,10 @@ const reservationSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'users',
     },
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const reservation = mongoose.model('reservations', reservationSchema);

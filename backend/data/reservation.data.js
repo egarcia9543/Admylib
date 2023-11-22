@@ -12,8 +12,8 @@ exports.findAllReservations = async () => {
 
 exports.findReservation = async (filter, projection) => {
     try {
-        if (!projection) return await Reservation.find(filter).populate('book').populate('user');
-        else return await Reservation.find(filter, projection).populate('book').populate('user');
+        if (!projection) return await Reservation.find(filter).populate({path: 'book', select: 'isbn title author publisher pages genres'}).populate({path: 'user', select: 'fullname document'});
+        else return await Reservation.find(filter, projection).populate({path: 'book', select: 'isbn title author publisher pages genres'}).populate({path: 'user', select: 'fullname document'});
     } catch (error) {
         return error;
     }
@@ -39,7 +39,7 @@ exports.createReservationRecord = async (reservationInfo) => {
                     return {error: 'El usuario no existe'};
                 }
             } else {
-                return {error: 'El libro ya está reservado'};
+                return {error: 'El libro ya ha sido reservado'};
             }
         } else {
             return {error: 'El libro no existe'};
@@ -50,9 +50,18 @@ exports.createReservationRecord = async (reservationInfo) => {
 };
 
 exports.deleteReservationRecord = async (filter) => {
+    const reservation = await Reservation.findOne(filter);
+    const book = await Book.findOne({_id: reservation.book});
+    const user = await User.findOne({_id: reservation.user});
     try {
-        if (!filter) return {error: 'No se ha especificado un filtro'};
-        return await Reservation.findOneAndDelete(filter);
+        if ((book.copiesAvailable + book.copiesLoaned) != book.copies) {
+            await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesAvailable: 1}});
+        }
+        await Book.findOneAndUpdate({_id: book._id}, {$set: {isReserved: false}});
+        await User.findOneAndUpdate({_id: user._id}, {$pull: {reservations: reservation._id}});
+        reservation.isActive = false;
+        await reservation.save();
+        return {success: 'Reserva cancelada correctamente'};
     } catch (error) {
         return error;
     }

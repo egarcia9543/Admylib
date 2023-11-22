@@ -14,7 +14,7 @@
                     <img src="<%= book.cover %>" class="w-75 h-100" alt="Portada" style="object-fit: cover;" />
                 </div>
                 <div class="col-md-6 mb-4">
-                    <div class="p-4">
+                    <div class="p-3">
                         <div class="mb-3">
                             <% genres.forEach(genre => { %>
                                 <span class="badge bg-dark me-1"><%= genre %></span>
@@ -39,9 +39,9 @@
                             </div>
                             <div>
                                 <% if (book.copiesAvailable > 0) { %>
-                                    <p class="fw-bold text-success">Copias disponibles: <%= book.copiesAvailable %></p>
+                                    <p class="fw-bold text-success text-center">Copias disponibles: <%= book.copiesAvailable %></p>
                                 <% } else { %>
-                                    <p class="fw-bold text-danger">Copias disponibles: 0</p>
+                                    <p class="fw-bold text-danger text-center">Copias disponibles: 0</p>
                                 <% } %>
                             </div>
                         </div>

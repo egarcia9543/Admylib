@@ -2,8 +2,8 @@ const User = require('../models/users.model');
 
 exports.findOneUser = async (filter, projection) => {
     try {
-        if (!projection) return await User.findOne(filter);
-        else return await User.findOne(filter, projection);
+        if (!projection) return await User.findOne(filter).populate().populate('loans');
+        else return await User.findOne(filter, projection).populate('reservations').populate('loans');
     } catch (error) {
         return error;
     }
