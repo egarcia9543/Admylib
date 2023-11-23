@@ -69,3 +69,17 @@ exports.cancelReservation = async (req, res) => {
         res.status(500).json({error: error.message});
     }
 };
+
+exports.updateReservation = async (req, res) => {
+    const {id} = req.body;
+    try {
+        const reservation = await dbReservation.updateReservationRecord({_id: id}, req.body);
+        if (reservation.error) {
+            return res.json({error: reservation.error});
+        } else {
+            return res.json({success: reservation});
+        }
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+};

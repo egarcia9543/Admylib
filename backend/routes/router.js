@@ -40,6 +40,7 @@ router.get('/state/:isbn', loanController.getLoanByISBN);
 router.get('/reservation/:isbn', reservationController.isBookReserved);
 router.post('/newreservation', reservationController.addReservation);
 router.get('/cancelreservation/:id', reservationController.cancelReservation);
+router.post('/updatereservation', reservationController.updateReservation);
 
 // Admin
 router.get('/admin', pagesController.verifyAdminUser, pagesController.renderAdminPage);

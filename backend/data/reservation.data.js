@@ -66,3 +66,13 @@ exports.deleteReservationRecord = async (filter) => {
         return error;
     }
 };
+
+exports.updateReservationRecord = async (filter, update) => {
+    try {
+        if (!filter) return {error: 'No se ha especificado un filtro'};
+        if (!update) return {error: 'No se dieron datos para actualizar'};
+        return await Reservation.findOneAndUpdate(filter, update, {new: true});
+    } catch (error) {
+        return error;
+    }
+};

@@ -136,7 +136,7 @@
                                                         </td>
                                                         <td class="d-flex flex-wrap justify-content-evenly">
                                                             <button class="btn btn-outline-dark"><i class="bi bi-eye"></i></button>
-                                                            <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editReservationModal"><i class="bi bi-pencil"></i></button>
+                                                            <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editReservationModal" onclick="fillReservationData(`<%= reservation._id %>`, `<%= reservation.reservationDate %>`, `<%= reservation.expirationDate %>`)"><i class="bi bi-pencil"></i></button>
                                                             <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="cancelReservation(`cancelreservation/<%= reservation._id %>`)"><i class="bi bi-trash"></i></button>
                                                         </td>
                                                     </tr>
@@ -240,8 +240,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="ss" method="post">
-                        <input id="id" name="id" type="hidden">
+                    <form action="updatereservation" method="post">
+                        <input id="reservationId" name="id" type="hidden">
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="reservationDate" class="form-label">Fecha de la reserva</label>
@@ -255,7 +255,7 @@
                                 <input type="date" class="form-control" id="expirationDate" name="expirationDate" readonly>
                             </div>
                         </div>
-                        <div class="ps-4 mb-1">
+                        <div class="mb-1">
                             <button type="submit" class="btn btn-dark btn-block">Guardar cambios</button>
                         </div>
                     </form>

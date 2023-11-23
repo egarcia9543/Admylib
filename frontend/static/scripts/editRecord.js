@@ -19,3 +19,18 @@ function fillBookData(id, isbn, title, author, publisher, genre, copies) {
 function addCopies() {
     document.getElementById('copies').value = parseInt(document.getElementById('copies').value) + 1;
 }
+
+function fillReservationData(id, reservationDate, expirationDate) {
+    reservationDate = new Date(reservationDate).toISOString().slice(0, 10);
+    expirationDate = new Date(expirationDate).toISOString().slice(0, 10);
+    document.getElementById('reservationId').value = id;
+    document.getElementById('reservationDate').value = reservationDate;
+    document.getElementById('reservationDate').min = reservationDate;
+    document.getElementById('expirationDate').value = expirationDate;
+
+    document.getElementById('reservationDate').addEventListener('change', () => {
+        const reservationDate = new Date(document.getElementById('reservationDate').value);
+        const expirationDate = new Date(reservationDate).setDate(reservationDate.getDate() + 5);
+        document.getElementById('expirationDate').value = new Date(expirationDate).toISOString().slice(0, 10);
+    });
+}
