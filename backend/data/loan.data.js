@@ -1,6 +1,7 @@
 const Loan = require('../models/loans.model');
 const Book = require('../models/books.model');
 const User = require('../models/users.model');
+const Reservation = require('../models/reservations.model');
 
 exports.findLoan = async (filter, projection) => {
     try {
@@ -28,10 +29,12 @@ exports.createLoanRecord = async (loanInfo) => {
         } else {
             return {error: 'El bibliotecario no existe'};
         }
-        const book = await Book.findOne({isbn: loanInfo.book}, {copiesAvailable: 1});
+        const book = await Book.findOne({isbn: loanInfo.book}, {copiesAvailable: 1, isReserved: 1});
+        const reservation = await Reservation.findOne({book: book._id, isActive: true});
         if (book) {
-            if (book.copiesAvailable > 0) {
+            if (book.copiesAvailable > 0 && book.isReserved === false) {
                 loanInfo.book = book._id;
+                // eslint-disable-next-line no-var
                 const user = await User.findOne({document: loanInfo.user});
                 if (user) {
                     loanInfo.user = user._id;
@@ -42,8 +45,28 @@ exports.createLoanRecord = async (loanInfo) => {
                 } else {
                     return {error: 'El usuario no existe'};
                 }
+            } else if (book.isReserved === true && reservation.isActive === true) {
+                const user = await User.findOne({document: loanInfo.user});
+                if (reservation.user.toString() === user._id.toString()) {
+                    loanInfo.book = book._id;
+                    loanInfo.user = user._id;
+                    const loanRegistered = await new Loan(loanInfo).save();
+                    const bookCopies = await Book.findOne({_id: book._id}, {copiesAvailable: 1, copiesLoaned: 1});
+                    if (bookCopies.copiesAvailable == 0) {
+                        await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesLoaned: 1}});
+                    } else {
+                        await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesAvailable: -1, copiesLoaned: 1}});
+                    }
+                    await Book.findOneAndUpdate({_id: book._id}, {$set: {isReserved: false}});
+                    await User.findOneAndUpdate({_id: user._id}, {$push: {loans: loanRegistered._id}});
+                    reservation.isActive = false;
+                    await reservation.save();
+                    return loanRegistered;
+                } else {
+                    return {error: 'El libro está reservado por otro usuario'};
+                }
             } else {
-                return {error: 'El libro no está disponible para préstamo'};
+                return {error: 'No hay copias disponibles del libro'};
             }
         } else {
             return {error: 'El libro no existe'};

@@ -6,13 +6,18 @@ exports.addLoan = async (req, res) => {
     try {
         const loan = await dbLoan.createLoanRecord(req.body);
         if (loan.error) {
+            console.log(loan.error);
             return res.render('loansInterface', {
             librarian: await dbUser.findOneUser({_id: req.cookies.user}, {document: 1}),
             error: loan.error,
             loans: await dbLoan.findAllLoans(),
         });
     } else {
-        return res.redirect('/loans');
+        return res.render('loansInterface', {
+            librarian: await dbUser.findOneUser({_id: req.cookies.user}, {document: 1}),
+            success: 'Préstamo realizado con éxito',
+            loans: await dbLoan.findAllLoans(),
+        });
     }
     } catch (error) {
         console.error(error);
@@ -69,7 +74,7 @@ exports.returnLoan = async (req, res) => {
 exports.getLoanByISBN = async (req, res) => {
     try {
         const book = await dbBook.findBook({isbn: req.params.isbn});
-        const loan = await dbLoan.findLoan({book: book._id});
+        const loan = await dbLoan.findLoan({book: book._id, returned: false});
         return res.json({success: loan});
     } catch (error) {
         console.error(error);
