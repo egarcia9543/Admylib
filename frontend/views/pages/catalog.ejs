@@ -14,7 +14,7 @@
             <div class="d-flex justify-content-evenly align-items-center flex-wrap">
                 <% books.forEach(book=> { %>
                     <a href="book/<%= book._id %>" class="text-decoration-none text-dark">
-                        <div class="card m-4">
+                        <div class="card m-4 bookcover">
                             <img src="<%= book.cover %>" class="card-img-top catalog-cover"/>
                             <div class="card-body">
                                 <h5 class="card-title text-center">

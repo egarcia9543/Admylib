@@ -74,6 +74,10 @@ img.recommended {
     object-fit: cover;
 }
 
+div.bookcover {
+    width: 25rem;
+}
+
 img.catalog-cover {
     width: 100%;
     height: 35rem;

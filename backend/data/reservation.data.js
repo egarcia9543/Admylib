@@ -1,6 +1,7 @@
 const Reservation = require('../models/reservations.model');
 const Book = require('../models/books.model');
 const User = require('../models/users.model');
+const cron = require('node-cron');
 
 exports.findAllReservations = async () => {
     try {
@@ -76,3 +77,22 @@ exports.updateReservationRecord = async (filter, update) => {
         return error;
     }
 };
+
+cron.schedule('0 0 * * * *', async () => {
+    const reservations = await Reservation.find({isActive: true});
+    console.log(reservations);
+    const today = new Date();
+    reservations.forEach(async (reservation) => {
+        if (reservation.expirationDate > today) {
+            const book = await Book.findOne({_id: reservation.book});
+            const user = await User.findOne({_id: reservation.user});
+            if ((book.copiesAvailable + book.copiesLoaned) != book.copies) {
+                await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesAvailable: 1}});
+            }
+            await Book.findOneAndUpdate({_id: book._id}, {$set: {isReserved: false}});
+            await User.findOneAndUpdate({_id: user._id}, {$pull: {reservations: reservation._id}});
+            reservation.isActive = false;
+            await reservation.save();
+        }
+    });
+});
