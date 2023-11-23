@@ -15,6 +15,10 @@ const penaltySchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'users',
     },
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const penalty = mongoose.model('penalties', penaltySchema);

@@ -41,7 +41,9 @@ exports.renderSignInPage = (req, res) => {
 };
 
 exports.renderAdminPage = async (req, res) => {
-    return res.render('adminInterface');
+    return res.render('adminInterface', {
+        user: await dbUser.findOneUser({_id: req.cookies.user}),
+    });
 };
 
 exports.renderProfilePage = async (req, res) => {
@@ -64,6 +66,7 @@ exports.renderCatalogingPage = async (req, res) => {
     const books = await dbBook.findAllBooks();
     return res.render('catalogingInterface', {
         books: books,
+        user: await dbUser.findOneUser({_id: req.cookies.user}),
     });
 };
 
@@ -73,6 +76,7 @@ exports.renderLoansPage = async (req, res) => {
     return res.render('loansInterface', {
         loans: loans,
         librarian: librarian,
+        user: await dbUser.findOneUser({_id: req.cookies.user}),
     });
 };
 
@@ -80,6 +84,7 @@ exports.renderUsersPage = async (req, res) => {
     const users = await dbUser.findAllUsers({password: 0});
     return res.render('usersInterface', {
         users: users,
+        user: await dbUser.findOneUser({_id: req.cookies.user}),
     });
 };
 
@@ -87,6 +92,7 @@ exports.renderPenaltiesPage = async (req, res) => {
     const penalties = await dbPenalty.findAllPenalties();
     return res.render('penaltiesInterface', {
         penalties: penalties,
+        user: await dbUser.findOneUser({_id: req.cookies.user}),
     });
 };
 
@@ -94,9 +100,12 @@ exports.renderReservationsPage = async (req, res) => {
     const reservations = await dbReservation.findAllReservations();
     return res.render('reservationsInterface', {
         reservations: reservations,
+        user: await dbUser.findOneUser({_id: req.cookies.user}),
     });
 };
 
 exports.renderBookForm = async (req, res) => {
-    return res.render('bookForm');
+    return res.render('bookForm', {
+        user: await dbUser.findOneUser({_id: req.cookies.user}),
+    });
 };

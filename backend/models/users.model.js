@@ -51,6 +51,10 @@ const userSchema = new Schema({
         }],
         default: [],
     },
+    isPenalized: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const user = mongoose.model('users', userSchema);

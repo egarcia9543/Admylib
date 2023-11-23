@@ -20,6 +20,9 @@
                     <div class="d-flex flex-column">
                         <a href="cataloging" class="btn btn-outline-dark fw-bold mb-3"><i class="bi bi-tags me-2"></i></i>Catalogación</a>
                         <a href="reservations" class="btn btn-outline-dark fw-bold mb-3"><i class="bi bi-calendar-check me-2"></i>Reservas</a>
+                        <% if (user.role === 'admin') { %>
+                            <a href="librarians" class="btn btn-outline-dark fw-bold mb-3"><i class="bi bi-gear me-2"></i>Empleados</a>
+                        <% } %>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-center flex-wrap">
