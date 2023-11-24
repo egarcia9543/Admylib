@@ -6,7 +6,7 @@ function fillData(id, fullname, email, phone) {
     document.getElementById('phone').value = phone;
 }
 
-function fillBookData(id, isbn, title, author, publisher, genre, copies) {
+function fillBookData(id, isbn, title, author, publisher, genre, copies, summary) {
     document.getElementById('id').value = id;
     document.getElementById('isbn').value = isbn;
     document.getElementById('title').value = title;
@@ -14,6 +14,7 @@ function fillBookData(id, isbn, title, author, publisher, genre, copies) {
     document.getElementById('publisher').value = publisher;
     document.getElementById('genres').value = genre;
     document.getElementById('copies').value = copies;
+    document.getElementById('summary').value = summary;
 }
 
 function addCopies() {

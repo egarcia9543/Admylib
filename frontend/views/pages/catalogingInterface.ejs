@@ -68,7 +68,7 @@
                                     <%= book.copiesLoaned %>
                                 </td>
                                 <td class="d-flex flex-column align-items-center">
-                                    <button class="btn btn-outline-warning mb-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillBookData(`<%= book._id %>`, `<%= book.isbn %>`, `<%= book.title %>`, `<%= book.author %>`, `<%= book.publisher %>`, `<%= book.genres %>`, `<%= book.copies %>`)"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-outline-warning mb-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillBookData(`<%= book._id %>`, `<%= book.isbn %>`, `<%= book.title %>`, `<%= book.author %>`, `<%= book.publisher %>`, `<%= book.genres %>`, `<%= book.copies %>`, `<%= book.summary %>`)"><i class="bi bi-pencil-square"></i></button>
                                     <button class="btn btn-outline-danger" onclick="deleteRecord(`deletebook/<%= book._id %>`)"><i class="bi bi-trash"></i></button>
                                 </td>
                             </tr>
@@ -113,6 +113,10 @@
                             <input type="text" class="form-control" id="genres" name="genres"
                                 placeholder="Géneros">
                             <label for="genres">Género(s) (Separados por coma)</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" name="summary" id="summary" cols="5" required></textarea>
+                            <label for="genres">Resumen</label>
                         </div>
                         <div class="form-floating mb-3">
                             <div class="input-group">
