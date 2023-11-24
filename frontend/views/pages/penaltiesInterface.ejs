@@ -3,7 +3,7 @@
 
 <head>
     <%- include ('../partials/adminHead') %>
-    <%- include ('../partials/adminDatatable') %>
+        <%- include ('../partials/adminDatatable') %>
 </head>
 
 <body>
@@ -13,7 +13,8 @@
     <main>
         <div class="card mb-4">
             <div class="card-body d-flex justify-content-end">
-                <a class="btn btn-outline-dark" href="registroproductos">Registrar sanción <i class="bi bi-book"></i></a>
+                <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#registerPenalty"
+                    onclick="fillDate()">Registrar sanción <i class="bi bi-book"></i></button>
             </div>
         </div>
         <div class="container">
@@ -21,29 +22,142 @@
                 <table id="datatable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Nombre completo</th>
+                            <th>Usuario</th>
                             <th>Motivo</th>
-                            <th>Penalización</th>
+                            <th>Sancionado hasta</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% penalties.forEach(penalty => { %>
-                        <tr>
-                            <td><%=  penalty.user.fullname %></td>
-                            <td><%= penalty.reason %></td>
-                            <td><%= penalty.penaltyTime %></td>
-                            <td>
-                                <button class="btn btn-outline-warning"><i class="bi bi-arrow-clockwise"></i></button>
-                                <button class="btn btn-outline-success"><i class="bi bi-download"></i></button>
-                            </td>
-                        </tr>
-                        <% }) %>
+                        <% penalties.forEach(penalty=> { %>
+                            <tr>
+                                <td>
+                                    <%= penalty.user.document %>
+                                </td>
+                                <td>
+                                    <%= penalty.reason %>
+                                </td>
+                                <td>
+                                    <%= penalty.penaltyTime.toISOString().slice(0, 10) %>
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editModal" onclick="fillPenaltyData(`<%= penalty._id %>`, `<%= penalty.penaltyTime %>`, `<%= penalty.user.document %>`, `<%= penalty.reason %>`)"><i
+                                            class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-outline-danger" onclick="deleteRecord(`deletepenalty/<%= penalty._id %>`)"><i
+                                            class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                            <% }) %>
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
+
+    <!-- New Penalty Modal -->
+    <div class="modal top fade" id="registerPenalty" tabindex="-1" aria-hidden="true" data-bs-backdrop="true"
+        data-bs-keyboard="true">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva sanción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="newpenalty" method="post" class="needs-validation" novalidate>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="penaltyTime" class="form-label">Penalizado hasta:</label>
+                                <input type="date" class="form-control" id="penaltyTime" name="penaltyTime">
+                            </div>
+                            <div class="col">
+                                <label for="user" class="form-label">Documento del usuario</label>
+                                <input type="text" class="form-control" id="user" name="user" required>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa el documento del usuario
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="reason" class="form-label">Justificación de la multa</label>
+                                <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa el ISBN del libro
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-outline-dark">Registrar sanción <i
+                                        class="bi bi-lock"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar sanción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="updatepenalty" method="post">
+                        <input id="penaltyId" name="id" type="hidden">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="penaltyTime" class="form-label">Penalizado hasta:</label>
+                                <input type="date" class="form-control" id="date" name="penaltyTime">
+                            </div>
+                            <div class="col">
+                                <label for="user" class="form-label">Documento del usuario</label>
+                                <input type="text" class="form-control" id="document" name="user" required readonly>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa el documento del usuario
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="reason" class="form-label">Justificación de la multa</label>
+                                <textarea class="form-control" id="justification" name="reason" rows="3" required></textarea>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa el ISBN del libro
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <button type="submit" class="btn btn-dark btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/scripts/datatable.js" defer></script>
+    <script src="/scripts/validateForm.js"></script>
+    <script src="/scripts/penaltyDate.js"></script>
+    <script src="/scripts/editRecord.js"></script>
+    <script src="/scripts/deleteRecord.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/scripts/errorAlerts.js"></script>
+    <% if (locals.error) { %>
+        <script>
+            errorAlert('<%= error %>');
+        </script>
+        <% } else if (locals.success) { %>
+            <script>
+                successAlert('<%= success %>');
+            </script>
+            <% } %>
 </body>
+
 </html>

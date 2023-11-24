@@ -80,7 +80,6 @@ exports.updateReservationRecord = async (filter, update) => {
 
 cron.schedule('0 0 0 * * *', async () => {
     const reservations = await Reservation.find({isActive: true});
-    console.log(reservations);
     const today = new Date();
     reservations.forEach(async (reservation) => {
         if (reservation.expirationDate > today) {

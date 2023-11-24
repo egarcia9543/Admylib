@@ -1,9 +1,18 @@
 const dbPenalty = require('../data/penalty.data');
+const dbUser = require('../data/user.data');
 
 exports.addPenalty = async (req, res) => {
     try {
         const penalty = await dbPenalty.createPenaltyRecord(req.body);
-        return res.json({success: penalty});
+        if (penalty.error) {
+            return res.render('penaltiesInterface', {
+                error: penalty.error,
+                message: penalty.error,
+                penalties: await dbPenalty.findAllPenalties(),
+                user: await dbUser.findOneUser({_id: req.cookies.user}),
+            });
+        }
+        return res.redirect('/penalties');
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
@@ -20,20 +29,20 @@ exports.getPenalties = async (req, res) => {
     }
 };
 
-exports.getPenaltyDetails = async (req, res) => {
-    try {
-        const penalty = await dbPenalty.findOnePenalty({_id: req.params.id});
-        return res.json({success: penalty});
-    } catch (error) {
-        console.error(error);
-        return res.json({error: 'Internal server error'});
-    }
-};
-
 exports.updatePenalty = async (req, res) => {
+    const {user} = req.body;
+    await dbUser.findOneUser({document: user}, {_id: 1});
+    req.body.user = user._id;
     try {
         const penalty = await dbPenalty.updatePenaltyRecord({_id: req.body.id}, req.body);
-        return res.json({success: penalty});
+        if (penalty.error) {
+            return res.render('penaltiesInterface', {
+                error: penalty.error,
+                penalties: await dbPenalty.findAllPenalties(),
+                user: await dbUser.findOneUser({_id: req.cookies.user}),
+            });
+        }
+        return res.redirect('/penalties');
     } catch (error) {
         console.error(error);
         return res.json({error: 'Internal server error'});
@@ -41,6 +50,7 @@ exports.updatePenalty = async (req, res) => {
 };
 
 exports.deletePenalty = async (req, res) => {
+    console.log(req.params.id);
     try {
         const penalty = await dbPenalty.deletePenaltyRecord({_id: req.params.id});
         return res.json({success: penalty});

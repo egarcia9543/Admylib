@@ -1,5 +1,6 @@
 const Penalty = require('../models/penalties.model');
 const User = require('../models/users.model');
+const cron = require('node-cron');
 
 exports.findOnePenalty = async (filter, projection) => {
     try {
@@ -14,11 +15,13 @@ exports.createPenaltyRecord = async (penaltyInfo) => {
     try {
         const user = await User.findOne({document: penaltyInfo.user}, {_id: 1});
         if (user) {
-            penaltyInfo.user = user._id;
+            penaltyInfo.user = user._id.toString();
+            const penaltyRegistered = await new Penalty(penaltyInfo).save();
+            await User.findOneAndUpdate({_id: user._id}, {$push: {penalties: penaltyRegistered._id}});
+            return penaltyRegistered;
         } else {
-            return {error: 'El usuario no existe'};
+            return {error: 'Este usuario no está registrado'};
         }
-        return new Penalty(penaltyInfo).save();
     } catch (error) {
         return error;
     }
@@ -26,7 +29,7 @@ exports.createPenaltyRecord = async (penaltyInfo) => {
 
 exports.findAllPenalties = async () => {
     try {
-        return await Penalty.find().populate({path: 'user', select: 'fullname'});
+        return await Penalty.find().populate({path: 'user', select: 'fullname document'});
     } catch (error) {
         return error;
     }
@@ -45,8 +48,23 @@ exports.updatePenaltyRecord = async (filter, update) => {
 exports.deletePenaltyRecord = async (filter) => {
     try {
         if (!filter) return {error: 'No se ha especificado un filtro'};
+        const penalty = await Penalty.findOne(filter);
+        const user = await User.findOne({_id: penalty.user});
+        await User.findOneAndUpdate({_id: user._id}, {$pull: {penalties: penalty._id}, $set: {isPenalized: false}});
         return await Penalty.findOneAndDelete(filter);
     } catch (error) {
         return error;
     }
 };
+
+cron.schedule('0 0 0 * * *', async () => {
+    const penalties = await Penalty.find({isActive: true});
+    console.log(penalties);
+    const today = new Date();
+    penalties.forEach(async (penalty) => {
+        if (penalty.penaltyTime <= today) {
+            await Penalty.findOneAndUpdate({_id: penalty._id}, {$set: {isActive: false}});
+            await User.findOneAndUpdate({_id: penalty.user}, {$set: {isBlocked: false}, $pull: {penalties: penalty._id}});
+        }
+    });
+});

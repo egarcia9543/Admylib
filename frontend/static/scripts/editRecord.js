@@ -34,3 +34,12 @@ function fillReservationData(id, reservationDate, expirationDate) {
         document.getElementById('expirationDate').value = new Date(expirationDate).toISOString().slice(0, 10);
     });
 }
+
+function fillPenaltyData(id, penaltyTime, user, justification) {
+    penaltyTime = new Date(penaltyTime).toISOString().slice(0, 10);
+    document.getElementById('penaltyId').value = id;
+    document.getElementById('date').value = penaltyTime;
+    document.getElementById('date').min = penaltyTime;
+    document.getElementById('document').value = user;
+    document.getElementById('justification').value = justification;
+}

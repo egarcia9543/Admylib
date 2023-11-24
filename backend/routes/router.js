@@ -7,6 +7,7 @@ const userController = require('../controller/user.controller');
 const bookController = require('../controller/book.controller');
 const loanController = require('../controller/loan.controller');
 const reservationController = require('../controller/reservation.controller');
+const penaltyController = require('../controller/penalty.controller');
 const upload = require('../middleware/upload');
 
 router.get('/', pagesController.renderLandingPage);
@@ -41,6 +42,10 @@ router.get('/reservation/:isbn', reservationController.isBookReserved);
 router.post('/newreservation', reservationController.addReservation);
 router.get('/cancelreservation/:id', reservationController.cancelReservation);
 router.post('/updatereservation', reservationController.updateReservation);
+
+router.post('/newpenalty', penaltyController.addPenalty);
+router.post('/updatepenalty', penaltyController.updatePenalty);
+router.delete('/deletepenalty/:id', penaltyController.deletePenalty);
 
 // Admin
 router.get('/admin', pagesController.verifyAdminUser, pagesController.renderAdminPage);
