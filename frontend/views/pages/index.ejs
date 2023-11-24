@@ -5,7 +5,11 @@
     <%- include('../partials/head.ejs') %>
 </head>
 
-<body>
+<body onload="pageLoaded()">
+    <div class="loader-section d-flex align-items-center flex-column">
+        <span class="loader"></span>
+        <p class="fw-bold">Cargando</p>
+    </div>
     <header>
         <%- include('../partials/navbar.ejs'); %>
     </header>
@@ -68,6 +72,11 @@
     <footer class="mt-3 d-">
         <%- include('../partials/footer.ejs'); %>
     </footer>
+    <script>
+        function pageLoaded() {
+            let loaderSection = document.querySelector('.loader-section');
+            loaderSection.classList.add('loaded');
+            }
+    </script>
 </body>
-
 </html>
