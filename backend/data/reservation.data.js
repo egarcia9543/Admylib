@@ -39,7 +39,7 @@ exports.createReservationRecord = async (reservationInfo) => {
                     await User.findOneAndUpdate({_id: user._id}, {$push: {reservations: reservationRegistered._id}});
                     return reservationRegistered;
                 } else {
-                    return {error: 'El usuario no existe'};
+                    return {error: 'Debes estar registrado para reservar un libro'};
                 }
             } else {
                 return {error: 'El libro ya ha sido reservado'};
@@ -84,7 +84,7 @@ cron.schedule('0 0 0 * * *', async () => {
     const reservations = await Reservation.find({isActive: true});
     const today = new Date();
     reservations.forEach(async (reservation) => {
-        if (reservation.expirationDate > today) {
+        if (reservation.expirationDate <= today) {
             const book = await Book.findOne({_id: reservation.book});
             const user = await User.findOne({_id: reservation.user});
             if ((book.copiesAvailable + book.copiesLoaned) != book.copies) {

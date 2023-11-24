@@ -48,7 +48,7 @@ exports.createLoanRecord = async (loanInfo) => {
                 }
             } else if (book.isReserved === true && reservation.isActive === true) {
                 const user = await User.findOne({document: loanInfo.user});
-                if (reservation.user.toString() === user._id.toString() && user.isPenalized === false) {
+                if (reservation.user.toString() === user._id.toString() && user.isPenalized === false ) {
                     loanInfo.book = book._id;
                     loanInfo.user = user._id;
                     const loanRegistered = await new Loan(loanInfo).save();

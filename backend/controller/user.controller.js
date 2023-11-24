@@ -5,6 +5,7 @@ const emailService = require('../middleware/emailservice');
 const logActivity = require('../middleware/logs');
 const bcrypt = require('bcrypt');
 const logRoute = './logs/userlogs.log';
+const dbPenalty = require('../data/penalty.data');
 
 exports.registerUser = async (req, res) => {
     const {document, email, password} = req.body;
@@ -42,7 +43,7 @@ exports.loginUser = async (req, res) => {
             if (!passwordIsCorrect) {
                 return res.render('signin', {error: 'Contraseña incorrecta'});
             } else {
-                return res.cookie('user', user._id).redirect('/');
+                return res.cookie('user', user._id).redirect('/profile');
             }
         }
     } catch (error) {
@@ -119,6 +120,7 @@ exports.updateProfile = async (req, res) => {
                     userAuthenticated: req.cookies.user,
                     loans: await dbLoan.findLoan({user: req.cookies.user}, {book: 1, loanDate: 1, returnDate: 1}),
                     reservations: await dbReservation.findReservation({user: req.cookies.user}, {book: 1, reservationDate: 1, expirationDate: 1, returnDate: 1}),
+                    penalty: await dbPenalty.findPenalty({user: req.cookies.user, isActive: true}, {penaltyTime: 1}),
                 });
             }
         }
