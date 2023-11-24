@@ -6,18 +6,14 @@ exports.addLoan = async (req, res) => {
     try {
         const loan = await dbLoan.createLoanRecord(req.body);
         if (loan.error) {
-            console.log(loan.error);
             return res.render('loansInterface', {
             librarian: await dbUser.findOneUser({_id: req.cookies.user}, {document: 1}),
             error: loan.error,
             loans: await dbLoan.findAllLoans(),
+            user: await dbUser.findOneUser({_id: req.cookies.user}),
         });
     } else {
-        return res.render('loansInterface', {
-            librarian: await dbUser.findOneUser({_id: req.cookies.user}, {document: 1}),
-            success: 'Préstamo realizado con éxito',
-            loans: await dbLoan.findAllLoans(),
-        });
+        return res.redirect('/loans');
     }
     } catch (error) {
         console.error(error);

@@ -19,11 +19,17 @@ function deleteRecordRequest(url) {
         method: 'DELETE',
     })
     .then((res) => res.json())
-    .then((data) => {
-        console.log(data);
-    })
     .catch((error) => console.error('Error:', error));
-    window.location.reload();
+    Swal.fire({
+        title: 'Registro eliminado',
+        text: 'El registro ha sido eliminado',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.reload();
+        }
+    });
 }
 
 function deleteAccount(url) {

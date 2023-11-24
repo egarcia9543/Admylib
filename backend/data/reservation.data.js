@@ -27,7 +27,9 @@ exports.createReservationRecord = async (reservationInfo) => {
             if (!book.isReserved) {
                 reservationInfo.book = book._id;
                 const user = await User.findOne({document: reservationInfo.document});
-                if (user) {
+                if (user.isPenalized == true) {
+                    return {error: 'Tienes una sanción activa'};
+                } else if (user) {
                     reservationInfo.user = user._id;
                     const reservationRegistered = await new Reservation(reservationInfo).save();
                     if (book.copiesAvailable > 0) {

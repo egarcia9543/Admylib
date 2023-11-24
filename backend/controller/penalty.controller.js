@@ -50,7 +50,6 @@ exports.updatePenalty = async (req, res) => {
 };
 
 exports.deletePenalty = async (req, res) => {
-    console.log(req.params.id);
     try {
         const penalty = await dbPenalty.deletePenaltyRecord({_id: req.params.id});
         return res.json({success: penalty});

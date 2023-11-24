@@ -50,6 +50,7 @@ exports.renderProfilePage = async (req, res) => {
     const user = await dbUser.findOneUser({_id: req.cookies.user});
     const reservations = await dbReservation.findReservation({user: req.cookies.user, isActive: true}, {book: 1, reservationDate: 1, expirationDate: 1, returnDate: 1});
     const loans = await dbLoan.findLoan({user: req.cookies.user, returned: false}, {book: 1, loanDate: 1, returnDate: 1});
+    const penalty = await dbPenalty.findPenalty({user: req.cookies.user, isActive: true}, {penaltyTime: 1});
     const userAuthenticated = req.cookies.user;
     if (!user) {
         return res.redirect('/signin');
@@ -59,6 +60,7 @@ exports.renderProfilePage = async (req, res) => {
         userAuthenticated: userAuthenticated,
         reservations: reservations,
         loans: loans,
+        penalty: penalty,
     });
 };
 

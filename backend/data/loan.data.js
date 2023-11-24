@@ -34,9 +34,10 @@ exports.createLoanRecord = async (loanInfo) => {
         if (book) {
             if (book.copiesAvailable > 0 && book.isReserved === false) {
                 loanInfo.book = book._id;
-                // eslint-disable-next-line no-var
                 const user = await User.findOne({document: loanInfo.user});
-                if (user) {
+                if (user.isPenalized == true) {
+                    return {error: 'El usuario está penalizado'};
+                } else if (user) {
                     loanInfo.user = user._id;
                     const loanRegistered = await new Loan(loanInfo).save();
                     await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesAvailable: -1, copiesLoaned: 1}});
@@ -47,7 +48,7 @@ exports.createLoanRecord = async (loanInfo) => {
                 }
             } else if (book.isReserved === true && reservation.isActive === true) {
                 const user = await User.findOne({document: loanInfo.user});
-                if (reservation.user.toString() === user._id.toString()) {
+                if (reservation.user.toString() === user._id.toString() && user.isPenalized === false) {
                     loanInfo.book = book._id;
                     loanInfo.user = user._id;
                     const loanRegistered = await new Loan(loanInfo).save();
@@ -62,6 +63,8 @@ exports.createLoanRecord = async (loanInfo) => {
                     reservation.isActive = false;
                     await reservation.save();
                     return loanRegistered;
+                } else if (user.isPenalized === true) {
+                    return {error: 'El usuario está penalizado'};
                 } else {
                     return {error: 'El libro está reservado por otro usuario'};
                 }

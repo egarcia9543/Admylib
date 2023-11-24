@@ -2,10 +2,10 @@ const Penalty = require('../models/penalties.model');
 const User = require('../models/users.model');
 const cron = require('node-cron');
 
-exports.findOnePenalty = async (filter, projection) => {
+exports.findPenalty = async (filter, projection) => {
     try {
-        if (!projection) return await Penalty.findOne(filter);
-        else return await Penalty.findOne(filter, projection);
+        if (!projection) return await Penalty.findOne(filter).populate({path: 'user', select: 'fullname document'});
+        else return await Penalty.findOne(filter, projection).populate({path: 'user', select: 'fullname document'});
     } catch (error) {
         return error;
     }
@@ -13,11 +13,13 @@ exports.findOnePenalty = async (filter, projection) => {
 
 exports.createPenaltyRecord = async (penaltyInfo) => {
     try {
-        const user = await User.findOne({document: penaltyInfo.user}, {_id: 1});
-        if (user) {
+        const user = await User.findOne({document: penaltyInfo.user}, {_id: 1, isPenalized: 1});
+        if (user.isPenalized == true) {
+            return {error: 'El usuario ya está penalizado'};
+        } else if (user) {
             penaltyInfo.user = user._id.toString();
             const penaltyRegistered = await new Penalty(penaltyInfo).save();
-            await User.findOneAndUpdate({_id: user._id}, {$push: {penalties: penaltyRegistered._id}});
+            await User.findOneAndUpdate({_id: user._id}, {$push: {penalties: penaltyRegistered._id}, $set: {isPenalized: true}});
             return penaltyRegistered;
         } else {
             return {error: 'Este usuario no está registrado'};
@@ -64,7 +66,7 @@ cron.schedule('0 0 0 * * *', async () => {
     penalties.forEach(async (penalty) => {
         if (penalty.penaltyTime <= today) {
             await Penalty.findOneAndUpdate({_id: penalty._id}, {$set: {isActive: false}});
-            await User.findOneAndUpdate({_id: penalty.user}, {$set: {isBlocked: false}, $pull: {penalties: penalty._id}});
+            await User.findOneAndUpdate({_id: penalty.user}, {$set: {isPenalized: false}, $pull: {penalties: penalty._id}});
         }
     });
 });
