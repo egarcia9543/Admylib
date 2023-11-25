@@ -47,6 +47,8 @@ router.post('/newpenalty', penaltyController.addPenalty);
 router.post('/updatepenalty', penaltyController.updatePenalty);
 router.delete('/deletepenalty/:id', penaltyController.deletePenalty);
 
+router.get('/librarians', pagesController.verifyAdminUser, pagesController.renderLibrariansPage);
+
 // Admin
 router.get('/admin', pagesController.verifyAdminUser, pagesController.renderAdminPage);
 router.get('/cataloging', pagesController.verifyAdminUser, pagesController.renderCatalogingPage);

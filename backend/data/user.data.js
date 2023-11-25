@@ -9,10 +9,11 @@ exports.findOneUser = async (filter, projection) => {
     }
 };
 
-exports.findAllUsers = async (projection) => {
+exports.findAllUsers = async (filter, projection) => {
     try {
-        if (!projection) return await User.find();
-        else return await User.find({}, projection);
+        if (!filter) return await User.find({}, projection);
+        else if (!projection) return await User.find(filter);
+        else return await User.find(filter, projection);
     } catch (error) {
         return error;
     }

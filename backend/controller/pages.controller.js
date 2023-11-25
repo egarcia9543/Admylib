@@ -83,9 +83,17 @@ exports.renderLoansPage = async (req, res) => {
 };
 
 exports.renderUsersPage = async (req, res) => {
-    const users = await dbUser.findAllUsers({password: 0});
+    const users = await dbUser.findAllUsers({role: 'member'}, {password: 0});
     return res.render('usersInterface', {
         users: users,
+        user: await dbUser.findOneUser({_id: req.cookies.user}),
+    });
+};
+
+exports.renderLibrariansPage = async (req, res) => {
+    const librarians = await dbUser.findAllUsers({role: 'librarian'}, {password: 0});
+    return res.render('librariansInterface', {
+        librarians: librarians,
         user: await dbUser.findOneUser({_id: req.cookies.user}),
     });
 };

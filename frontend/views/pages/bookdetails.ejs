@@ -40,6 +40,8 @@
                             <div>
                                 <% if (book.copiesAvailable == 1 && book.isReserved == true) { %>
                                     <p class="fw-bold text-danger text-center">Copia reservada</p>
+                                <% } else if (book.isReserved == true) { %>
+                                    <p class="fw-bold text-success text-center">Copias disponibles: <%= book.copiesAvailable - 1%></p>
                                 <% } else if (book.copiesAvailable > 0) { %>
                                     <p class="fw-bold text-success text-center">Copias disponibles: <%= book.copiesAvailable %></p>
                                 <% } else { %>

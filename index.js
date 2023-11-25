@@ -45,7 +45,7 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-cron.schedule('*/3 * * * * *', async () => {
-    console.log('Backup');
+cron.schedule('0 0 0 * * *', async () => {
+    console.log('Realizando Backup de la Base de datos');
     backup.backupDatabase();
 });

@@ -6,7 +6,7 @@ exports.backupDatabase = () => {
     const dbName = 'Admylibe';
     const outputPath = './backup';
 
-    const command = `mongodump --uri "${process.env.URI}" --db ${dbName} --out ${outputPath}`;
+    const command = `mongodump --uri "${process.env.MONGO_URI}" --out ${outputPath}`;
 
     exec(command, (error, stdout, stderr) => {
         if (error) {
