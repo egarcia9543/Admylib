@@ -23,7 +23,11 @@ exports.registerUser = async (req, res) => {
         } else {
             const newRecord = await dbUser.createUserRecord(req.body);
             logActivity.generateLog(logRoute, `User ${email} created at ${new Date()}\n`);
-            return res.cookie('user', newRecord._id).redirect('/profile');
+            if (newRecord.role == 'librarian') {
+                return res.redirect('/librarians');
+            } else {
+                return res.cookie('user', newRecord._id).redirect('/profile');
+            }
         }
     } catch (error) {
         console.error(error);

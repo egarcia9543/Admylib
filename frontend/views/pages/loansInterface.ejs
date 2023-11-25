@@ -85,7 +85,7 @@
                                                     class="bi bi-download"></i></button>
                                             <% } else { %>
                                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#returnAndPunish" onclick="returnAndPunish()"><i
+                                                    data-bs-target="#returnAndPunish" onclick="returnAndPunish(`<%= loan._id %>`, `<%= loan.book.isbn %>`, `<%= loan.user.document %>`)"><i
                                                         class="bi bi-download"></i></button>
                                                 <% } %>
                                 </td>
@@ -232,22 +232,25 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="extendloan" method="post" class="needs-validation" novalidate>
-                        <input type="hidden" id="" name="id">
+                    <div class="alert alert-danger" role="alert">
+                        Este préstamo está retrasado, registra la sanción despúes de la devolución
+                    </div>
+                    <form action="returnloan" method="post" class="needs-validation" novalidate>
+                        <input type="hidden" id="loanToReturnP" name="id">
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="book" class="form-label">Libro prestado</label>
-                                <input type="text" class="form-control" id="" name="book" readonly>
+                                <input type="text" class="form-control" id="returnBookP" name="book" readonly>
                             </div>
                             <div class="col">
-                                <label for="returnDate" class="form-label">Nueva fecha de devolución</label>
-                                <input type="date" class="form-control" id="" name="returnDate">
+                                <label for="returnDate" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" id="returnUserP" name="user" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <button type="submit" class="btn btn-outline-dark">Extender préstamo <i
-                                        class="bi bi-arrow-clockwise"></i></button>
+                                <button type="submit" class="btn btn-outline-dark">Devolver <i
+                                        class="bi bi-download"></i></button>
                             </div>
                         </div>
                     </form>

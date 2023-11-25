@@ -20,7 +20,9 @@
                             <th>Documento</th>
                             <th>Correo electrónico</th>
                             <th>Teléfono</th>
+                            <% if (user.role == 'admin') { %>
                             <th>Acciones</th>
+                            <% } %>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,10 +32,12 @@
                             <td><%= user.document %></td>
                             <td><%= user.email %></td>
                             <td><%= user.phone %></td>
+                            <% if (user.role == 'admin') { %>
                             <td>
                                 <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillData(`<%= user._id %>`, `<%= user.fullname %>`, `<%= user.email %>`, `<%= user.phone %>`)"><i class="bi bi-pencil-square"></i></button>
                                 <button class="btn btn-outline-danger" onclick="deleteRecord(`deleteuser/<%= user._id %>`)"><i class="bi bi-trash"></i></button>
                             </td>
+                            <% } %>
                         </tr>
                         <% }) %>
                     </tbody>

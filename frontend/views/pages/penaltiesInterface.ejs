@@ -25,6 +25,7 @@
                             <th>Usuario</th>
                             <th>Motivo</th>
                             <th>Sancionado hasta</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -41,11 +42,21 @@
                                     <%= penalty.penaltyTime.toISOString().slice(0, 10) %>
                                 </td>
                                 <td>
+                                    <% if (penalty.isActive == true) { %>
+                                        <span class="badge bg-danger">Activa</span>
+                                    <% } else { %>
+                                        <span class="badge bg-success">Resuelta</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <% if (penalty.isActive == true) { %>
                                     <button class="btn btn-outline-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal" onclick="fillPenaltyData(`<%= penalty._id %>`, `<%= penalty.penaltyTime %>`, `<%= penalty.user.document %>`, `<%= penalty.reason %>`)"><i
-                                            class="bi bi-pencil-square"></i></button>
-                                    <button class="btn btn-outline-danger" onclick="deleteRecord(`deletepenalty/<%= penalty._id %>`)"><i
-                                            class="bi bi-trash"></i></button>
+                                        data-bs-target="#editModal" onclick="fillPenaltyData(`<%= penalty._id %>`, `<%= penalty.penaltyTime %>`, `<%= penalty.user.document %>`, `<%= penalty.reason %>`)"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-outline-danger" onclick="deleteRecord(`deletepenalty/<%= penalty._id %>`)"><i class="bi bi-trash"></i></button>
+                                    <% } else { %>
+                                        <button class="btn btn-outline-warning" disabled><i class="bi bi-pencil-square"></i></button>
+                                        <button class="btn btn-outline-danger" disabled><i class="bi bi-trash"></i></button>
+                                    <% } %>
                                 </td>
                             </tr>
                             <% }) %>

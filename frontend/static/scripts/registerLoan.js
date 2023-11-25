@@ -28,3 +28,9 @@ function returnLoan(loanId, bookIsbn, userDocument) {
     returnBook.value = bookIsbn;
     returnUser.value = userDocument;
 }
+
+function returnAndPunish(loanId, bookIsbn, userDocument) {
+    loanToReturnP.value = loanId;
+    returnBookP.value = bookIsbn;
+    returnUserP.value = userDocument;
+}
