@@ -7,6 +7,8 @@ const router = require('./backend/routes/router');
 // const fs = require('fs');
 // const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const backup = require('./backend/config/backup');
+const cron = require('node-cron');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -41,4 +43,9 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)));
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+});
+
+cron.schedule('*/3 * * * * *', async () => {
+    console.log('Backup');
+    backup.backupDatabase();
 });

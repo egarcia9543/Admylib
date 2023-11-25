@@ -63,6 +63,18 @@ exports.createLoanRecord = async (loanInfo) => {
                     reservation.isActive = false;
                     await reservation.save();
                     return loanRegistered;
+                } else if (reservation.user.toString() !== user._id.toString() && book.copiesAvailable > 1) {
+                    loanInfo.book = book._id;
+                    loanInfo.user = user._id;
+                    const loanRegistered = await new Loan(loanInfo).save();
+                    const bookCopies = await Book.findOne({_id: book._id}, {copiesAvailable: 1, copiesLoaned: 1});
+                    if (bookCopies.copiesAvailable == 0) {
+                        await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesLoaned: 1}});
+                    } else {
+                        await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesAvailable: -1, copiesLoaned: 1}});
+                    }
+                    await User.findOneAndUpdate({_id: user._id}, {$push: {loans: loanRegistered._id}});
+                    return loanRegistered;
                 } else if (user.isPenalized === true) {
                     return {error: 'El usuario está penalizado'};
                 } else {

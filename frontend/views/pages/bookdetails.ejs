@@ -38,7 +38,9 @@
                                 <hr>
                             </div>
                             <div>
-                                <% if (book.copiesAvailable > 0) { %>
+                                <% if (book.copiesAvailable == 1 && book.isReserved == true) { %>
+                                    <p class="fw-bold text-danger text-center">Copia reservada</p>
+                                <% } else if (book.copiesAvailable > 0) { %>
                                     <p class="fw-bold text-success text-center">Copias disponibles: <%= book.copiesAvailable %></p>
                                 <% } else { %>
                                     <p class="fw-bold text-danger text-center">Copias disponibles: 0</p>

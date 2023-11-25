@@ -61,7 +61,6 @@ exports.deletePenaltyRecord = async (filter) => {
 
 cron.schedule('0 0 0 * * *', async () => {
     const penalties = await Penalty.find({isActive: true});
-    console.log(penalties);
     const today = new Date();
     penalties.forEach(async (penalty) => {
         if (penalty.penaltyTime <= today) {

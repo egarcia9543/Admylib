@@ -22,7 +22,7 @@ exports.findReservation = async (filter, projection) => {
 
 exports.createReservationRecord = async (reservationInfo) => {
     try {
-        const book = await Book.findOne({isbn: reservationInfo.book}, {isReserved: 1, copiesAvailable: 1});
+        const book = await Book.findOne({isbn: reservationInfo.book}, {isReserved: 1});
         if (book) {
             if (!book.isReserved) {
                 reservationInfo.book = book._id;
@@ -32,9 +32,6 @@ exports.createReservationRecord = async (reservationInfo) => {
                 } else if (user) {
                     reservationInfo.user = user._id;
                     const reservationRegistered = await new Reservation(reservationInfo).save();
-                    if (book.copiesAvailable > 0) {
-                        await Book.findOneAndUpdate({_id: book._id}, {$inc: {copiesAvailable: -1}, $set: {isReserved: true}});
-                    }
                     await Book.findOneAndUpdate({_id: book._id}, {$set: {isReserved: true}});
                     await User.findOneAndUpdate({_id: user._id}, {$push: {reservations: reservationRegistered._id}});
                     return reservationRegistered;
