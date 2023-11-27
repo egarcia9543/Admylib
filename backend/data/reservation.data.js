@@ -26,7 +26,16 @@ exports.createReservationRecord = async (reservationInfo) => {
         if (book) {
             if (!book.isReserved) {
                 reservationInfo.book = book._id;
-                const user = await User.findOne({document: reservationInfo.document});
+                const user = await User.findOne({document: reservationInfo.document}).populate('loans');
+                if (user.reservations.length == 3) {
+                    return {error: 'No puedes tener más de 3 reservas'};
+                }
+                const loansArray = user.loans;
+                for (let i = 0; i < loansArray.length; i++) {
+                    if (loansArray[i].book.toString() == book._id.toString()) {
+                        return {error: 'Ya tienes un préstamo activo de este libro'};
+                    }
+                }
                 if (user.isPenalized == true) {
                     return {error: 'Tienes una sanción activa'};
                 } else if (user) {

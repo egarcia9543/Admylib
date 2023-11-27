@@ -64,7 +64,9 @@
                                     <% if (loan.returned==true) { %>
                                         <button class="btn btn-outline-warning" disabled><i
                                                 class="bi bi-arrow-clockwise"></i></button>
-                                        <% } else if (loan.returnDate> new Date()) { %>
+                                        <% } else if (loan.book.isReserved == true) { %>
+                                            <button class="btn btn-outline-dark" disabled>Reservado <i class="bi bi-exclamation-diamond"></i></button>
+                                        <% } else if (loan.returnDate > new Date()) { %>
                                             <button class="btn btn-outline-warning"
                                                 onclick="extendLoan(`<%= loan._id %>`, `<%= loan.returnDate.toISOString() %>`, `<%= loan.book.isbn %>`)"
                                                 data-bs-toggle="modal" data-bs-target="#extendLoan"><i
@@ -72,7 +74,7 @@
                                             <% } else { %>
                                                 <button class="btn btn-outline-danger" disabled><i
                                                         class="bi bi-arrow-clockwise"></i></button>
-                                                <% } %>
+                                            <% } %>
                                 </td>
                                 <td>
                                     <% if (loan.returned==true) { %>

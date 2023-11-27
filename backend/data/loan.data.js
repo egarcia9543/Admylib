@@ -14,7 +14,7 @@ exports.findLoan = async (filter, projection) => {
 
 exports.findAllLoans = async (projection) => {
     try {
-        if (!projection) return await Loan.find().populate({path: 'book', select: 'title isbn'}).populate({path: 'user', select: 'document'}).populate({path: 'librarian', select: 'fullname document'});
+        if (!projection) return await Loan.find().populate({path: 'book', select: 'title isbn isReserved'}).populate({path: 'user', select: 'document'}).populate({path: 'librarian', select: 'fullname document'});
         else return await Loan.find({}, projection);
     } catch (error) {
         return error;
@@ -94,10 +94,10 @@ exports.createLoanRecord = async (loanInfo) => {
 exports.extendLoan = async (loanInfo) => {
     try {
         const loan = await Loan.findOne({_id: loanInfo.id});
-        const book = await Book.findOne({isbn: loanInfo.book}, {copiesAvailable: 1});
+        const book = await Book.findOne({isbn: loanInfo.book}, {copiesAvailable: 1, isReserved: 1});
         if (loan) {
             if (book) {
-                if (book.copiesAvailable > 0) {
+                if (book.isReserved === false) {
                     const updatedLoan = await Loan.findOneAndUpdate({_id: loan._id}, {$set: {returnDate: loanInfo.returnDate}}, {new: true});
                     return updatedLoan;
                 } else {

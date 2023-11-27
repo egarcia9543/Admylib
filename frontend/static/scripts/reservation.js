@@ -11,6 +11,7 @@ function fillReservation(isbn) {
     fetch(`/state/${isbn}`)
         .then((response) => response.json())
         .then((data) => {
+            console.log(data);
             if (data.success.length == 0) {
                 fetch(`/reservation/${isbn}`)
                 .then((response) => response.json())
@@ -28,7 +29,7 @@ function fillReservation(isbn) {
                 document.getElementById('reservationDate').setAttribute('readonly', true);
                 document.getElementById('reserveBtn').disabled = true;
                 document.getElementById('reserveBtn').innerHTML = 'Reservado';
-            } else if (data.success.length > 1) {
+            } else if (data.success.length >= 1) {
                 let closest;
                 data.success.forEach((element) => {
                     if (element.returnDate >= today) {

@@ -26,12 +26,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% users.forEach(user => { %>
+                        <% users.forEach(member => { %>
                         <tr>
-                            <td><%= user.fullname %></td>
-                            <td><%= user.document %></td>
-                            <td><%= user.email %></td>
-                            <td><%= user.phone %></td>
+                            <td><%= member.fullname %></td>
+                            <td><%= member.document %></td>
+                            <td><%= member.email %></td>
+                            <td><%= member.phone %></td>
                             <% if (user.role == 'admin') { %>
                             <td>
                                 <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillData(`<%= user._id %>`, `<%= user.fullname %>`, `<%= user.email %>`, `<%= user.phone %>`)"><i class="bi bi-pencil-square"></i></button>

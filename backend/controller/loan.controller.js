@@ -39,6 +39,7 @@ exports.updateLoan = async (req, res) => {
             librarian: await dbUser.findOneUser({_id: req.cookies.user}, {document: 1}),
             error: loan.error,
             loans: await dbLoan.findAllLoans(),
+            user: await dbUser.findOneUser({_id: req.cookies.user}),
         });
     } else {
         return res.redirect('/loans');
