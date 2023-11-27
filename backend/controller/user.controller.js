@@ -189,8 +189,15 @@ exports.deleteAccount = async (req, res) => {
     try {
         const {id} = req.params;
         const user = await dbUser.deleteUserRecord({_id: id});
-        if (!user) {
-            return res.send('No se pudo eliminar el usuario');
+        if (user.error) {
+            return res.render('profile', {
+                error: user.error,
+                user: await dbUser.findOneUser({_id: req.cookies.user}),
+                userAuthenticated: req.cookies.user,
+                loans: await dbLoan.findLoan({user: req.cookies.user, returned: false}, {book: 1, loanDate: 1, returnDate: 1}),
+                reservations: await dbReservation.findReservation({user: req.cookies.user, isActive: true}, {book: 1, reservationDate: 1, expirationDate: 1, returnDate: 1}),
+                penalty: await dbPenalty.findPenalty({user: req.cookies.user, isActive: true}, {penaltyTime: 1}),
+            });
         } else {
             return res.clearCookie('user').redirect('/');
         }

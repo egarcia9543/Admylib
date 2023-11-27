@@ -44,3 +44,21 @@ function fillPenaltyData(id, penaltyTime, user, justification) {
     document.getElementById('document').value = user;
     document.getElementById('justification').value = justification;
 }
+
+function reservationDetails(title, isbn, reservationDate, expirationDate) {
+    reservationDate = new Date(reservationDate).toISOString().slice(0, 10);
+    expirationDate = new Date(expirationDate).toISOString().slice(0, 10);
+    document.getElementById('bookTitle').value = title;
+    document.getElementById('bookIsbn').value = isbn;
+    document.getElementById('dateDetails').value = reservationDate;
+    document.getElementById('expirationDetails').value = expirationDate;
+}
+
+function loanDetails(title, isbn, loanDate, returnDate) {
+    loanDate = new Date(loanDate).toISOString().slice(0, 10);
+    returnDate = new Date(returnDate).toISOString().slice(0, 10);
+    document.getElementById('title').value = title;
+    document.getElementById('isbn').value = isbn;
+    document.getElementById('loanDate').value = loanDate;
+    document.getElementById('returnDate').value = returnDate;
+}

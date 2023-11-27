@@ -25,7 +25,8 @@ exports.addBook = async (req, res) => {
         const coverPath = `/uploads/${req.file.originalname}`;
         req.body.cover = coverPath;
         const book = await dbBook.createBookRecord(req.body);
-        logActivity.generateLog(logRoute, `Book ${book.title} created at ${new Date()}\n`);
+        const librarian = await dbUser.findOneUser({_id: req.cookies.user}, {document: 1});
+        logActivity.generateLog(logRoute, `Book ${book.title} created at ${new Date()} by ${librarian.document}\n`);
         return res.redirect('/cataloging');
     } catch (error) {
         console.error(error);
@@ -98,9 +99,10 @@ exports.updateBook = async (req, res) => {
         req.body.copies = parseInt(copies);
         req.body.copiesAvailable = parseInt(book.copiesAvailable) + parseInt(copies - book.copies);
     }
+    const librarian = await dbUser.findOneUser({_id: req.cookies.user}, {document: 1});
     try {
         const book = await dbBook.updateBookRecord({_id: id}, req.body);
-        logActivity.generateLog(logRoute, `Book ${book.title} updated at ${new Date()}\n`);
+        logActivity.generateLog(logRoute, `Book ${book.title} updated at ${new Date()} by ${librarian.document}\n`);
         return res.redirect('/cataloging');
     } catch (error) {
         console.error(error);
@@ -118,7 +120,8 @@ exports.deleteBook = async (req, res) => {
                 return;
             }
         });
-        logActivity.generateLog(logRoute, `Book ${book.title} deleted at ${new Date()}\n`);
+        const librarian = await dbUser.findOneUser({_id: req.cookies.user}, {document: 1});
+        logActivity.generateLog(logRoute, `Book ${book.title} deleted at ${new Date()} by ${librarian.document}\n`);
         return res.json({success: book});
     } catch (error) {
         console.error(error);

@@ -27,7 +27,7 @@ exports.createReservationRecord = async (reservationInfo) => {
             if (!book.isReserved) {
                 reservationInfo.book = book._id;
                 const user = await User.findOne({document: reservationInfo.document}).populate('loans');
-                if (user.reservations.length == 3) {
+                if (user.reservations.length > 3) {
                     return {error: 'No puedes tener más de 3 reservas'};
                 }
                 const loansArray = user.loans;

@@ -109,7 +109,7 @@
                                                             <%= loan.book.title %>
                                                         </td>
                                                         <td>
-                                                            <button class="btn btn-outline-dark"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#loanDetails" onclick="loanDetails(`<%= loan.book.title %>`, `<%= loan.book.isbn %>`, `<%= loan.loanDate %>`, `<%= loan.returnDate %>`)"><i class="bi bi-eye"></i></button>
                                                         </td>
                                                     </tr>
                                                 <% }) %>
@@ -140,9 +140,9 @@
                                                             <%= reservation.book.title %>
                                                         </td>
                                                         <td class="d-flex flex-wrap justify-content-evenly">
-                                                            <button class="btn btn-outline-dark"><i class="bi bi-eye"></i></button>
+                                                            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reservationDetails" onclick="reservationDetails(`<%= reservation.book.title %>`, `<%= reservation.book.isbn %>`, `<%= reservation.reservationDate %>`, `<%= reservation.expirationDate %>`)"><i class="bi bi-eye"></i></button>
                                                             <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editReservationModal" onclick="fillReservationData(`<%= reservation._id %>`, `<%= reservation.reservationDate %>`, `<%= reservation.expirationDate %>`)"><i class="bi bi-pencil"></i></button>
-                                                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="cancelReservation(`cancelreservation/<%= reservation._id %>`)"><i class="bi bi-trash"></i></button>
+                                                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="cancelReservation(`/cancelreservation/<%= reservation._id %>`)"><i class="bi bi-trash"></i></button>
                                                         </td>
                                                     </tr>
                                                 <% }) %>
@@ -155,7 +155,11 @@
                     </div>
                 </div>
                 <div class="col-lg-12 mt-3 d-flex flex-row justify-content-evenly align-items-center card p-4">
-                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteAccount(`deleteaccount/<%= user._id %>`)">Eliminar cuenta</button>
+                    <% if (locals.error) { %>
+                        <button class="btn btn-outline-danger" disabled>Eliminar cuenta</button>
+                    <% } else { %>
+                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteAccount(`/deleteaccount/<%= user._id %>`)">Eliminar cuenta</button>
+                    <% } %>
                     <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillData(`<%= user._id %>`, `<%= user.fullname %>`, `<%= user.email %>`, `<%= user.phone %>`)">Editar perfil</button>
                 </div>
             </div>
@@ -264,6 +268,80 @@
                             <button type="submit" class="btn btn-dark btn-block">Guardar cambios</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reservation Details -->
+    <div class="modal fade" id="reservationDetails" tabindex="-1"aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="bookTitle" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="bookTitle" name="bookTitle" readonly>
+                        </div>
+                        <div class="col">
+                            <label for="bookIsbn" class="form-label">ISBN</label>
+                            <input type="text" class="form-control" id="bookIsbn" name="bookIsbn" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">                                
+                            <label for="dateDetails" class="form-label">Fecha de la reserva</label>
+                            <input type="date" class="form-control" id="dateDetails" name="dateDetails" readonly>
+                        </div>
+                        <div class="col">
+                            <label for="expirationDetails" class="form-label">Fecha de expiración</label>
+                            <input type="date" class="form-control" id="expirationDetails" name="expirationDetails" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <button type="submit" class="btn btn-dark btn-block" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loan Details -->
+    <div class="modal fade" id="loanDetails" tabindex="-1"aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="title" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="title" name="title" readonly>
+                        </div>
+                        <div class="col">
+                            <label for="isbn" class="form-label">ISBN</label>
+                            <input type="text" class="form-control" id="isbn" name="isbn" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">                                
+                            <label for="loanDate" class="form-label">Fecha de la reserva</label>
+                            <input type="date" class="form-control" id="loanDate" name="loanDate" readonly>
+                        </div>
+                        <div class="col">
+                            <label for="returnDate" class="form-label">Fecha de expiración</label>
+                            <input type="date" class="form-control" id="returnDate" name="returnDate" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <button type="submit" class="btn btn-dark btn-block" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -35,6 +35,9 @@ exports.createLoanRecord = async (loanInfo) => {
             if (book.copiesAvailable > 0 && book.isReserved === false) {
                 loanInfo.book = book._id;
                 const user = await User.findOne({document: loanInfo.user});
+                if (user.loans.length > 3) {
+                    return {error: 'El usuario ya tiene 3 préstamos activos'};
+                }
                 if (user.isPenalized == true) {
                     return {error: 'El usuario está penalizado'};
                 } else if (user) {

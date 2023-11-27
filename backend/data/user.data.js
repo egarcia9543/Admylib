@@ -1,4 +1,7 @@
 const User = require('../models/users.model');
+const Loan = require('../models/loans.model');
+const Reservation = require('../models/reservations.model');
+const Penalty = require('../models/penalties.model');
 
 exports.findOneUser = async (filter, projection) => {
     try {
@@ -40,7 +43,16 @@ exports.updateUserRecord = async (filter, update) => {
 exports.deleteUserRecord = async (filter) => {
     try {
         if (!filter) return {error: 'No se ha especificado un filtro'};
-        return await User.findOneAndDelete(filter);
+        const loans = await Loan.find({user: filter._id, returned: false});
+        const reservations = await Reservation.find({user: filter._id, isActive: true});
+        if (loans.length > 0 || reservations.length > 0) {
+            return {error: 'No se puede eliminar el usuario porque tiene préstamos o reservas activas'};
+        } else {
+            await Loan.deleteMany({user: filter._id});
+            await Reservation.deleteMany({user: filter._id});
+            await Penalty.deleteMany({user: filter._id});
+            return await User.findOneAndDelete(filter);
+        }
     } catch (error) {
         return error;
     }
