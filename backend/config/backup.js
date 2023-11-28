@@ -6,14 +6,14 @@ exports.backupDatabase = async () => {
     const dbName = 'Admylibe';
     const outputPath = './backup';
 
-    const command = `mongodump --uri "${process.env.MONGO_URI}" --out ${outputPath}`;
+    const command = `mongodump --uri "${process.env.MONGO_URI}" --out ${outputPath} --gzip`;
 
     await exec(command, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error en el respaldo: ${error.message}`);
             return;
         }
-        console.log(`Respaldo completado con éxito: ${stdout}`);
+        console.log(`Respaldo completado con éxito ${stdout}`);
     });
 };
 
