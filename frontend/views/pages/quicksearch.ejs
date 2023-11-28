@@ -13,7 +13,7 @@
                 <% books.forEach(book=> { %>
                     <a href="book/<%= book._id %>" class="text-decoration-none text-dark">
                         <div class="card m-4">
-                            <img src="<%= book.cover %>" class="card-img-top catalog-cover"/>
+                            <img src="<%= book.cover %>" class="card-img-top catalog-cover" alt="portada libro"/>
                             <div class="card-body">
                                 <h5 class="card-title text-center">
                                     <%= book.title %>
@@ -26,7 +26,7 @@
             <% if (books.length == 0) { %>
                 <div class="container d-flex justify-content-center align-items-center flex-column">
                     <p class="fw-bold fs-3">No pudimos encontrar lo que estabas buscado</p>
-                    <img src="/imgs/notfound.svg" alt="Not found image" class="img-fluid" width="550" height="550">
+                    <img src="/imgs/notfound.svg" alt="Not found image" class="img-fluid" width="550" height="550" alt="No se encontro">
                     <a class="btn btn-outline-dark" href="/books"><i class="bi bi-book me-2"></i>Ver catálogo</a>
                 </div>
             <% } %>
