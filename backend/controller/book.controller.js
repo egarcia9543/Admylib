@@ -22,7 +22,7 @@ exports.addBook = async (req, res) => {
         if (bookIsRegistered) {
             return res.status(400).json({error: 'Este libro ya se encuentra registrado'});
         }
-        const coverPath = `/uploads/${req.file.originalname}`;
+        const coverPath = `/uploads/${req.body.isbn}-${req.file.originalname}`;
         req.body.cover = coverPath;
         const book = await dbBook.createBookRecord(req.body);
         const librarian = await dbUser.findOneUser({_id: req.cookies.user}, {document: 1});
