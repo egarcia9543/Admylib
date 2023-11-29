@@ -15,8 +15,8 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                                alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            <img id="profile-image" src="<%= user.profilePicture %>"
+                                alt="avatar" class="rounded-circle" style="width: 200px; height: 200px;">
                             <h5 class="my-3">
                                 <%= user.fullname %>
                             </h5>
@@ -27,6 +27,11 @@
                             <% } else {%>
                                 <p class="text-muted mb-1">Usuario</p>
                             <% } %>
+                            <form action="/updatepicture" method="post" enctype="multipart/form-data" id="updateForm" class="mt-2">
+                                <input type="text" name="userDocument" value="<%= user.document %>" hidden>
+                                <input type="file" id="profilePicture" name="profilePicture" accept="image/*" style="display: none;" onchange="submitForm()">
+                                <button type="button" class="btn btn-primary" onclick="document.getElementById('profilePicture').click()">Actualizar Foto de Perfil</button>
+                            </form>
                         </div>
                     </div>
                     <% if (user.isPenalized == true) { %>
@@ -360,6 +365,11 @@
             successAlert('<%= success %>');
         </script>
     <% } %>
+    <script>
+        function submitForm() {
+            document.getElementById('updateForm').submit();
+        }
+    </script>
 </body>
 
 </html>

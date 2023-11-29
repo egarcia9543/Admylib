@@ -2,10 +2,12 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './frontend/static/uploads');
+        if (req.body.isbn) cb(null, './frontend/static/uploads');
+        else if (req.body.userDocument) cb(null, './frontend/static/userPics');
     },
     filename: (req, file, cb) => {
-        cb(null, `${req.body.isbn}-${file.originalname}`);
+        const identifier = req.body.isbn ? req.body.isbn : req.body.userDocument;
+        cb(null, `${identifier}-${file.originalname}`);
     },
 });
 

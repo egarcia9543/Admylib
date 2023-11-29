@@ -4,6 +4,7 @@ const dbReservation = require('../data/reservation.data');
 const emailService = require('../middleware/emailservice');
 const logActivity = require('../middleware/logs');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 const logRoute = './logs/userlogs.log';
 const dbPenalty = require('../data/penalty.data');
 
@@ -214,6 +215,48 @@ exports.deleteAccount = async (req, res) => {
             });
         } else {
             return res.clearCookie('user').redirect('/');
+        }
+    } catch (error) {
+        return res.render('500', {
+            error: error,
+        });
+    }
+};
+
+exports.updateProfilePicture = async (req, res) => {
+    try {
+        const {userDocument} = req.body;
+        const user = await dbUser.findOneUser({document: userDocument});
+        if (!user) {
+            return res.render('profile', {
+                error: 'Este usuario no existe',
+                user: await dbUser.findOneUser({_id: req.cookies.user}),
+                userAuthenticated: req.cookies.user,
+                loans: await dbLoan.findLoan({user: req.cookies.user, returned: false}, {book: 1, loanDate: 1, returnDate: 1}),
+                reservations: await dbReservation.findReservation({user: req.cookies.user, isActive: true}, {book: 1, reservationDate: 1, expirationDate: 1, returnDate: 1}),
+                penalty: await dbPenalty.findPenalty({user: req.cookies.user, isActive: true}, {penaltyTime: 1}),
+            });
+        } else {
+            const imgPath = `/userPics/${req.body.userDocument}-${req.file.originalname}`;
+            const update = await dbUser.updateUserRecord({document: userDocument}, {profilePicture: imgPath});
+            fs.unlink(`./frontend/static${user.profilePicture}`, (err) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+            });
+            if (!update) {
+                return res.render('profile', {
+                    error: 'No se pudo actualizar la imagen',
+                    user: await dbUser.findOneUser({_id: req.cookies.user}),
+                    userAuthenticated: req.cookies.user,
+                    loans: await dbLoan.findLoan({user: req.cookies.user, returned: false}, {book: 1, loanDate: 1, returnDate: 1}),
+                    reservations: await dbReservation.findReservation({user: req.cookies.user, isActive: true}, {book: 1, reservationDate: 1, expirationDate: 1, returnDate: 1}),
+                    penalty: await dbPenalty.findPenalty({user: req.cookies.user, isActive: true}, {penaltyTime: 1}),
+                });
+            } else {
+                return res.redirect('/profile');
+            }
         }
     } catch (error) {
         return res.render('500', {

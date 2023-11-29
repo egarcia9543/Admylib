@@ -55,6 +55,10 @@ const userSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    profilePicture: {
+        type: String,
+        default: 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp',
+    },
 });
 
 const user = mongoose.model('users', userSchema);
