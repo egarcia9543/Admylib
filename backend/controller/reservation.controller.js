@@ -81,9 +81,11 @@ exports.updateReservation = async (req, res) => {
     try {
         const reservation = await dbReservation.updateReservationRecord({_id: id}, req.body);
         if (reservation.error) {
-            return res.json({error: reservation.error});
+            return res.json({
+                error: reservation.error,
+            });
         } else {
-            return res.json({success: reservation});
+            return res.redirect('/profile');
         }
     } catch (error) {
         return res.render('500', {
