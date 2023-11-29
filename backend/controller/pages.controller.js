@@ -91,7 +91,7 @@ exports.renderUsersPage = async (req, res) => {
 };
 
 exports.renderLibrariansPage = async (req, res) => {
-    const librarians = await dbUser.findAllUsers({role: 'librarian'}, {password: 0});
+    const librarians = await dbUser.findAllUsers({$or: [{role: 'librarian'}, {role: 'admin'}]}, {password: 0});
     return res.render('librariansInterface', {
         librarians: librarians,
         user: await dbUser.findOneUser({_id: req.cookies.user}),

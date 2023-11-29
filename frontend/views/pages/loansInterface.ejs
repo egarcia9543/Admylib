@@ -122,14 +122,14 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="book" class="form-label">ISBN del libro</label>
-                                <input type="text" class="form-control" id="book" name="book" required>
+                                <input type="text" class="form-control" id="book" name="book" required pattern="[0-9]{13}">
                                 <div class="invalid-feedback">
                                     Por favor ingresa el ISBN del libro
                                 </div>
                             </div>
                             <div class="col">
                                 <label for="user" class="form-label">Documento del usuario</label>
-                                <input type="text" class="form-control" id="user" name="user" required>
+                                <input type="text" class="form-control" id="user" name="user" required pattern="[0-9]{8,}">
                                 <div class="invalid-feedback">
                                     Por favor ingresa el documento del usuario
                                 </div>

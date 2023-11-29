@@ -58,7 +58,7 @@
                     <form action="updatelibrarian" method="post">
                         <input id="id" name="id" type="hidden">
                         <div class="form-floating mb-3 mt-3">
-                            <input type="text" class="form-control" id="fullname" name="fullname"
+                            <input type="text" class="form-control" id="fullname" name="fullname" pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+"
                                 placeholder="Nombre" required>
                             <label for="email">Nombre</label>
                         </div>
@@ -68,8 +68,8 @@
                             <label for="email">Email</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="phone" name="phone"
-                                placeholder="Teléfono" required>
+                            <input type="text" class="form-control" id="phone" name="phone"
+                                placeholder="Teléfono" required pattern="[0-9]{7,}">
                             <label for="email">Teléfono</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -97,15 +97,15 @@
                     <form action="register" method="post" class="needs-validation" novalidate>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="fullname" name="fullname"
-                                placeholder="Nombre completo" required>
+                                placeholder="Nombre completo" required pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+">
                             <label for="fullname">Nombre completo</label>
                             <div class="invalid-feedback">
                                 Por favor ingresa el nombre completo
                             </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="document" name="document"
-                                placeholder="Documento" required>
+                            <input type="text" class="form-control" id="document" name="document"
+                                placeholder="Documento" required pattern="[0-9]{8,}">
                             <label for="document">Documento</label>
                             <div class="invalid-feedback">
                                 Por favor ingresa el documento
@@ -119,8 +119,8 @@
                             </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="phone" name="phone"
-                                placeholder="Teléfono" required>
+                            <input type="text" class="form-control" id="phone" name="phone"
+                                placeholder="Teléfono" required pattern="[0-9]{7,}">
                             <label for="phone">Teléfono</label>
                             <div class="invalid-feedback">
                                 Por favor ingresa el teléfono
@@ -132,6 +132,16 @@
                             <label for="password">Contraseña</label>
                             <div class="invalid-feedback">
                                 Por favor ingresa una contraseña de 8 caracteres
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select name="role" id="role" class="form-select">
+                                <option value="librarian">Bibliotecólogo</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                            <label for="role">Rol</label>
+                            <div class="invalid-feedback">
+                                Por favor seleccione el rol
                             </div>
                         </div>
                         <input type="text" hidden  name="role" value="librarian">

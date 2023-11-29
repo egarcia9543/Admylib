@@ -90,7 +90,7 @@
                     <form action="updatebook" method="post">
                         <input id="id" name="id" type="hidden">
                         <div class="form-floating mb-3 mt-3">
-                            <input type="text" class="form-control" id="isbn" name="isbn"
+                            <input type="text" class="form-control" id="isbn" name="isbn" pattern="[0-9]{13}"
                                 placeholder="ISBN" required>
                             <label for="isbn">ISBN</label>
                         </div>
@@ -100,7 +100,7 @@
                             <label for="title">Título</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="author" name="author"
+                            <input type="text" class="form-control" id="author" name="author" pattern="[A-Za-z\s,]+"
                                 placeholder="Autor" required>
                             <label for="author">Autor(es) (Separados por coma)</label>
                         </div>
@@ -110,7 +110,7 @@
                             <label for="publisher">Editorial</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="genres" name="genres"
+                            <input type="text" class="form-control" id="genres" name="genres" pattern="[A-Za-z\s,]+"
                                 placeholder="Géneros">
                             <label for="genres">Género(s) (Separados por coma)</label>
                         </div>

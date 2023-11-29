@@ -18,18 +18,20 @@
                         <form action="register" method="post" class="needs-validation" novalidate>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="fullname" name="fullname"
-                                    placeholder="Nombre completo" required>
+                                    placeholder="Nombre completo" required pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" title="Por favor ingresa solo letras" minlength="8">
                                 <label for="fullname">Nombre completo</label>
                                 <div class="invalid-feedback">
                                     Por favor ingresa tu nombre completo
                                 </div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="number" class="form-control" id="document" name="document"
-                                    placeholder="Documento" required>
-                                <label for="document">Documento</label>
-                                <div class="invalid-feedback">
-                                    Por favor ingresa tu documento
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="document" name="document"
+                                        placeholder="Documento" required pattern="[0-9]{8,}" title="Por favor ingresa un documento válido de al menos 8 dígitos">
+                                    <label for="document">Documento</label>
+                                    <div class="invalid-feedback">
+                                        Por favor ingresa tu documento (mínimo 8 caracteres)
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-floating mb-3">
@@ -40,8 +42,8 @@
                                 </div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="number" class="form-control" id="phone" name="phone"
-                                    placeholder="Teléfono" required>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    placeholder="Teléfono" required pattern="[0-9]{7,}">
                                 <label for="phone">Teléfono</label>
                                 <div class="invalid-feedback">
                                     Por favor ingresa tu teléfono
