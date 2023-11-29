@@ -15,7 +15,9 @@ exports.addPenalty = async (req, res) => {
         return res.redirect('/penalties');
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -25,7 +27,9 @@ exports.getPenalties = async (req, res) => {
         return res.json({success: penalties});
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -45,7 +49,9 @@ exports.updatePenalty = async (req, res) => {
         return res.redirect('/penalties');
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -55,6 +61,8 @@ exports.deletePenalty = async (req, res) => {
         return res.json({success: penalty});
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };

@@ -30,7 +30,9 @@ exports.addBook = async (req, res) => {
         return res.redirect('/cataloging');
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -55,7 +57,9 @@ exports.getBooks = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -73,7 +77,9 @@ exports.getBookDetails = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -106,7 +112,9 @@ exports.updateBook = async (req, res) => {
         return res.redirect('/cataloging');
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -125,7 +133,9 @@ exports.deleteBook = async (req, res) => {
         return res.json({success: book});
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -141,6 +151,8 @@ exports.quickSearch = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };

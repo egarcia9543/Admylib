@@ -8,7 +8,9 @@ exports.isBookReserved = async (req, res) => {
         const isReserved = book.isReserved;
         return res.json({success: isReserved});
     } catch (error) {
-        res.status(500).json({error: error.message});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -50,7 +52,9 @@ exports.addReservation = async (req, res) => {
             user: user,
         });
     } catch (error) {
-        res.status(500).json({error: error.message});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -66,7 +70,9 @@ exports.cancelReservation = async (req, res) => {
         }
         return res.redirect('/profile');
     } catch (error) {
-        res.status(500).json({error: error.message});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -80,6 +86,8 @@ exports.updateReservation = async (req, res) => {
             return res.json({success: reservation});
         }
     } catch (error) {
-        res.status(500).json({error: error.message});
+        return res.render('500', {
+            error: error,
+        });
     }
 };

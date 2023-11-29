@@ -100,7 +100,7 @@
                                 <% if (locals.userAuthenticated) { %>
                                     <input type="text" class="form-control" id="document" name="document" value="<%= user.document %>" readonly>
                                 <% } else { %>    
-                                    <input type="text" class="form-control" id="document" name="document" required>
+                                    <input type="text" class="form-control" id="document" name="document" pattern="[0-9]{8,}" required>
                                     <div class="invalid-feedback">
                                         Por favor ingresa un documento de identidad registrado
                                     </div>

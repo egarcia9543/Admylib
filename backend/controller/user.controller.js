@@ -31,7 +31,9 @@ exports.registerUser = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(500).json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -52,7 +54,9 @@ exports.loginUser = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -61,7 +65,9 @@ exports.logout = async (req, res) => {
         return res.clearCookie('user').redirect('/');
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -88,7 +94,9 @@ exports.recoverPassword = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -129,7 +137,9 @@ exports.updateProfile = async (req, res) => {
             }
         }
     } catch (error) {
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -167,7 +177,9 @@ exports.updateUser = async (req, res) => {
             }
         }
     } catch (error) {
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -181,7 +193,9 @@ exports.deleteUser = async (req, res) => {
             return res.json({success: 'Usuario eliminado correctamente'});
         }
     } catch (error) {
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -202,6 +216,8 @@ exports.deleteAccount = async (req, res) => {
             return res.clearCookie('user').redirect('/');
         }
     } catch (error) {
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };

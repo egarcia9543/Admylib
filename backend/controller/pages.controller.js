@@ -7,7 +7,9 @@ const dbReservation = require('../data/reservation.data');
 exports.verifyAdminUser = async (req, res, next) => {
     const user = await dbUser.findOneUser({_id: req.cookies.user}, {role: 1});
     if (!user || user.role == 'member') {
-        return res.send('No tienes permisos para acceder a esta página');
+        return res.render('403', {
+            error: 'No tienes permisos para acceder a esta página',
+        });
     } else {
         next();
     }

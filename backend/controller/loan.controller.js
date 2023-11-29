@@ -17,7 +17,9 @@ exports.addLoan = async (req, res) => {
     }
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -27,7 +29,9 @@ exports.getLoanDetails = async (req, res) => {
         return res.json({success: loan});
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -46,7 +50,9 @@ exports.updateLoan = async (req, res) => {
     }
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -64,7 +70,9 @@ exports.returnLoan = async (req, res) => {
     }
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
 
@@ -75,6 +83,8 @@ exports.getLoanByISBN = async (req, res) => {
         return res.json({success: loan});
     } catch (error) {
         console.error(error);
-        return res.json({error: 'Internal server error'});
+        return res.render('500', {
+            error: error,
+        });
     }
 };
