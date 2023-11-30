@@ -204,6 +204,12 @@ exports.deleteAccount = async (req, res) => {
     try {
         const {id} = req.params;
         const user = await dbUser.deleteUserRecord({_id: id});
+        fs.unlink(`./frontend/static${user.profilePicture}`, (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+        });
         if (user.error) {
             return res.render('profile', {
                 error: user.error,
