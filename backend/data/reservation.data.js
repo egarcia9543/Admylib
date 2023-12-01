@@ -2,6 +2,7 @@ const Reservation = require('../models/reservations.model');
 const Book = require('../models/books.model');
 const User = require('../models/users.model');
 const cron = require('node-cron');
+const emailService = require('../middleware/emailservice');
 
 exports.findAllReservations = async () => {
     try {
@@ -100,6 +101,22 @@ cron.schedule('0 0 0 * * *', async () => {
             await User.findOneAndUpdate({_id: user._id}, {$pull: {reservations: reservation._id}});
             reservation.isActive = false;
             await reservation.save();
+        }
+    });
+});
+
+cron.schedule('0 0 0 * * *', async () => {
+    const reservations = await Reservation.find({isActive: true}).populate({path: 'user', select: 'email'}).populate({path: 'book', select: 'title'});
+    const today = new Date().toISOString().slice(0, 10);
+    reservations.forEach(async (reservation) => {
+        if (reservation.expirationDate.toISOString().slice(0, 10) == today) {
+            const emailBody = `
+                ¡Atención!
+            Su reserva del libro ${reservation.book.title} vence el día de hoy.
+            Recuerde pasar por ella y registrar el préstamo.
+            `;
+            await emailService.sendEmail(reservation.user.email, 'Reserva a punto de expirar', emailBody);
+            console.log(`Mensaje enviado a ${reservation.user.email}`);
         }
     });
 });
