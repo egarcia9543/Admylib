@@ -105,6 +105,7 @@
                                                 <tr>
                                                     <th scope="col">Libro</th>
                                                     <th scope="col">Detalles</th>
+                                                    <th scope="col">Estado</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -115,6 +116,13 @@
                                                         </td>
                                                         <td>
                                                             <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#loanDetails" onclick="loanDetails(`<%= loan.book.title %>`, `<%= loan.book.isbn %>`, `<%= loan.loanDate %>`, `<%= loan.returnDate %>`)"><i class="bi bi-eye"></i></button>
+                                                        </td>
+                                                        <td>
+                                                            <% if (loan.returnDate > Date.now()) { %>
+                                                                <span class="badge bg-success">Activo</span>
+                                                            <% } else { %>
+                                                                <span class="badge bg-danger">Vencido</span>
+                                                            <% } %>
                                                         </td>
                                                     </tr>
                                                 <% }) %>
