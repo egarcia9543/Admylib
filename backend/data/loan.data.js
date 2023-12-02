@@ -34,9 +34,15 @@ exports.createLoanRecord = async (loanInfo) => {
         if (book) {
             if (book.copiesAvailable > 0 && book.isReserved === false) {
                 loanInfo.book = book._id;
-                const user = await User.findOne({document: loanInfo.user});
+                const user = await User.findOne({document: loanInfo.user}).populate({path: 'loans', select: 'book'});
                 if (user.loans.length > 3) {
                     return {error: 'El usuario ya tiene 3 préstamos activos'};
+                }
+                const userLoans = user.loans;
+                for (let i = 0; i < userLoans.length; i++) {
+                    if (userLoans[i].book.toString() == book._id.toString()) {
+                        return {error: 'Ya tienes una copia de este libro prestada'};
+                    }
                 }
                 if (user.isPenalized == true) {
                     return {error: 'El usuario está penalizado'};
