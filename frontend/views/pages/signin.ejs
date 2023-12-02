@@ -69,9 +69,12 @@
                     <p class="py-2">
                         Ingresa tu correo electrónico para enviarte una nueva contraseña
                     </p>
-                    <form action="recover" method="post">
+                    <form action="recover" method="post" class="needs-validation" novalidate>
                         <div class="form-outline">
-                            <input type="email" name="email" class="form-control my-3" />
+                            <input type="email" name="email" class="form-control my-3" required/>
+                            <div class="invalid-feedback mb-2">
+                                Por favor ingresa tu email
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-dark  w-100">Recuperar</button>
                     </form>

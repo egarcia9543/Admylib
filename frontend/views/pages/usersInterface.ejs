@@ -34,8 +34,8 @@
                             <td><%= member.phone %></td>
                             <% if (user.role == 'admin') { %>
                             <td>
-                                <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillData(`<%= user._id %>`, `<%= user.fullname %>`, `<%= user.email %>`, `<%= user.phone %>`)"><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-outline-danger" onclick="deleteRecord(`deleteuser/<%= user._id %>`)"><i class="bi bi-trash"></i></button>
+                                <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillData(`<%= member._id %>`, `<%= member.fullname %>`, `<%= member.email %>`, `<%= member.phone %>`)"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-outline-danger" onclick="deleteRecord(`deleteuser/<%= member._id %>`)"><i class="bi bi-trash"></i></button>
                             </td>
                             <% } %>
                         </tr>
@@ -54,27 +54,39 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="updateuser" method="post">
+                    <form action="updateuser" method="post" class="needs-validation" novalidate>
                         <input id="id" name="id" type="hidden">
                         <div class="form-floating mb-3 mt-3">
                             <input type="text" class="form-control" id="fullname" name="fullname"
                                 placeholder="Nombre" required pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+">
                             <label for="email">Nombre</label>
+                            <div class="invalid-feedback">
+                                Por favor ingresa un nombre completo
+                            </div>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="email" class="form-control" id="email" name="email"
                                 placeholder="Email" required>
                             <label for="email">Email</label>
+                            <div class="invalid-feedback">
+                                Por favor ingresa un correo
+                            </div>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="phone" name="phone"
                                 placeholder="Teléfono" required pattern="[0-9]{7,}">
                             <label for="email">Teléfono</label>
+                            <div class="invalid-feedback">
+                                Por favor ingresa un teléfono
+                            </div>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Contraseña">
+                                placeholder="Contraseña" minlength="8" required >
                             <label for="email">Contraseña</label>
+                            <div class="invalid-feedback">
+                                Por favor ingresa una contraseña de 8 caracteres
+                            </div>
                         </div>
                         <div class="mb-1">
                             <button type="submit" class="btn btn-dark btn-block">Guardar cambios</button>
@@ -85,6 +97,7 @@
         </div>
     </div>
     <script src="/scripts/datatable.js" defer></script>
+    <script src="/scripts/validateForm.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/scripts/deleteRecord.js"></script>
     <script src="/scripts/editRecord.js"></script>

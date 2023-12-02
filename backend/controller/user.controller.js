@@ -170,11 +170,7 @@ exports.updateUser = async (req, res) => {
                 });
             } else {
                 logActivity.generateLog(logRoute, `User ${id} updated ${JSON.stringify(req.body)} at ${new Date()}\n`);
-                return res.render('usersInterface', {
-                    success: 'Usuario actualizado correctamente',
-                    users: await dbUser.findAllUsers({password: 0}),
-                    user: req.cookies.user,
-                });
+                return res.redirect('/users');
             }
         }
     } catch (error) {

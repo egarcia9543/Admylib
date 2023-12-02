@@ -30,11 +30,17 @@ exports.createLoanRecord = async (loanInfo) => {
             return {error: 'El bibliotecario no existe'};
         }
         const book = await Book.findOne({isbn: loanInfo.book}, {copiesAvailable: 1, isReserved: 1});
+        if (book == null) {
+            return {error: 'Este libro no existe'};
+        }
         const reservation = await Reservation.findOne({book: book._id, isActive: true});
         if (book) {
             if (book.copiesAvailable > 0 && book.isReserved === false) {
                 loanInfo.book = book._id;
                 const user = await User.findOne({document: loanInfo.user}).populate({path: 'loans', select: 'book'});
+                if (user == null) {
+                    return {error: 'Este usuario no está registrado'};
+                }
                 if (user.loans.length > 3) {
                     return {error: 'El usuario ya tiene 3 préstamos activos'};
                 }
