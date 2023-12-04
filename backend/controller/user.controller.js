@@ -24,7 +24,7 @@ exports.registerUser = async (req, res) => {
         } else {
             const newRecord = await dbUser.createUserRecord(req.body);
             logActivity.generateLog(logRoute, `User ${email} created at ${new Date()}\n`);
-            if (newRecord.role == 'librarian') {
+            if (newRecord.role == 'librarian' || newRecord.role == 'admin') {
                 return res.redirect('/librarians');
             } else {
                 return res.cookie('user', newRecord._id).redirect('/profile');

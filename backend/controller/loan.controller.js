@@ -23,18 +23,6 @@ exports.addLoan = async (req, res) => {
     }
 };
 
-exports.getLoanDetails = async (req, res) => {
-    try {
-        const loan = await dbLoan.pruebaConsultaAnidada({_id: req.params.id});
-        return res.json({success: loan});
-    } catch (error) {
-        console.error(error);
-        return res.render('500', {
-            error: error,
-        });
-    }
-};
-
 exports.updateLoan = async (req, res) => {
     try {
         const loan = await dbLoan.extendLoan(req.body);

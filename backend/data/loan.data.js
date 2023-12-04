@@ -14,7 +14,7 @@ exports.findLoan = async (filter, projection) => {
 
 exports.findAllLoans = async (projection) => {
     try {
-        if (!projection) return await Loan.find().populate({path: 'book', select: 'title isbn isReserved'}).populate({path: 'user', select: 'document'}).populate({path: 'librarian', select: 'fullname document'});
+        if (!projection) return await Loan.find().populate({path: 'book', select: 'title isbn isReserved copiesAvailable'}).populate({path: 'user', select: 'document'}).populate({path: 'librarian', select: 'fullname document'});
         else return await Loan.find({}, projection);
     } catch (error) {
         return error;

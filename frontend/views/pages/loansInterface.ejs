@@ -64,7 +64,7 @@
                                     <% if (loan.returned==true) { %>
                                         <button class="btn btn-outline-warning" disabled><i
                                                 class="bi bi-arrow-clockwise"></i></button>
-                                        <% } else if (loan.book.isReserved == true) { %>
+                                        <% } else if (loan.book.isReserved == true && loan.book.copiesAvailable == 0) { %>
                                             <button class="btn btn-outline-dark" disabled>Reservado <i class="bi bi-exclamation-diamond"></i></button>
                                         <% } else if (loan.returnDate > new Date()) { %>
                                             <button class="btn btn-outline-warning"
